@@ -8,9 +8,13 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "^11.0.1",
+    "@types/cookie": "^0.4.1",
+    "cookie": "^0.4.1",
+    "next": "^11.1.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-ga4": "^1.0.6",
+    "serverless-mysql": "^1.5.4"
   },
   "devDependencies": {
     "@mdx-js/loader": "^1.6.22",
