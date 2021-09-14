@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
     "@types/cookie": "^0.4.1",
@@ -19,13 +20,32 @@
   "devDependencies": {
     "@mdx-js/loader": "^1.6.22",
     "@next/mdx": "^11.0.1",
+    "@types/jest": "^27.0.1",
     "@types/node": "^16.4.13",
     "@types/react": "^17.0.16",
     "@types/react-dom": "^17.0.9",
     "autoprefixer": "^10.3.1",
+    "jest": "^27.2.0",
     "next-compose-plugins": "^2.2.1",
     "postcss": "^8.3.6",
     "tailwindcss": "^2.2.7",
-    "typescript": "^4.3.5"
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "testMatch": [
+      "**/*.test.(ts|tsx)"
+    ],
+    "testPathIgnorePatterns": [
+      "./.next/",
+      "./node_modules/"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "<rootDir>"
+    ]
   }
 }
