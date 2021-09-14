@@ -9,6 +9,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^5.15.4",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.15",
     "@types/cookie": "^0.4.1",
     "clsx": "^1.1.1",
     "cookie": "^0.4.1",
