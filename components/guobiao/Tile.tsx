@@ -3,7 +3,7 @@ import Image from "../../common/components/Image";
 import tiles from 'public/tool/guobiao/tiles.webp'
 
 type Props = {
-  tile: Tile
+  tile: Tile | null
   width?: number
 }
 
