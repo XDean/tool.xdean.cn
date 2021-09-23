@@ -1,14 +1,17 @@
 import {AppProps} from "next/dist/pages/_app";
 import '../styles/global.css'
 import Head from 'next/head'
+import {Layout} from "../components/layout/Layout";
 
 function MyApp({Component, pageProps}: AppProps) {
   return (
     <>
       <Head>
-        <title>XDean NextJS Template</title>
+        <title>XDean的工具箱</title>
       </Head>
-      <Component {...pageProps}/>
+      <Layout>
+        <Component {...pageProps}/>
+      </Layout> 
     </>
   )
 }
