@@ -1,6 +1,6 @@
 import {Tile} from "lib/guobiao/tile";
 import Image from "../../common/components/Image";
-import tiles from './tiles.webp'
+import tiles from 'public/tool/guobiao/tiles.webp'
 
 type Props = {
   tile: Tile
