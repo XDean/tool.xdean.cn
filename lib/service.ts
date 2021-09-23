@@ -18,7 +18,7 @@ export async function getToolMetaByFilePath(path: string): Promise<ToolMeta> {
   path = slash(path)
   const module = await import(`pages/tool/${path}`)
   return {
-    ...module.meta as ToolMetaInline,
+    ...module.default.meta as ToolMetaInline,
     path: path,
     link: fileToUrl(path),
   } as ToolMeta

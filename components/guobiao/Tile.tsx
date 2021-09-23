@@ -4,7 +4,7 @@ import tiles from 'public/tool/guobiao/tiles.webp'
 
 type Props = {
   tile: Tile
-  width: number
+  width?: number
 }
 
 export const TileView = (props: Props) => {
@@ -32,7 +32,8 @@ export const TileView = (props: Props) => {
         className={'absolute inset-0'}
         layout={"fill"}
         objectFit={'cover'}
-        objectPosition={-offset * width - 1}
+        objectPosition={-offset * width}
+        unoptimized={true}
       />
     </div>
   )

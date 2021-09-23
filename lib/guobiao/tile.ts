@@ -1,7 +1,7 @@
 import {Tiles} from "./type";
 
 export type TileType = 'b' | 't' | 'w' | 'z'
-export const TileNumberTypes: TileType[] = ['b', 't', 'w']
+export const TileNumberTypes: TileType[] = ['t', 'b', 'w']
 export const TileTypes: TileType[] = ['b', 't', 'w', 'z']
 export type TilePoint = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 export const TilePoints: TilePoint[] = [1, 2, 3, 4, 5, 6, 7, 8, 9]

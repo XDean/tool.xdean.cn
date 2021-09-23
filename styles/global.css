@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer base {
+    hr {
+        @apply w-full;
+    }
+}
+
+@layer components {
+    .link {
+        @apply cursor-pointer w-max;
+    }
+
+    .link:hover {
+        @apply underline;
+    }
+
+    .btn {
+        @apply border shadow rounded hover:bg-gray-100 hover:border-blue-300 p-1;
+    }
+}
