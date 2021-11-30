@@ -26,7 +26,7 @@ export const TileView = (props: Props) => {
     }
   }()
   return (
-    <div className={'pt-[144%] relative overflow-hidden'} style={{width}}>
+    <div className={'relative overflow-hidden'} style={{width: width, height: width * 1.44}}>
       <Image
         src={tiles}
         className={'absolute inset-0'}

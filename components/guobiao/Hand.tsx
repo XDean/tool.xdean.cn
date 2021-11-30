@@ -3,11 +3,13 @@ import {MingView} from "./Ming";
 import {TileView} from "./Tile";
 import clsx from "clsx";
 
-export const HandView = ({hand, onTileClick, onMingClick}: {
+type Props = {
   hand: Hand,
   onMingClick: (index: number) => void,
   onTileClick: (index: number) => void,
-}) => {
+};
+export const HandView = (props: Props) => {
+  const {hand, onTileClick, onMingClick} = props
   const tileClass = 'cursor-pointer hover:scale-105 hover:z-10 transform relative active:scale-110 transition-transform'
   return (
     <div className={''}>
