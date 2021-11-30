@@ -9,10 +9,7 @@ type Props = PropsWithChildren<{
 export const ToolLayout = (props: Props) => {
   const {children, meta} = props
   return (
-    <DefaultLayout>
-      <div className={'flex flex-row items-center justify-center mb-4 text-4xl'}>
-        {meta.name}
-      </div>
+    <DefaultLayout meta={meta}>
       {children}
     </DefaultLayout>
   )
