@@ -11,39 +11,37 @@ export const AllTilesView = (props: Props) => {
   const {onTileClick, disabledTiles, disableAll} = props
 
   return (
-    <table>
-      <tbody>
+    <div>
       {[Tile.T, Tile.B, Tile.W].map((ts, i) => (
-        <tr key={i}>
+        <div key={i}>
           {ts.map(t => (
-            <td key={t.toNumber()}>
-              <TileButton tile={t}
-                          disable={disableAll || t.in(disabledTiles.tiles)}
-                          onClick={onTileClick}
-              />
-            </td>
-          ))}
-        </tr>
-      ))}
-      <tr>
-        {Tile.F.map(t => (
-          <td key={t.point}>
-            <TileButton tile={t}
+            <TileButton key={t.toNumber()}
+                        tile={t}
+                        className={'inline-block'}
                         disable={disableAll || t.in(disabledTiles.tiles)}
                         onClick={onTileClick}
             />
-          </td>
+          ))}
+        </div>
+      ))}
+      <div>
+        {Tile.F.map(t => (
+          <TileButton key={t.point}
+                      tile={t}
+                      className={'inline-block'}
+                      disable={disableAll || t.in(disabledTiles.tiles)}
+                      onClick={onTileClick}
+          />
         ))}
         {Tile.Y.map(t => (
-          <td key={t.point}>
-            <TileButton tile={t}
-                        disable={disableAll || t.in(disabledTiles.tiles)}
-                        onClick={onTileClick}
-            />
-          </td>
+          <TileButton key={t.point}
+                      tile={t}
+                      className={'inline-block'}
+                      disable={disableAll || t.in(disabledTiles.tiles)}
+                      onClick={onTileClick}
+          />
         ))}
-      </tr>
-      </tbody>
-    </table>
+      </div>
+    </div>
   )
 }

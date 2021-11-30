@@ -1,6 +1,7 @@
 import {Tile} from "lib/guobiao/tile";
 import Image from "../../common/components/Image";
 import tiles from 'public/tool/guobiao/tiles.webp'
+import {useWindowSize} from "react-use";
 
 type Props = {
   tile: Tile | null
@@ -8,7 +9,9 @@ type Props = {
 }
 
 export const TileView = (props: Props) => {
-  const {tile, width = 64} = props
+  const size = useWindowSize();
+  const defaultWidth = Math.min(size.width / 10, 64)
+  const {tile, width = defaultWidth} = props
 
   const offset = function () {
     if (tile === null) {

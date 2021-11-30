@@ -3,15 +3,12 @@ import clsx from "clsx";
 import {TilePoint} from "lib/guobiao/tile";
 import css from './styles.module.css'
 
-export const OptionView = (
-  {
-    options,
-    onOptionsChange
-  }: {
-    options: Options,
-    onOptionsChange: (o: Options) => void
-  }
-) => {
+type Props = {
+  options: Options,
+  onOptionsChange: (o: Options) => void
+};
+export const OptionView = (props: Props) => {
+  const {options, onOptionsChange} = props
   const BoolButton = ({label, field}: { label: string, field: keyof Options }) => (
     <button onClick={() => onOptionsChange({...options, [field]: !options[field]})}
             className={clsx(css.btn, options[field] && css.active)}>
@@ -19,14 +16,15 @@ export const OptionView = (
     </button>
   )
   return (
-    <div className={'whitespace-nowrap text-lg md:text-2xl'}>
-      <div className={'flex flex-row items-center justify-evenly mb-1'}>
+    <div className={'space-y-2'}>
+      <div className={'flex flex-row items-center justify-evenly'}>
         <BoolButton label={'自摸'} field={"zimo"}/>
-        <BoolButton label={'绝张'} field={"juezhang"}/>
-        <BoolButton label={'杠开'} field={"gangShang"}/>
-        <BoolButton label={'海底'} field={"lastTile"}/>
+        <BoolButton label={'和绝张'} field={"juezhang"}/>
+        <BoolButton label={'杠上开花'} field={"gangShang"}/>
+        <BoolButton label={'海底捞月'} field={"lastTile"}/>
       </div>
-      <div className={'flex flex-row items-center justify-evenly mb-2'}>
+
+      <div className={'flex flex-row items-center justify-evenly'}>
         <button onClick={() => onOptionsChange({...options, quanfeng: (options.quanfeng % 4 + 1) as TilePoint})}
                 className={css.btn}>
           {fengStr(options.quanfeng)}风圈

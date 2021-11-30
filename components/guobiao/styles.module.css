@@ -1,11 +1,12 @@
-.fix_width {
-    @apply w-14 md:w-20;
+.btn.mode {
+    @apply w-12 md:w-20 text-lg md:text-2xl font-bold;
 }
 
 .btn {
-    @apply px-1 md:px-2 py-1 rounded md:rounded-lg border md:border-2;
+    @apply text-base md:text-xl px-1 md:px-2 py-0.5 rounded md:rounded-lg border whitespace-nowrap;
+    @apply transform active:translate-y-0.5 active:shadow hover:bg-gray-50;
 }
 
 .btn.active {
-    @apply border-blue-500 shadow md:shadow-lg;
+    @apply ring ring-blue-500 shadow md:shadow-lg;
 }
