@@ -1,37 +1,26 @@
 import {Tiles} from "lib/guobiao/type";
-import {TileView} from "./Tile";
-import clsx from "clsx";
-import {Tile, TileNumberTypes, TilePoints} from "lib/guobiao/tile";
-import {useMemo} from "react";
+import {Tile} from "lib/guobiao/tile";
+import {TileButton} from "./TileButton";
 
-export const AllTilesView = (
-  {onTileClick, disabledTiles, disableAll}: {
-    onTileClick: (tile: Tile) => void,
-    disabledTiles: Tiles,
-    disableAll: boolean,
-  }
-) => {
-
-  const TileButton = ({tile}: { tile: Tile }) => {
-    const disabled = useMemo(() => disableAll || tile.in(disabledTiles.tiles), [disableAll, disabledTiles])
-    return (
-      <div
-        className={clsx({'opacity-50': disabled},
-          'cursor-pointer hover:scale-125 hover:z-10 transform relative active:scale-150 transition-transform')}
-        onClick={() => !disabled && onTileClick(tile)}>
-        <TileView tile={tile}/>
-      </div>
-    )
-  }
+type Props = {
+  onTileClick: (tile: Tile) => void,
+  disabledTiles: Tiles,
+  disableAll: boolean,
+}
+export const AllTilesView = (props: Props) => {
+  const {onTileClick, disabledTiles, disableAll} = props
 
   return (
     <table>
       <tbody>
-      {TileNumberTypes.map(t => (
-        <tr key={t}>
-          {TilePoints.map(p => (
-            <td key={p}>
-              <TileButton tile={new Tile(t, p)}/>
+      {[Tile.T, Tile.B, Tile.W].map((ts, i) => (
+        <tr key={i}>
+          {ts.map(t => (
+            <td key={t.toNumber()}>
+              <TileButton tile={t}
+                          disable={disableAll || t.in(disabledTiles.tiles)}
+                          onClick={onTileClick}
+              />
             </td>
           ))}
         </tr>
@@ -39,12 +28,18 @@ export const AllTilesView = (
       <tr>
         {Tile.F.map(t => (
           <td key={t.point}>
-            <TileButton tile={t}/>
+            <TileButton tile={t}
+                        disable={disableAll || t.in(disabledTiles.tiles)}
+                        onClick={onTileClick}
+            />
           </td>
         ))}
         {Tile.Y.map(t => (
           <td key={t.point}>
-            <TileButton tile={t}/>
+            <TileButton tile={t}
+                        disable={disableAll || t.in(disabledTiles.tiles)}
+                        onClick={onTileClick}
+            />
           </td>
         ))}
       </tr>

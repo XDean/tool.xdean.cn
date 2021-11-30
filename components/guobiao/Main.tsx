@@ -6,6 +6,7 @@ import clsx from "clsx";
 import {FanView} from "./Fan";
 import {Tile, TileNumberTypes, TilePoint} from "lib/guobiao/tile";
 import {OptionView} from "./Option";
+import css from './styles.module.css'
 
 type Mode = {
   name: string
@@ -83,7 +84,7 @@ export const GuoBiaoMainView = () => {
   const onOptionsChange = useCallback(o => updateHand(h => h.option = o), [updateHand]);
 
   return (
-    <div className={'w-max max-w-screen-lg'}>
+    <div className={'container'}>
       <AllTilesView
         disableAll={disableAll}
         disabledTiles={disabledTiles}
@@ -91,8 +92,7 @@ export const GuoBiaoMainView = () => {
       <div className={'text-lg md:text-2xl my-2 flex flex-row items-center justify-between'}>
         {modes.map(m => (
           <button key={m.name} onClick={() => setMode(m)}
-                  className={clsx('px-1 md:px-2 py-1 rounded-lg border-2 w-14 md:w-20 border-opacity-0',
-                    {'border-blue-500 shadow-lg border-opacity-100': mode === m})}>
+                  className={clsx(css.btn, css.fix_width, mode === m && css.active)}>
             {m.label}
           </button>
         ))}

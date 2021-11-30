@@ -1,6 +1,7 @@
 import {Options} from "lib/guobiao/type";
 import clsx from "clsx";
 import {TilePoint} from "lib/guobiao/tile";
+import css from './styles.module.css'
 
 export const OptionView = (
   {
@@ -11,10 +12,9 @@ export const OptionView = (
     onOptionsChange: (o: Options) => void
   }
 ) => {
-  const buttonClass = 'px-2 py-1 md:px-4 rounded-lg w-min border-2'
   const BoolButton = ({label, field}: { label: string, field: keyof Options }) => (
     <button onClick={() => onOptionsChange({...options, [field]: !options[field]})}
-            className={clsx(buttonClass, {'bg-blue-500 text-white shadow-lg font-bold': options[field]})}>
+            className={clsx(css.btn, options[field] && css.active)}>
       {label}
     </button>
   )
@@ -28,14 +28,14 @@ export const OptionView = (
       </div>
       <div className={'flex flex-row items-center justify-evenly mb-2'}>
         <button onClick={() => onOptionsChange({...options, quanfeng: (options.quanfeng % 4 + 1) as TilePoint})}
-                className={buttonClass}>
+                className={css.btn}>
           {fengStr(options.quanfeng)}风圈
         </button>
         <button onClick={() => onOptionsChange({...options, menfeng: (options.menfeng % 4 + 1) as TilePoint})}
-                className={buttonClass}>
+                className={css.btn}>
           {fengStr(options.menfeng)}风位
         </button>
-        <select className={buttonClass}
+        <select className={css.btn}
                 onChange={e => onOptionsChange({...options, hua: Number(e.target.value)})}>
           {[...Array(9).keys()].map(k => (
             <option key={k} value={k}>花牌: {k}</option>

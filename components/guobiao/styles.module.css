@@ -1,0 +1,11 @@
+.fix_width {
+    @apply w-14 md:w-20;
+}
+
+.btn {
+    @apply px-1 md:px-2 py-1 rounded md:rounded-lg border md:border-2;
+}
+
+.btn.active {
+    @apply border-blue-500 shadow md:shadow-lg;
+}
