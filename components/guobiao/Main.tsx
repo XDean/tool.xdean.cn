@@ -1,6 +1,6 @@
 import {AllTilesView} from "./AllTiles";
 import {HandView} from "./Hand";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {Hand, Tiles} from "lib/guobiao/type";
 import clsx from "clsx";
 import {FanView} from "./Fan";
@@ -12,22 +12,14 @@ import {modes} from "./mode";
 export const GuoBiaoMainView = () => {
   const [hand, setHand] = useState(new Hand(new Tiles([]), []))
   const [mode, setMode] = useState(modes[0])
-  const [disableAll, setDisableAll] = useState(false)
-  const [disabledTiles, setDisabledTiles] = useState(new Tiles([]))
 
-  useEffect(() => {
-    setDisableAll(mode.disableAll(hand))
-    const tiles = mode.disable(hand);
-    if (!disabledTiles.equals(tiles)) {
-      setDisabledTiles(tiles)
-    }
-  }, [mode, hand])
+  const [disableAll, disabledTiles] = useMemo(() => [mode.disableAll(hand), mode.disable(hand)], [mode, hand])
 
-  const updateHand = useCallback((f: (h: Hand) => void) => {
-    const copy = hand.copy();
+  const updateHand = useCallback((f: (h: Hand) => void) => setHand(h => {
+    const copy = h.copy();
     f(copy)
-    setHand(copy)
-  }, [hand])
+    return copy
+  }), [])
 
   const onTileClick = useCallback((t: Tile) => updateHand(h => mode.add(h, t)), [mode, updateHand]);
   const onHandMingClick = useCallback(i => updateHand(h => h.mings.splice(i, 1)), [updateHand]);
@@ -35,7 +27,7 @@ export const GuoBiaoMainView = () => {
   const onOptionsChange = useCallback(o => updateHand(h => h.option = o), [updateHand]);
 
   return (
-    <div className={'container'}>
+    <div className={'container mx-4'}>
       <AllTilesView
         disableAll={disableAll}
         disabledTiles={disabledTiles}
@@ -48,10 +40,10 @@ export const GuoBiaoMainView = () => {
           </button>
         ))}
       </div>
+      <OptionView options={hand.option} onOptionsChange={onOptionsChange}/>
       <HandView hand={hand}
                 onMingClick={onHandMingClick}
                 onTileClick={onHandTileClick}/>
-      <OptionView options={hand.option} onOptionsChange={onOptionsChange}/>
       <FanView hand={hand}/>
     </div>
   )
