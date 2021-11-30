@@ -69,6 +69,7 @@ import {
   XiaoSanYuan,
   XiaoSiXi,
   XiaoYuWu,
+  XiXiangFeng,
   YaoJiuKe,
   YiBanGao,
   YiSeSanBuGao,
@@ -82,6 +83,7 @@ import {
   ZiYiSe,
   ZuHeLongFan,
 } from './fan';
+import {Tile} from './tile';
 import {
   BuKao,
   Chi,
@@ -100,7 +102,6 @@ import {
   Yao13,
   ZuHeLong,
 } from './type';
-import {Tile} from './tile';
 
 
 function expectFan(
@@ -164,7 +165,7 @@ expectFan({
   ],
   last: Tile.T[1],
   options: {hua: 3, gangShang: true},
-  fans: [LvYiSe, YiBanGao, MingGang, HunYiSe, JianKe, Hua, Hua, Hua],
+  fans: [LvYiSe, YiBanGao, MingGang, JianKe, Hua, Hua, Hua],
 });
 
 expectFan({
@@ -672,10 +673,10 @@ expectFan({
 
 expectFan({
   mians: [
+    new Shun(Tile.B[6]),
     new Shun(Tile.T[0], true),
     new Shun(Tile.B[0], true),
     new Shun(Tile.W[0], true),
-    new Shun(Tile.B[6]),
     new Dui(Tile.B[4]),
   ],
   last: Tile.B[6],
@@ -973,5 +974,70 @@ expectFan({
     menfeng: 1,
     quanfeng: 1,
   },
-  fans: [SiAnKe, SanTongKe, QuanFengKe, MenFengKe, YaoJiuKe, YaoJiuKe, YaoJiuKe, DanDiaoJiang],
+  fans: [SiAnKe, ShuangTongKe, QuanFengKe, MenFengKe, YaoJiuKe, YaoJiuKe, YaoJiuKe, DanDiaoJiang],
+});
+
+// https://github.com/XDean/blog-comment/issues/5#issuecomment-926930315
+expectFan({
+  name: 'bug: 字牌计同刻',
+  mians: [
+    new Ke(Tile.W[2], true),
+    new Ke(Tile.F[2], true),
+    new Ke(Tile.T[0], true),
+    new Ke(Tile.B[2]),
+    new Dui(Tile.Y[1]),
+  ],
+  last: Tile.B[2],
+  fans: [ShuangTongKe, YaoJiuKe, YaoJiuKe, WuMenQi, PengPengHu],
+});
+
+expectFan({
+  name: 'bug: 三色三同顺',
+  mians: [
+    new Shun(Tile.T[2]),
+    new Shun(Tile.T[2]),
+    new Shun(Tile.B[1]),
+    new Shun(Tile.W[2]),
+    new Dui(Tile.Y[1]),
+  ],
+  last: Tile.Y[1],
+  fans: [YiBanGao, DanDiaoJiang, XiXiangFeng, MenQianQing],
+});
+
+expectFan({
+  name: 'bug: 2老少副2喜相逢',
+  mians: [
+    new Shun(Tile.T[0]),
+    new Shun(Tile.T[6]),
+    new Shun(Tile.W[0]),
+    new Shun(Tile.W[6]),
+    new Dui(Tile.B[5]),
+  ],
+  last: Tile.B[5],
+  fans: [DanDiaoJiang, XiXiangFeng, PingHu, LaoShaoFu, LaoShaoFu, MenQianQing],
+});
+
+expectFan({
+  name: 'bug: 十三幺不求人',
+  mians: [
+    new Yao13(Tile.T[0]),
+  ],
+  last: Tile.T[0],
+  options: {
+    zimo: true,
+  },
+  fans: [ShiSanYao, ZiMo],
+});
+
+expectFan({
+  name: 'bug: 绿一色混一色',
+  mians: [
+    new Shun(Tile.T[1]),
+    new Shun(Tile.T[1]),
+    new Shun(Tile.T[1]),
+    new Ke(Tile.T[7], true),
+    new Dui(Tile.T[5]),
+  ],
+  last: Tile.T[1],
+  fans: [LvYiSe, YiSeSanTongShun, QingYiSe, DuanYao],
 });

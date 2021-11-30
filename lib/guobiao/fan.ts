@@ -1,6 +1,6 @@
-import {Combination, Dui, Fan, Hand, Ke, QiDui, Shun, Tiles} from './type';
-import {Tile, TileNumberTypes, TilePoint, TileType, TileTypes} from './tile';
 import assert from 'assert';
+import {Tile, TileNumberTypes, TilePoint, TileType, TileTypes} from './tile';
+import {Combination, Dui, Fan, Hand, Ke, QiDui, Shun, Tiles} from './type';
 
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
   assert(comb.toTiles.length === 14, '和牌必须14张');
@@ -32,6 +32,12 @@ export function calcFan(hand: Hand, comb: Combination): Fan[] {
   }
   if (res.filter(e => e !== Hua).length === 0) {
     res.push(WuFanHu);
+  }
+  if (res.filter(e => e === XiXiangFeng).length === 2 && res.filter(e => e === YiBanGao).length === 1) {
+    res.splice(res.indexOf(XiXiangFeng), 1);
+  }
+  if (res.filter(e => e === XiXiangFeng).length === 2 && res.filter(e => e === LaoShaoFu).length === 2) {
+    res.splice(res.indexOf(XiXiangFeng), 1);
   }
   return res;
 }
@@ -280,7 +286,7 @@ export const QuanDaiYao = new FanCalc({
 export const BuQiuRen = new FanCalc({
   score: 4,
   name: '不求人',
-  match: (c, h) => h.option.zimo && c.mians.every(m => !m.open),
+  match: (c, h) => h.option.zimo && c.mians.every(m => !m.open && m.type != '13yao'),
   exclude: [ZiMo, MenQianQing],
 });
 
@@ -384,7 +390,13 @@ export const SanSeSanTongShun = new FanCalc({
   name: '三色三同顺',
   match: c => {
     const tiles = new Tiles(c.mians.filter(m => m.type === 'shun').map(m => (m as Shun).tile));
-    return tiles.mostPoint[1] >= 3 && tiles.distinctTypes.length === 3;
+    for (let triple of tiles.triples()) {
+      const t = new Tiles(triple);
+      if (t.mostPoint[1] === 3 && t.distinctTypes.length === 3) {
+        return true;
+      }
+    }
+    return false;
   },
   exclude: [XiXiangFeng, XiXiangFeng],
 });
@@ -407,7 +419,7 @@ export const SanSeSanJieGao = new FanCalc({
 export const WuFanHu = new FanCalc({
   score: 8,
   name: '无番和',
-  match: () => false,
+  match: _ => false,
 });
 
 export const MiaoShouHuiChun = new FanCalc({
@@ -551,7 +563,7 @@ export const SanTongKe = new FanCalc({
   score: 16,
   name: '三同刻',
   match: c => {
-    const kes = new Tiles(c.mians.filter(m => m.type === 'ke').map(m => (m as Ke).tile));
+    const kes = new Tiles(c.mians.filter(m => m.type === 'ke' && m.tile.type !== 'z').map(m => (m as Ke).tile));
     for (let triple of kes.triples()) {
       if (new Tiles(triple).hasDiff(0)) {
         return true;
@@ -760,6 +772,7 @@ export const LvYiSe = new FanCalc({
   score: 88,
   name: '绿一色',
   match: c => c.toTiles.allIn(Tile.Lv),
+  exclude: [HunYiSe],
 });
 
 export const JiuLianBaoDeng = new FanCalc({
