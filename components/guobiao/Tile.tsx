@@ -2,16 +2,17 @@ import {Tile} from 'lib/guobiao/tile';
 import Image from '../../common/components/Image';
 import tiles from 'public/tool/guobiao/tiles.webp';
 import useWindowDimensions from '../../common/util/hook';
+import {notSSR} from '../../common/util/react';
 
 type Props = {
   tile: Tile | null
   scale?: number
 }
 
-export const TileView = (props: Props) => {
-  const {outerWidth} = useWindowDimensions();
+export const TileView = notSSR((props: Props) => {
+  const {clientWidth} = useWindowDimensions();
   const {tile, scale = 1} = props;
-  const width = Math.max(32, Math.min(64, outerWidth / 10)) * scale;
+  const width = Math.max(32, Math.min(64, clientWidth / 10)) * scale;
   const height = width * 1.44;
 
   const offset = function () {
@@ -33,7 +34,7 @@ export const TileView = (props: Props) => {
     <div className={'relative overflow-hidden'} style={{width, height}}>
       <Image
         src={tiles}
-        className={'absolute inset-0'}
+        className={'fixed inset-0'}
         layout={'fill'}
         objectFit={'cover'}
         objectPosition={-offset * width}
@@ -41,4 +42,4 @@ export const TileView = (props: Props) => {
       />
     </div>
   );
-};
+});
