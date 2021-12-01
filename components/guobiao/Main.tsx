@@ -31,7 +31,7 @@ export const GuoBiaoMainView = () => {
   const onOptionsChange = useCallback(o => updateHand(h => h.option = o), [updateHand]);
 
   return (
-    <div className={'container px-4 space-y-2 md:space-y-4'}>
+    <div className={'container px-4 space-y-2 md:space-y-4 max-w-[100vw] overflow-scroll'}>
       <div className={'relative w-max'}>
         <AllTilesView
           disableAll={disableAll}
