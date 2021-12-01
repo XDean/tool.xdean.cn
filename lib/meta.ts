@@ -1,6 +1,7 @@
 import {ImageProps} from 'next/image';
 
 export type ToolMetaInline = {
+  id: string
   name: string
   icon: Exclude<ImageProps['src'], string>
   draft?: boolean
