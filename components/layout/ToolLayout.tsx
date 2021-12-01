@@ -5,6 +5,8 @@ import {CONSTANT} from '../../lib/constants';
 import {Footer} from '../../common/components/Footer';
 import {XDeanIcon} from '../../common/components/icon/XDeanIcon';
 import {GithubIcon} from '../../common/components/icon/GithubIcon';
+import {TiArrowBack} from 'react-icons/ti';
+import {Icon} from '../../common/components/icon/Icon';
 
 type Props = PropsWithChildren<{
   meta: ToolMeta
@@ -15,11 +17,18 @@ export const ToolLayout = (props: Props) => {
   return (
     <div className={'w-full'}>
       <nav className={'sticky top-0 z-40'}>
-        <div className={'w-full shadow-md border-b bg-white z-40 p-1 md:p-2 flex flex-row items-center'}>
-          <XDeanIcon/>
+        <div className={'w-full shadow-md border-b bg-white z-40 p-1 md:p-2 flex flex-row items-center space-x-2'}>
+          <Icon alt={'Home'}
+                icon={width => <TiArrowBack style={{width, height: width}}/>}
+                rounded
+                link={'/'}
+                ring
+                linkTarget={'_self'}
+          />
           <div className={'text-2xl md:text-4xl text-center flex-grow'}>
             {meta.name}
           </div>
+          <XDeanIcon/>
           <GithubIcon repo={CONSTANT.repo} codePath={`/components/${meta.id}`}/>
         </div>
       </nav>
