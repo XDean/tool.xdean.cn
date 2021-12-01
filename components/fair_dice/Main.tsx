@@ -34,11 +34,14 @@ export const Main = () => {
   const clearHistory = useCallback(() => setHistory([]), []);
 
   return (
-    <div className={'w-full flex flex-col items-center'}>
+    <div className={'w-full flex flex-col items-center space-y-4'}>
+      <div className={'italic text-sm text-gray-500'}>
+        公平，公平，还是 XX 的公平
+      </div>
       <div className={'grid grid-cols-1 gap-y-2 text-2xl'}>
         <div className={'flex flex-row items-center'}>
           <div>骰子数量：{' '}</div>
-          <select className={'border border-blue-400 rounded-md px-2 py-1 w-24'} value={count}
+          <select className={'border border-blue-400 rounded-md px-2 w-24'} value={count}
                   onChange={e => setCount(Number(e.target.value))}>
             <option value={1}>1</option>
             <option value={2}>2</option>
@@ -54,31 +57,31 @@ export const Main = () => {
           </div>
         </div>
         <div className={'mt-2 text-center'}>
-          <button className={'px-4 bg-blue-600 text-white hover:bg-blue-500'}
+          <button className={'px-4 bg-blue-600 text-white hover:bg-blue-500 btn'}
                   onClick={() => roll()}
           >
             掷{' '}骰{' '}子
           </button>
         </div>
       </div>
-      <div className={'mt-4 flex flex-row items-center justify-center'}>
+      <div className={'flex flex-row items-center justify-center'}>
         {dice.map((d, i) => (
           <div key={i} className={'m-2'}>
             <Die value={d}/>
           </div>
         ))}
       </div>
-      <div className={'px-6 pt-2 mt-2 border-t'}>
-        <button onClick={clearHistory}>
+      <div className={'space-x-4'}>
+        <button onClick={clearHistory} className={'btn'}>
           清空记录
         </button>
-        <button className={'ml-4'}
+        <button className={'btn'}
                 onClick={() => roll(Math.pow(6, count))}
         >
-          掷{Math.pow(6, count)}次
+          掷 {Math.pow(6, count)} 次
         </button>
       </div>
-      <div className={'flex flex-row w-full h-64 lg:h-96 justify-center'}>
+      <div className={'pl-4 flex flex-row w-full max-h-72 lg:max-h-96 justify-center'}>
         <div className={'min-w-24'}>
           <DiceTable values={history}/>
         </div>
