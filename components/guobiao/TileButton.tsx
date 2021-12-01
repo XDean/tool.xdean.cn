@@ -1,7 +1,7 @@
-import {Tile} from "../../lib/guobiao/tile";
-import clsx from "clsx";
-import {TileView} from "./Tile";
-import React from "react";
+import {Tile} from '../../lib/guobiao/tile';
+import clsx from 'clsx';
+import {TileView} from './Tile';
+import React from 'react';
 
 type Props = {
   tile: Tile
@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const TileButton = React.memo((props: Props) => {
-  const {tile, disable = false, onClick, className, width} = props
+  const {tile, disable = false, onClick, className, width} = props;
   return (
     <div
       className={clsx(className, 'relative transition-transform transform',
@@ -20,5 +20,5 @@ export const TileButton = React.memo((props: Props) => {
       onClick={() => !disable && onClick(tile)}>
       <TileView tile={tile} width={width}/>
     </div>
-  )
-})
+  );
+});

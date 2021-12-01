@@ -1,15 +1,15 @@
-import {GetStaticProps} from 'next'
-import {getAllToolMetas} from "../lib/service";
-import {ToolMeta} from "../lib/meta";
-import Link from 'next/link'
-import {Image} from 'common/components/Image'
+import {GetStaticProps} from 'next';
+import {getAllToolMetas} from '../lib/service';
+import {ToolMeta} from '../lib/meta';
+import Link from 'next/link';
+import {Image} from 'common/components/Image';
 
 type Props = {
   data: ToolMeta[]
 }
 
 const Page = (props: Props) => {
-  const {data} = props
+  const {data} = props;
   return (
     <div className={'m-8'}>
       {data.map(meta => (
@@ -29,17 +29,17 @@ const Page = (props: Props) => {
         </Link>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
 
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const data = await getAllToolMetas()
+  const data = await getAllToolMetas();
   return {
     props: {
-      data
-    }
-  }
-}
+      data,
+    },
+  };
+};

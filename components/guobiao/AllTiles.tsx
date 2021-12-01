@@ -1,6 +1,6 @@
-import {Tiles} from "lib/guobiao/type";
-import {Tile} from "lib/guobiao/tile";
-import {TileButton} from "./TileButton";
+import {Tiles} from 'lib/guobiao/type';
+import {Tile} from 'lib/guobiao/tile';
+import {TileButton} from './TileButton';
 
 type Props = {
   onTileClick: (tile: Tile) => void,
@@ -8,7 +8,7 @@ type Props = {
   disableAll: boolean,
 }
 export const AllTilesView = (props: Props) => {
-  const {onTileClick, disabledTiles, disableAll} = props
+  const {onTileClick, disabledTiles, disableAll} = props;
 
   return (
     <div>
@@ -43,5 +43,5 @@ export const AllTilesView = (props: Props) => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};

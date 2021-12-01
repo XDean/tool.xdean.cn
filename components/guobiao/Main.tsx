@@ -1,25 +1,25 @@
-import {AllTilesView} from "./AllTiles";
-import {HandView} from "./Hand";
-import React, {useCallback, useMemo, useState} from "react";
-import {Hand, Tiles} from "lib/guobiao/type";
-import clsx from "clsx";
-import {FanView} from "./Fan";
-import {Tile} from "lib/guobiao/tile";
-import {OptionView} from "./Option";
-import css from './styles.module.css'
-import {modes} from "./mode";
+import {AllTilesView} from './AllTiles';
+import {HandView} from './Hand';
+import React, {useCallback, useMemo, useState} from 'react';
+import {Hand, Tiles} from 'lib/guobiao/type';
+import clsx from 'clsx';
+import {FanView} from './Fan';
+import {Tile} from 'lib/guobiao/tile';
+import {OptionView} from './Option';
+import css from './styles.module.css';
+import {modes} from './mode';
 
 export const GuoBiaoMainView = () => {
-  const [hand, setHand] = useState(() => new Hand(new Tiles([]), []))
-  const [mode, setMode] = useState(modes[0])
+  const [hand, setHand] = useState(() => new Hand(new Tiles([]), []));
+  const [mode, setMode] = useState(modes[0]);
 
-  const [disableAll, disabledTiles] = useMemo(() => [mode.disableAll(hand), mode.disable(hand)], [mode, hand])
+  const [disableAll, disabledTiles] = useMemo(() => [mode.disableAll(hand), mode.disable(hand)], [mode, hand]);
 
   const updateHand = useCallback((f: (h: Hand) => void) => setHand(h => {
     const copy = h.copy();
-    f(copy)
-    return copy
-  }), [])
+    f(copy);
+    return copy;
+  }), []);
 
   const onResetClick = useCallback(() => {
     setHand(new Hand(new Tiles([]), []));
@@ -55,5 +55,5 @@ export const GuoBiaoMainView = () => {
                 onTileClick={onHandTileClick}/>
       <FanView hand={hand}/>
     </div>
-  )
-}
+  );
+};

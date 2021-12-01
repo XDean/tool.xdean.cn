@@ -1,5 +1,5 @@
-import {Chi, Gang, Hand, Peng, Tiles} from "../../lib/guobiao/type";
-import {Tile, TileNumberTypes, TilePoint} from "../../lib/guobiao/tile";
+import {Chi, Gang, Hand, Peng, Tiles} from '../../lib/guobiao/type';
+import {Tile, TileNumberTypes, TilePoint} from '../../lib/guobiao/tile';
 
 export type Mode = {
   name: string
@@ -27,27 +27,27 @@ export const modes: Mode[] = [
         .flatMap(t => [0, 1, 2]
           .map(d => t.point - d)
           .filter(p => p > 0)
-          .map(p => new Tile(t.type, p as TilePoint)))])
+          .map(p => new Tile(t.type, p as TilePoint)))]),
   },
   {
     name: 'peng',
     label: '碰',
     add: (h, t) => h.mings.push(new Peng(t)),
     disableAll: hand => hand.count >= 12,
-    disable: hand => hand.usedTiles.filterMoreThan(1)
+    disable: hand => hand.usedTiles.filterMoreThan(1),
   },
   {
     name: 'ming-gang',
     label: '明杠',
     add: (h, t) => h.mings.push(new Gang(t, true)),
     disableAll: hand => hand.count >= 12,
-    disable: hand => hand.usedTiles.distinct
+    disable: hand => hand.usedTiles.distinct,
   },
   {
     name: 'an-gang',
     label: '暗杠',
     add: (h, t) => h.mings.push(new Gang(t, false)),
     disableAll: hand => hand.count >= 12,
-    disable: hand => hand.usedTiles.distinct
+    disable: hand => hand.usedTiles.distinct,
   },
-]
+];

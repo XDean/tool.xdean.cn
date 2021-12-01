@@ -1,4 +1,4 @@
-import {ImageProps} from "next/image";
+import {ImageProps} from 'next/image';
 
 export type ToolMetaInline = {
   name: string

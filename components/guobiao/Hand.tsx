@@ -1,7 +1,7 @@
-import {Hand} from "lib/guobiao/type";
-import {MingView} from "./Ming";
-import {TileView} from "./Tile";
-import clsx from "clsx";
+import {Hand} from 'lib/guobiao/type';
+import {MingView} from './Ming';
+import {TileView} from './Tile';
+import clsx from 'clsx';
 
 type Props = {
   hand: Hand,
@@ -9,8 +9,8 @@ type Props = {
   onTileClick: (index: number) => void,
 };
 export const HandView = (props: Props) => {
-  const {hand, onTileClick, onMingClick} = props
-  const tileClass = 'cursor-pointer hover:scale-105 hover:z-10 transform relative active:scale-110 transition-transform'
+  const {hand, onTileClick, onMingClick} = props;
+  const tileClass = 'cursor-pointer hover:scale-105 hover:z-10 transform relative active:scale-110 transition-transform';
   return (
     <div className={''}>
       <div className={'grid grid-cols-2 auto-rows-auto mx-1'}>
@@ -40,5 +40,5 @@ export const HandView = (props: Props) => {
       </div>
       }
     </div>
-  )
-}
+  );
+};
