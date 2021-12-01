@@ -11,11 +11,11 @@ type Props = PropsWithChildren<{
 export const DefaultLayout = (props: Props) => {
   const {children, meta} = props;
   return (
-    <div>
+    <div className={'w-full'}>
       <nav className={'sticky top-0 z-40'}>
         <AppBar icon={''} title={meta?.name || 'XDean的工具箱'} repo={CONSTANT.repo}/>
       </nav>
-      <main className={'mt-4 mx-auto w-max'}>
+      <main className={'mt-4 max-w-full'}>
         {children}
       </main>
       <Footer className={'w-10/12 mt-4 mb-8 mx-auto'}/>
