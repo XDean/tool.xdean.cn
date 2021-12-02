@@ -58,9 +58,7 @@ export const FanView = ({hand}: { hand: Hand }) => {
               听 {value.length} 张牌
             </div>
             <div className={`grid auto-rows-auto gap-1 m-w-max`} style={{gridTemplateColumns: 'repeat(5, auto)'}}>
-              {value.map(t => (
-                <TileView tile={t} key={t.toNumber()}/>
-              ))}
+              {value.map(t => <TileView tile={t} key={t.toNumber()}/>)}
             </div>
           </div>
         );

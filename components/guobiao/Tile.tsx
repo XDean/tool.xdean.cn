@@ -1,5 +1,4 @@
 import {Tile} from 'lib/guobiao/tile';
-import Image from '../../common/components/Image';
 import tiles from 'public/tool/guobiao/tiles.webp';
 import useWindowDimensions from '../../common/util/hook';
 import {notSSR} from '../../common/util/react';
@@ -7,11 +6,12 @@ import {notSSR} from '../../common/util/react';
 type Props = {
   tile: Tile | null
   scale?: number
+  onClick?: () => void
 }
 
 export const TileView = notSSR((props: Props) => {
   const {clientWidth} = useWindowDimensions();
-  const {tile, scale = 1} = props;
+  const {tile, scale = 1, onClick} = props;
   const width = Math.max(32, Math.min(64, clientWidth / 10)) * scale;
   const height = width * 1.44;
 
@@ -31,15 +31,15 @@ export const TileView = notSSR((props: Props) => {
     }
   }();
   return (
-    <div className={'relative overflow-hidden'} style={{width, height}}>
-      <Image
-        src={tiles}
-        className={'fixed inset-0'}
-        layout={'fill'}
-        objectFit={'cover'}
-        objectPosition={-offset * width}
-        unoptimized={true}
-      />
-    </div>
+    <div className={'relative overflow-hidden'}
+         onClick={onClick}
+         style={{
+           width,
+           height,
+           backgroundImage: `url(${tiles.src})`,
+           backgroundPositionX: -offset * width,
+           backgroundSize: width * 54,
+         }}
+    />
   );
 });
