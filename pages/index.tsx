@@ -1,8 +1,9 @@
-import {GetStaticProps} from 'next';
-import {getAllToolMetas} from '../lib/service';
-import {ToolMeta} from '../lib/meta';
-import Link from 'next/link';
+import clsx from 'clsx';
 import {Image} from 'common/components/Image';
+import {GetStaticProps} from 'next';
+import Link from 'next/link';
+import {ToolMeta} from '../lib/meta';
+import {getAllToolMetas} from '../lib/service';
 
 type Props = {
   data: ToolMeta[]
@@ -11,18 +12,17 @@ type Props = {
 const Page = (props: Props) => {
   const {data} = props;
   return (
-    <div className={'m-8'}>
+    <div className={'m-2 md:m-8'}>
       {data.map(meta => (
         <Link key={meta.name} href={`/tool/${meta.link}`}>
-          <div
-            className={
-              'w-72 h-48 border rounded-xl m-4 p-2 inline-flex flex-col items-center justify-center ' +
-              'group cursor-pointer transition ' +
-              'transform hover:-translate-y-1 hover:ring hover:shadow-lg'
-            }
-          >
-            <Image src={meta.icon} width={'40%'}/>
-            <div className={'text-2xl mt-4 group-hover:underline'}>
+          <div className={clsx(
+            'inline-flex flex-col items-center p-2 group',
+            'cursor-pointer rounded border w-40 h-40 md:w-48 md:h-48 text-center m-1 md:m-2',
+            'transition transform hover:-translate-y-1 hover:ring hover:shadow')}>
+            <div className={'overflow-hidden rounded-full'}>
+              <Image src={meta.icon} className={'w-28 md:w-36'}/>
+            </div>
+            <div className={'text-xl md:text-2xl group-hover:underline'}>
               {meta.name}
             </div>
           </div>
