@@ -1,5 +1,5 @@
-import {Chi, Gang, Hand, Peng, Tiles} from '../../lib/guobiao/type';
-import {Tile, TileNumberTypes, TilePoint} from '../../lib/guobiao/tile';
+import {Chi, Gang, Hand, Peng, Tiles} from '../core/type';
+import {Tile, TileNumberTypes, TilePoint} from '../core/tile';
 
 export type Mode = {
   name: string

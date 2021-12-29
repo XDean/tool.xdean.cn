@@ -1,6 +1,6 @@
-import {Options} from 'lib/guobiao/type';
+import {Options} from 'tools/guobiao/core/type';
 import clsx from 'clsx';
-import {TilePoint} from 'lib/guobiao/tile';
+import {TilePoint} from 'tools/guobiao/core/tile';
 import css from './styles.module.css';
 
 type Props = {

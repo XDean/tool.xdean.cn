@@ -1,4 +1,4 @@
-import {Tile} from '../../lib/guobiao/tile';
+import {Tile} from '../core/tile';
 import clsx from 'clsx';
 import {TileView} from './Tile';
 import React from 'react';

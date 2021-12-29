@@ -1,4 +1,4 @@
-import {GuoBiaoMainView} from 'components/guobiao/Main';
+import {GuoBiaoMainView} from 'tools/guobiao/components/Main';
 import {ToolMetaInline} from '../../lib/meta';
 import logo from 'public/tool/guobiao/logo_512.webp';
 

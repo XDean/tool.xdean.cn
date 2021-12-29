@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import {createFairRandomContext, diceNumberToArray} from './domain';
+import {createFairRandomContext, diceNumberToArray} from '../domain';
 import {Die} from './Die';
 import useSound from 'use-sound';
 import random from 'random';

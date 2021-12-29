@@ -1,10 +1,10 @@
-import {Fan, Hand, Hu} from 'lib/guobiao/type';
+import {Fan, Hand, Hu} from 'tools/guobiao/core/type';
 import {Fragment, useEffect, useState} from 'react';
 import {Data} from 'common/util/base';
 import {Loading} from 'common/components/Loading';
-import {calcHu} from 'lib/guobiao/hu';
-import {Tile} from 'lib/guobiao/tile';
-import {calcTing} from 'lib/guobiao/ting';
+import {calcHu} from 'tools/guobiao/core/hu';
+import {Tile} from 'tools/guobiao/core/tile';
+import {calcTing} from 'tools/guobiao/core/ting';
 import {TileView} from './Tile';
 
 export const FanView = ({hand}: { hand: Hand }) => {

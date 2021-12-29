@@ -1,4 +1,4 @@
-import {Main} from 'components/fair_dice/Main';
+import {Main} from 'tools/fair_dice/components/Main';
 import {ToolMetaInline} from '../../lib/meta';
 import logo from 'public/tool/fair_dice/logo_512.webp';
 
