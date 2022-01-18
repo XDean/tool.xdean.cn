@@ -1,21 +1,30 @@
-import {PropsWithChildren} from 'react';
-import {AppBar} from 'common/components/AppBar';
 import {Footer} from 'common/components/Footer';
 import {CONSTANT} from 'lib/constants';
+import React, {PropsWithChildren} from 'react';
+import {GithubIcon} from '../../common/components/icon/GithubIcon';
+import {XDeanIcon} from '../../common/components/icon/XDeanIcon';
 
 type Props = PropsWithChildren<{}>
 
 export const DefaultLayout = (props: Props) => {
   const {children} = props;
   return (
-    <div className={'w-full'}>
-      <nav className={'sticky top-0 z-40'}>
-        <AppBar icon={''} title={'XDean的工具箱'} repo={CONSTANT.repo}/>
+    <div className={'min-h-screen flex flex-col'}>
+      <nav className={'sticky z-40 top-0'}>
+        <div className={'flex flex-row items-center shadow bg-white px-1 md:p-2 whitespace-nowrap overflow-hidden'}>
+          <span className={'text-2xl md:text-3xl'}>
+            XDean的工具箱
+          </span>
+          <div className={'ml-auto space-x-2'}>
+            <XDeanIcon/>
+            <GithubIcon repo={CONSTANT.repo}/>
+          </div>
+        </div>
       </nav>
-      <main className={'mt-4 max-w-full'}>
+      <main className={'overflow-hidden flex-grow'}>
         {children}
       </main>
-      <Footer className={'w-10/12 mt-4 mb-8 mx-auto'}/>
+      <Footer className={'mx-4'}/>
     </div>
   );
 };

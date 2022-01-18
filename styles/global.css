@@ -7,6 +7,14 @@
     hr {
         @apply w-full;
     }
+
+    html {
+        @apply w-screen;
+    }
+
+    body {
+        @apply w-screen overflow-x-hidden;
+    }
 }
 
 @layer components {
