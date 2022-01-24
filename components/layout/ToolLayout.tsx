@@ -29,7 +29,7 @@ export const ToolLayout = (props: Props) => {
             {meta.name}
           </div>
           <XDeanIcon/>
-          <GithubIcon repo={CONSTANT.repo} codePath={`/components/${meta.id}`}/>
+          <GithubIcon repo={CONSTANT.repo} codePath={`/tools/${meta.id}`}/>
         </div>
       </nav>
       <main className={'mt-4 container mx-auto'}>
