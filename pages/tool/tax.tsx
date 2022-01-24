@@ -15,6 +15,6 @@ export default Tax;
 
 (Tax as any).meta = {
   id: 'tax',
-  name: '个人所得税计算器',
+  name: '个税计算器',
   icon: logo,
 } as ToolMetaInline;

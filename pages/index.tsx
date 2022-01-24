@@ -12,7 +12,7 @@ type Props = {
 const Page = (props: Props) => {
   const {data} = props;
   return (
-    <div className={'m-2 md:m-8'}>
+    <div className={'m-2 md:m-8 flex flex-row flex-wrap items-center'}>
       {data.map(meta => (
         <Link key={meta.name} href={`/tool/${meta.link}`}>
           <div className={clsx(

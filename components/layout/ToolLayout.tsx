@@ -32,7 +32,7 @@ export const ToolLayout = (props: Props) => {
           <GithubIcon repo={CONSTANT.repo} codePath={`/tools/${meta.id}`}/>
         </div>
       </nav>
-      <main className={'mt-4 container mx-auto'}>
+      <main className={'mt-4 container mx-auto min-h-[calc(100vh-150px)]'}>
         {children}
         <hr className={'mt-4'}/>
         <GithubComment/>

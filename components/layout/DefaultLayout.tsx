@@ -15,7 +15,7 @@ export const DefaultLayout = (props: Props) => {
           <span className={'text-2xl md:text-3xl'}>
             XDean的工具箱
           </span>
-          <div className={'ml-auto space-x-2'}>
+          <div className={'ml-auto space-x-2 flex flex-row items-center'}>
             <XDeanIcon/>
             <GithubIcon repo={CONSTANT.repo}/>
           </div>
