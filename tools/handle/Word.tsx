@@ -1,15 +1,20 @@
+import { useMemo } from 'react';
 import { CharView } from './Char';
-import { Word } from './domain';
+import { getWordPinYin, matchWord } from './util';
 
 type Props = {
-  word: Word
+  word: string
+  target?: string
 }
 export const WordView = (props: Props) => {
-  const {word} = props;
+  const {word, target} = props;
+  const wordPy = useMemo(() => getWordPinYin(word), [word]);
+  const match = useMemo(() => target ? matchWord(wordPy, getWordPinYin(target)) : undefined, [wordPy, target]);
+  console.log(match);
   return (
-    <div className={'flex flex-row items-center space-x-2'}>
-      {word.map((e, idx) => (
-        <CharView char={e} key={idx}/>
+    <div className={'flex flex-row items-center space-x-2 select-none'}>
+      {wordPy.map((e, idx) => (
+        <CharView char={e} key={idx} match={match && match[idx]}/>
       ))}
     </div>
   );

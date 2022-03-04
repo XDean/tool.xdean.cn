@@ -1,6 +1,10 @@
 import pinyin from 'pinyin';
 import { Char, MatchType, Word, WordMatch, YinDiao } from './domain';
 
+export function getWordPinYin(value: string): Char[] {
+  return value.split('').map(getCharPinYin);
+}
+
 export function getCharPinYin(value: string): Char {
   const char = value[0];
   const py = pinyin(char, {style: pinyin.STYLE_TO3NE})[0][0];
@@ -16,7 +20,7 @@ export function getCharPinYin(value: string): Char {
   const yunMuWithShengDiao = py.slice(shengMu.length);
   const split = yunMuWithShengDiao.split(/\d/);
   const yinDiao = (split.length === 2 ? Number(yunMuWithShengDiao.charAt(split[0].length)) : 0) as YinDiao;
-  const yinDiaoPos = split.length === 2 ? split[0].length - 1 : 0;
+  const yinDiaoPos = split.length === 2 ? split[0].length - 1 : -1;
   return {
     value: char,
     shengMu,
@@ -65,4 +69,11 @@ export function match<T>(value: T[], target: T[]): MatchType[] {
     }
   }
   return res;
+}
+
+export function normalizeYunMu(yunMu: string, yinDiaoPos: number) {
+  if (yinDiaoPos >= 0 && yunMu.charAt(yinDiaoPos) === 'i') {
+    return yunMu.replace('i', 'ı');
+  }
+  return yunMu;
 }

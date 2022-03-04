@@ -15,7 +15,7 @@ describe('pinyin', () => {
       shengMu: 'l',
       yunMu: 'e',
       yinDiao: 0,
-      yinDiaoPos: 0,
+      yinDiaoPos: -1,
     });
     expect(getCharPinYin('日')).toEqual<Char>({
       value: '日',
