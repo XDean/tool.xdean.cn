@@ -8,4 +8,15 @@ export type Char = {
   yinDiaoPos: number
 }
 
-export type Word = [Char, Char, Char, Char]
+export type Word = Char[]
+
+export type MatchType = 'exact' | 'fussy' | 'none'
+
+export type CharMatch = {
+  value: MatchType
+  shengMu: MatchType
+  yunMu: MatchType
+  yinDiao: MatchType
+}
+
+export type WordMatch = CharMatch[]

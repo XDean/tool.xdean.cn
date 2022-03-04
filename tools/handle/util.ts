@@ -1,5 +1,5 @@
 import pinyin from 'pinyin';
-import { Char, YinDiao } from './domain';
+import { Char, MatchType, Word, WordMatch, YinDiao } from './domain';
 
 export function getCharPinYin(value: string): Char {
   const char = value[0];
@@ -24,4 +24,45 @@ export function getCharPinYin(value: string): Char {
     yinDiao,
     yinDiaoPos,
   };
+}
+
+export function matchWord(value: Word, target: Word): WordMatch {
+  const valueMatch = match(value.map(e => e.value), target.map(e => e.value));
+  const shengMuMatch = match(value.map(e => e.shengMu), target.map(e => e.shengMu));
+  const yunMuMatch = match(value.map(e => e.yunMu), target.map(e => e.yunMu));
+  const yinDiaoMatch = match(value.map(e => e.yinDiao), target.map(e => e.yinDiao));
+  return value.map((_, i) => ({
+    value: valueMatch[i],
+    shengMu: shengMuMatch[i],
+    yunMu: yunMuMatch[i],
+    yinDiao: yinDiaoMatch[i],
+  }));
+}
+
+export function match<T>(value: T[], target: T[]): MatchType[] {
+  const used: boolean[] = value.map(() => false);
+  const res: MatchType[] = value.map(() => 'none');
+  for (let i = 0; i < value.length; i++) {
+    if (value[i] === target[i]) {
+      res[i] = 'exact';
+      used[i] = true;
+    }
+  }
+  for (let i = 0; i < value.length; i++) {
+    if (res[i] !== 'exact') {
+      let idx = -1;
+      while (true) {
+        idx = target.indexOf(value[i], idx + 1);
+        if (idx === -1) {
+          break;
+        } else {
+          if (!used[idx]) {
+            used[idx] = true;
+            res[i] = 'fussy';
+          }
+        }
+      }
+    }
+  }
+  return res;
 }

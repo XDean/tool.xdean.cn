@@ -1,8 +1,8 @@
-import { Char } from './domain';
-import { getCharPinYin } from './util';
+import { Char, MatchType } from './domain';
+import { getCharPinYin, match } from './util';
 
 describe('pinyin', () => {
-  it('', () => {
+  it('should work', () => {
     expect(getCharPinYin('好')).toEqual<Char>({
       value: '好',
       shengMu: 'h',
@@ -45,6 +45,19 @@ describe('pinyin', () => {
       yinDiao: 1,
       yinDiaoPos: 1,
     });
+  });
+});
+
+describe('match', () => {
+  it('should work', () => {
+    expect(match([1, 2, 3], [1, 2, 3])).toEqual<MatchType[]>(['exact', 'exact', 'exact']);
+    expect(match([1, 2, 3], [3, 2, 1])).toEqual<MatchType[]>(['fussy', 'exact', 'fussy']);
+    expect(match([1, 2, 3], [3, 1, 2])).toEqual<MatchType[]>(['fussy', 'fussy', 'fussy']);
+    expect(match([3, 3, 2], [1, 2, 3])).toEqual<MatchType[]>(['fussy', 'none', 'fussy']);
+    expect(match([3, 3, 3], [1, 2, 3])).toEqual<MatchType[]>(['none', 'none', 'exact']);
+    expect(match([4, 5, 6], [1, 2, 3])).toEqual<MatchType[]>(['none', 'none', 'none']);
+    expect(match([3, 2, 2], [1, 3, 3])).toEqual<MatchType[]>(['fussy', 'none', 'none']);
+    expect(match([3, 2, 2], [1, 3, 3])).toEqual<MatchType[]>(['fussy', 'none', 'none']);
   });
 });
 
