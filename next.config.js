@@ -11,6 +11,6 @@ module.exports = withPlugins([
     }
   )],
   {
-    pageExtensions: ['tsx', 'mdx']
+    pageExtensions: ['ts', 'tsx', 'mdx']
   }
-])
+]);
