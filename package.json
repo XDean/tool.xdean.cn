@@ -9,6 +9,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@mantine/core": "^3.6.14",
+    "@mantine/hooks": "^3.6.14",
     "@types/cookie": "^0.4.1",
     "@types/pinyin": "^2.10.0",
     "@xstate/react": "^1.6.3",

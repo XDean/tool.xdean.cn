@@ -20,7 +20,7 @@ const Page = (props: Props) => {
             'cursor-pointer rounded border w-40 h-40 md:w-48 md:h-48 text-center m-1 md:m-2',
             'transition transform hover:-translate-y-1 hover:ring hover:shadow')}>
             <div className={'overflow-hidden rounded-full'}>
-              <Image src={meta.icon} className={'w-28 md:w-36'}/>
+              <Image src={meta.icon} className={'w-28 md:w-36'} loading={'eager'}/>
             </div>
             <div className={'text-xl md:text-2xl group-hover:underline'}>
               {meta.name}

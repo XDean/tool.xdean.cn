@@ -1,12 +1,16 @@
-declare module 'public/data/idiom.json' {
-  declare const idioms: {
+declare module 'idiom' {
+  export type Idiom = {
     derivation: string,
     example: string,
     explanation: string,
     pinyin: string,
     word: string,
     abbreviation: string,
-  }[];
+  }
+}
+
+declare module 'public/data/idiom.json' {
+  declare const idioms: Idiom[];
   export default idioms;
 }
 declare module 'public/data/idiom_simple.json' {
