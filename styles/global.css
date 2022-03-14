@@ -4,29 +4,18 @@
 
 
 @layer base {
-    hr {
-        @apply w-full;
-    }
-
-    html {
-        @apply w-screen;
-    }
-
-    body {
-        @apply w-screen overflow-x-hidden;
-    }
 }
 
 @layer components {
-    .link {
-        @apply cursor-pointer w-max;
+    .shine-red {
+        text-shadow: 0 0 2px white, 0 0 4px red, 0 0 6px red;
     }
 
-    .link:hover {
-        @apply underline;
+    .shine-white {
+        text-shadow: 0 0 2px white, 0 0 4px white, 0 0 6px white;
     }
 
-    .btn {
-        @apply border shadow rounded hover:bg-gray-100 hover:border-blue-300 p-1;
+    .shine-black {
+        text-shadow: 0 0 2px black, 0 0 4px black, 0 0 6px black;
     }
 }

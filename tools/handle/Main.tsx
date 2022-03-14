@@ -1,7 +1,6 @@
-import { Button, TextInput } from '@mantine/core';
+import { Button, TextInput, Loader } from '@mantine/core';
 import { Idiom } from 'idiom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Loading } from '../../common/components/Loading';
 import { WordView } from './Word';
 
 export const Handle = () => {
@@ -37,7 +36,7 @@ export const Handle = () => {
 
 
   if (!answer) {
-    return <Loading/>;
+    return <Loader className={'mx-auto'}/>;
   }
   return (
     <div className={'flex flex-col items-center space-y-2 w-max mx-auto'}>

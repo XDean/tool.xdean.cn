@@ -6,6 +6,6 @@ export default Handle;
 
 (Handle as any).meta = {
   id: 'handle',
-  name: '汉兜(改)',
+  name: '汉兜',
   icon: logo,
 } as ToolMetaInline;
