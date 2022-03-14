@@ -27,6 +27,7 @@
     "react-utterances": "^0.6.4",
     "recharts": "^2.1.6",
     "serverless-mysql": "^1.5.4",
+    "swr": "^1.2.2",
     "use-sound": "^4.0.1",
     "xstate": "^4.26.1"
   },
