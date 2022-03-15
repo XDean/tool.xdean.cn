@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { useEffect } from 'react';
 import { Char, CharMatch, MatchType } from './domain';
 import { normalizeYunMu } from './util';
 import { YinDiaoView } from './YinDiao';
@@ -11,12 +10,6 @@ type Props = {
 
 export const CharView = (props: Props) => {
   const {char: {value, shengMu, yunMu, yinDiao, yinDiaoPos}, match} = props;
-  useEffect(() => {
-    console.log('CharView mount');
-    return () => {
-      console.log('CharView unmount');
-    };
-  }, []);
   return (
     <div className={clsx('flex flex-col items-center justify-center h-20 w-20 border-2 leading-0',
       match?.value === 'exact' ? 'bg-teal-500 !text-white' : 'bg-white text-black')}>
