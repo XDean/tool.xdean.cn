@@ -20,13 +20,14 @@ export const ToolDetails = (props: Props) => {
         <LinkIcon href={'/'}
                   icon={<VscHome size={40}
                                  className={'border-2 border-black rounded-full hover:rotate-[360deg] transition duration-[1s]'}/>}/>
-        <LinkIcon href={'/'}
+        <LinkIcon href={`https://github.com/XDean/tool.xdean.cn/blob/main/tools/${meta.id}`}
                   icon={<VscGithub size={40}
                                    className={'rounded-full hover:rotate-[360deg] transition duration-[1s]'}/>}
                   target={'_blank'}/>
-        <LinkIcon href={'/'}
+        <LinkIcon href={'https://xdean.cn'}
                   icon={(
-                    <div className={'block border-2 border-black rounded-full w-[40px] h-[40px] hover:rotate-[360deg] transition duration-[1s]'}>
+                    <div
+                      className={'block border-2 border-black rounded-full w-[40px] h-[40px] hover:rotate-[360deg] transition duration-[1s]'}>
                       <Image src={xdeanLogo} width={40} height={40}/>
                     </div>
                   )}/>
@@ -36,6 +37,7 @@ export const ToolDetails = (props: Props) => {
         <LikeWithAPI id={`tool:${meta.id}`}/>
         <Comment/>
       </div>
+      {meta.details}
       <hr className={'w-full !mt-6'}/>
       <div className={'w-full'}>
         <GithubComment/>

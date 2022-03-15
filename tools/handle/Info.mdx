@@ -1,0 +1,31 @@
+import {CharView, MatchColor} from './Char';
+import { WordView } from './Word';
+
+export const C = ({match, value})=> <b style={{color:MatchColor[match]}}>{value}</b>
+
+**本游戏非原创，复刻自<a className='bg-black text-white px-1 py-0.5 m-1 hover:bg-gray-700' href='https://handle.antfu.me/'>汉兜</a>**
+
+<h1 className={'text-2xl font-bold'}>游戏规则</h1>
+
+你有十次机会猜一个<C match='exact' value='四字词语'/>。
+
+每次猜测后，汉字与拼音的颜色将会标识其与正确答案的区别。
+
+<WordView word={'班门弄斧'} target={' 门  '}/>
+
+第二个字 <C match='exact' value='门'/> 为青色，表示其出现在答案中且在正确的位置。
+
+<WordView word={'水落石出'} target={'一一一水'}/>
+
+第一个字 <C match='fussy' value='水'/> 为橙色，表示其出现在答案中，但并不是第一个字。
+
+<WordView word={'巧夺天工'} target={'桥它拖 '}/>
+
+每个格子的 **汉字、声母、韵母、声调** 都会独立进行颜色的指示。
+例如，第一个 <C match='none' value='巧'/> 汉字为灰色，而其 <C match='exact' value='声母'/> 与 <C match='exact' value='韵母'/> 均为青色。
+代表该位置的正确答案为其同音字但非 <C match='none' value='巧'/> 字本身。
+同理，第二个字中韵母 <C match='fussy' value='uo'/> 为橙色，代表其韵母出现在四个字之中，但非位居第二。以此类推。
+
+<WordView word={'一马当先'} target={'一马当先'}/>
+
+当四个格子都为青色时，你便赢得了游戏！
