@@ -14,7 +14,7 @@ export const ToolLayout = (props: Props) => {
   const [open, setOpen] = useState(false);
   return (
     <div className={'w-full max-w-screen-md min-h-screen mx-auto relative flex flex-col px-2'}>
-      <nav className={'w-full border-b bg-white z-40 p-1 flex flex-row items-center justify-center space-x-2'}>
+      <nav className={'sticky top-0 w-full border-b bg-white z-40 p-1 flex flex-row items-center justify-center space-x-2'}>
         <div className={clsx('absolute left-2 cursor-pointer rounded-full p-1 select-none',
           open ? 'bg-gray-800 text-white hover:bg-gray-600' : 'hover:bg-gray-600 hover:text-white transition')}
              onClick={() => setOpen(o => !o)}>
