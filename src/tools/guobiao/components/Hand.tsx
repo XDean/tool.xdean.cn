@@ -1,4 +1,4 @@
-import {Hand} from 'tools/guobiao/core/type';
+import {Hand} from 'src/tools/guobiao/core/type';
 import clsx from 'clsx';
 import {TileButton} from './TileButton';
 

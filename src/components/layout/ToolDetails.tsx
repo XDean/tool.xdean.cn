@@ -2,10 +2,10 @@ import xdeanLogo from 'common/resources/logo.ico';
 import Image from 'next/image';
 import React from 'react';
 import { VscGithub, VscHome } from 'react-icons/vsc';
-import { Comment } from '../../common/components/badge/Comment';
-import { LikeWithAPI } from '../../common/components/badge/Like';
-import { ReadWithAPI } from '../../common/components/badge/Read';
-import { LinkIcon } from '../../common/components/icon/LinkIcon';
+import { Comment } from '../../../common/components/badge/Comment';
+import { LikeWithAPI } from '../../../common/components/badge/Like';
+import { ReadWithAPI } from '../../../common/components/badge/Read';
+import { LinkIcon } from '../../../common/components/icon/LinkIcon';
 import { ToolMeta } from '../../lib/meta';
 import { GithubComment } from '../util/GithubComment';
 

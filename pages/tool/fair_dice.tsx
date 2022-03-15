@@ -1,5 +1,5 @@
-import {Main} from 'tools/fair_dice/components/Main';
-import {ToolMetaInline} from '../../lib/meta';
+import {Main} from 'src/tools/fair_dice/components/Main';
+import {ToolMetaInline} from '../../src/lib/meta';
 import logo from 'public/tool/fair_dice/logo_512.webp';
 
 export default Main;

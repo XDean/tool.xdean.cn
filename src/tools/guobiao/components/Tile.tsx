@@ -1,7 +1,7 @@
-import {Tile} from 'tools/guobiao/core/tile';
+import {Tile} from 'src/tools/guobiao/core/tile';
 import tiles from 'public/tool/guobiao/tiles.webp';
-import useWindowDimensions from '../../../common/util/hook';
-import {notSSR} from '../../../common/util/react';
+import useWindowDimensions from '../../../../common/util/hook';
+import {notSSR} from '../../../../common/util/react';
 
 type Props = {
   tile: Tile | null

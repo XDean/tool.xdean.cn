@@ -1,10 +1,10 @@
 import {AllTilesView} from './AllTiles';
 import {HandView} from './Hand';
 import React, {useCallback, useMemo, useState} from 'react';
-import {Hand, Tiles} from 'tools/guobiao/core/type';
+import {Hand, Tiles} from 'src/tools/guobiao/core/type';
 import clsx from 'clsx';
 import {FanView} from './Fan';
-import {Tile} from 'tools/guobiao/core/tile';
+import {Tile} from 'src/tools/guobiao/core/tile';
 import {OptionView} from './Option';
 import css from './styles.module.css';
 import {modes} from './mode';

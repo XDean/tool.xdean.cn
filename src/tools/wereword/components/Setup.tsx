@@ -2,7 +2,7 @@ import {useService} from '@xstate/react';
 import {WerewordImages} from './Images';
 import {WerewordContext, WerewordEvent, WerewordSchema} from '../machine';
 import {Interpreter} from 'xstate';
-import {Loading} from '../../../common/components/Loading';
+import {Loading} from '../../../../common/components/Loading';
 
 export const WerewordSetup = ({service}: { service: Interpreter<WerewordContext, WerewordSchema, WerewordEvent> }) => {
   const [state, send] = useService(service);

@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import {Image} from 'common/components/Image';
 import {GetStaticProps} from 'next';
 import Link from 'next/link';
-import {ToolMeta} from '../lib/meta';
-import {getAllToolMetas} from '../lib/service';
+import {ToolMeta} from '../src/lib/meta';
+import {getAllToolMetas} from '../src/lib/service';
 
 type Props = {
   data: ToolMeta[]

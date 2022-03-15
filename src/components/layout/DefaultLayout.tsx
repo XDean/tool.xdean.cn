@@ -1,8 +1,8 @@
 import {Footer} from 'common/components/Footer';
-import {CONSTANT} from 'lib/constants';
+import {CONSTANT} from 'src/lib/constants';
 import React, {PropsWithChildren} from 'react';
-import {GithubIcon} from '../../common/components/icon/GithubIcon';
-import {XDeanIcon} from '../../common/components/icon/XDeanIcon';
+import {GithubIcon} from '../../../common/components/icon/GithubIcon';
+import {XDeanIcon} from '../../../common/components/icon/XDeanIcon';
 
 type Props = PropsWithChildren<{}>
 

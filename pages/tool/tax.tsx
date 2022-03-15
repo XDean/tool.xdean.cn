@@ -1,4 +1,4 @@
-import {ToolMetaInline} from '../../lib/meta';
+import {ToolMetaInline} from '../../src/lib/meta';
 import logo from 'public/tool/tax/logo.png';
 import {useRouter} from 'next/router';
 import {useEffect} from 'react';

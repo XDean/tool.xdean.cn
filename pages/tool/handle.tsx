@@ -1,7 +1,7 @@
 import logo from 'public/tool/handle/favicon.svg';
-import { Handle } from 'tools/handle/Main';
-import Info  from 'tools/handle/Info.mdx';
-import { ToolMetaInline } from '../../lib/meta';
+import { Handle } from 'src/tools/handle/Main';
+import Info  from 'src/tools/handle/Info.mdx';
+import { ToolMetaInline } from '../../src/lib/meta';
 
 export default Handle;
 

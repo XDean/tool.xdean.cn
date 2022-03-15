@@ -1,5 +1,5 @@
-import {Tiles} from 'tools/guobiao/core/type';
-import {Tile} from 'tools/guobiao/core/tile';
+import {Tiles} from 'src/tools/guobiao/core/type';
+import {Tile} from 'src/tools/guobiao/core/tile';
 import {TileButton} from './TileButton';
 
 type Props = {
