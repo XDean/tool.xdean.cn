@@ -6,11 +6,11 @@ import { Comment } from '../../../common/components/badge/Comment';
 import { LikeWithAPI } from '../../../common/components/badge/Like';
 import { ReadWithAPI } from '../../../common/components/badge/Read';
 import { LinkIcon } from '../../../common/components/icon/LinkIcon';
-import { ToolMeta } from '../../lib/meta';
+import { Tool } from '../../tools';
 import { GithubComment } from '../util/GithubComment';
 
 type Props = {
-  meta: ToolMeta
+  meta: Tool
 }
 export const ToolDetails = (props: Props) => {
   const {meta} = props;
@@ -37,7 +37,7 @@ export const ToolDetails = (props: Props) => {
         <LikeWithAPI id={`tool:${meta.id}`}/>
         <Comment/>
       </div>
-      {meta.details}
+      {meta.details && <meta.details/>}
       <hr className={'w-full !mt-6'}/>
       <div className={'w-full'}>
         <GithubComment/>

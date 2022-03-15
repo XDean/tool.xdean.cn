@@ -1,4 +1,4 @@
-import { Button, TextInput, Loader } from '@mantine/core';
+import { Button, Loader, TextInput } from '@mantine/core';
 import { Idiom } from 'idiom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { WordView } from './Word';

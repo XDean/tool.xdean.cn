@@ -1,8 +1,11 @@
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import logo from 'public/tool/handle/favicon.svg';
+import { FunctionComponent } from 'react';
 import { Tool } from '../index';
-import Info from './Info.mdx';
-import { HandleMain } from './Main';
+
+const HandleMain = dynamic(() => import('./Main').then<FunctionComponent>(e => e.HandleMain));
+const Info = dynamic(() => import('./Info.mdx'));
 
 export const Handle: Tool = {
   id: 'handle',

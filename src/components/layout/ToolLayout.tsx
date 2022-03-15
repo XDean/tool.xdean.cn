@@ -2,11 +2,11 @@ import clsx from 'clsx';
 import React, { PropsWithChildren, useState } from 'react';
 import { VscChromeClose, VscInfo } from 'react-icons/vsc';
 import { Footer } from '../../../common/components/Footer';
-import { ToolMeta } from '../../lib/meta';
+import { Tool } from '../../tools';
 import { ToolDetails } from './ToolDetails';
 
 type Props = PropsWithChildren<{
-  meta: ToolMeta
+  meta: Tool
 }>
 
 export const ToolLayout = (props: Props) => {
