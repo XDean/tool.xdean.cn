@@ -11,12 +11,12 @@ export const TaxMain = () => {
     router.replace('https://blog.xdean.cn/posts/2021/tax')
       .then();
   }, [router]);
-  return '正在跳转';
+  return <div>正在跳转</div>;
 };
 
 export const Tax: Tool = {
   id: 'tax',
   name: '个税计算器',
-  icon: () =><Image src={logo} layout={'responsive'} className={'rounded-full'}/>,
+  icon: () => <Image src={logo} layout={'responsive'} className={'rounded-full'}/>,
   content: TaxMain,
 };
