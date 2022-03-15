@@ -3,7 +3,7 @@ import { Idiom } from 'idiom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { WordView } from './Word';
 
-export const Handle = () => {
+export const HandleMain = () => {
   const [answer, setAnswer] = useState<Idiom>();
   const [tries, setTries] = useState<string[]>([]);
   const [input, setInput] = useState('');

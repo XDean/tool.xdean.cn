@@ -11,9 +11,9 @@ export const DefaultLayout = (props: Props) => {
   return (
     <div className={'min-h-screen flex flex-col'}>
       <nav className={'sticky z-40 top-0'}>
-        <div className={'flex flex-row items-center shadow bg-white px-1 md:p-2 whitespace-nowrap overflow-hidden'}>
-          <span className={'text-2xl md:text-3xl'}>
-            XDean的工具箱
+        <div className={'flex flex-row items-center shadow bg-white p-2 whitespace-nowrap overflow-hidden'}>
+          <span className={'text-2xl md:text-3xl ml-2'}>
+            XDean的百宝箱
           </span>
           <div className={'ml-auto space-x-2 flex flex-row items-center'}>
             <XDeanIcon/>
