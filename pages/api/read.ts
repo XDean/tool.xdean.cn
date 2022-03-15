@@ -9,9 +9,9 @@ export default apiHandler({
       const add = helper.museQuery('add', 'true').toLowerCase() === 'true';
       const userId = helper.getUserId();
       if (add) {
-        await addRead({id, userId});
+        await addRead({objId:id, userId});
       }
-      return getReadOnly({id});
+      return getReadOnly({objId:id});
     },
   },
 });
