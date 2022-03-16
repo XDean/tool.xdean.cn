@@ -1,5 +1,4 @@
 import {Tile} from 'src/tools/guobiao/core/tile';
-import tiles from 'public/tool/guobiao/tiles.webp';
 import useWindowDimensions from '../../../../common/util/hook';
 import {notSSR} from '../../../../common/util/react';
 
@@ -36,7 +35,7 @@ export const TileView = notSSR((props: Props) => {
          style={{
            width,
            height,
-           backgroundImage: `url(${tiles.src})`,
+           backgroundImage: `url(/tool/guobiao/tiles.webp})`,
            backgroundPositionX: -offset * width,
            backgroundSize: width * 54,
          }}

@@ -28,7 +28,7 @@ export const ToolDetails = (props: Props) => {
                   icon={(
                     <div
                       className={'block border-2 border-black rounded-full w-[40px] h-[40px] hover:rotate-[360deg] transition duration-[1s]'}>
-                      <Image src={xdeanLogo} width={40} height={40}/>
+                      <Image src={xdeanLogo} width={40} height={40} alt={'XDean'}/>
                     </div>
                   )}/>
       </div>
