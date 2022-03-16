@@ -44,7 +44,7 @@ export const HandleMain = () => {
     return <Loader className={'mx-auto'}/>;
   }
   return (
-    <div className={'flex flex-col items-center mx-auto w-96'}>
+    <div className={'flex flex-col items-center mx-auto'}>
       <div className={'flex flex-col items-center space-y-2  w-max'}>
         {tries.map((e, i) => (
           <WordView key={i} word={e} target={answer.word}/>

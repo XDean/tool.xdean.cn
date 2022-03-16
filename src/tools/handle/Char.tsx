@@ -11,7 +11,7 @@ type Props = {
 export const CharView = (props: Props) => {
   const {char: {value, shengMu, yunMu, yinDiao, yinDiaoPos}, match} = props;
   return (
-    <div className={clsx('flex flex-col items-center justify-center h-20 w-20 border-2 leading-0',
+    <div className={clsx('flex flex-col items-center justify-center w-16 h-16 lg:h-20 lg:w-20 border-2 leading-0',
       match?.value === 'exact' ? 'bg-teal-500 !text-white' : 'bg-white text-black')}>
       <div className={'flex flex-row items-center justify-center font-mono text-lg'}>
         <div className={'flex flex-col'}>
