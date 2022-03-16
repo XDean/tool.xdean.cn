@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { CharView } from './Char';
-import { getWordPinYin, matchWord } from './util';
+import { getWordPinYin, matchWord } from '../util';
 
 type Props = {
   word: string

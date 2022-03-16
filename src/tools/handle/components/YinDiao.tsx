@@ -1,4 +1,4 @@
-import { YinDiao } from './domain';
+import { YinDiao } from '../domain';
 
 type Props = {
   value: YinDiao
