@@ -1,6 +1,6 @@
 export type YinDiao = 0 | 1 | 2 | 3 | 4
 
-export type Char = {
+export type ParsedChar = {
   value: string
   shengMu: string
   yunMu: string
@@ -8,7 +8,7 @@ export type Char = {
   yinDiaoPos: number
 }
 
-export type Word = Char[]
+export type ParsedWord = ParsedChar[]
 
 export type MatchType = 'exact' | 'fussy' | 'none'
 

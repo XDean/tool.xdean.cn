@@ -1,11 +1,11 @@
 import pinyin from 'pinyin';
-import { Char, MatchType, Word, WordMatch, YinDiao } from './domain';
+import { ParsedChar, MatchType, ParsedWord, WordMatch, YinDiao } from './domain';
 
-export function getWordPinYin(value: string): Char[] {
+export function getWordPinYin(value: string): ParsedChar[] {
   return value.split('').map(getCharPinYin);
 }
 
-export function getCharPinYin(value: string): Char {
+export function getCharPinYin(value: string): ParsedChar {
   const char = value[0];
   const py = pinyin(char, {style: pinyin.STYLE_TO3NE})[0][0];
   let shengMu = pinyin(char, {style: pinyin.STYLE_INITIALS})[0][0];
@@ -30,7 +30,7 @@ export function getCharPinYin(value: string): Char {
   };
 }
 
-export function matchWord(value: Word, target: Word): WordMatch {
+export function matchWord(value: ParsedWord, target: ParsedWord): WordMatch {
   const valueMatch = match(value.map(e => e.value), target.map(e => e.value));
   const shengMuMatch = match(value.map(e => e.shengMu), target.map(e => e.shengMu));
   const yunMuMatch = match(value.map(e => e.yunMu), target.map(e => e.yunMu));

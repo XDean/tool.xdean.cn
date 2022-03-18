@@ -1,44 +1,44 @@
-import { Char, MatchType } from './domain';
+import { ParsedChar, MatchType } from './domain';
 import { getCharPinYin, match } from './util';
 
 describe('pinyin', () => {
   it('should work', () => {
-    expect(getCharPinYin('好')).toEqual<Char>({
+    expect(getCharPinYin('好')).toEqual<ParsedChar>({
       value: '好',
       shengMu: 'h',
       yunMu: 'ao',
       yinDiao: 3,
       yinDiaoPos: 0,
     });
-    expect(getCharPinYin('了')).toEqual<Char>({
+    expect(getCharPinYin('了')).toEqual<ParsedChar>({
       value: '了',
       shengMu: 'l',
       yunMu: 'e',
       yinDiao: 0,
       yinDiaoPos: -1,
     });
-    expect(getCharPinYin('日')).toEqual<Char>({
+    expect(getCharPinYin('日')).toEqual<ParsedChar>({
       value: '日',
       shengMu: 'r',
       yunMu: 'i',
       yinDiao: 4,
       yinDiaoPos: 0,
     });
-    expect(getCharPinYin('雨')).toEqual<Char>({
+    expect(getCharPinYin('雨')).toEqual<ParsedChar>({
       value: '雨',
       shengMu: 'y',
       yunMu: 'u',
       yinDiao: 3,
       yinDiaoPos: 0,
     });
-    expect(getCharPinYin('源')).toEqual<Char>({
+    expect(getCharPinYin('源')).toEqual<ParsedChar>({
       value: '源',
       shengMu: 'y',
       yunMu: 'uan',
       yinDiao: 2,
       yinDiaoPos: 1,
     });
-    expect(getCharPinYin('亏')).toEqual<Char>({
+    expect(getCharPinYin('亏')).toEqual<ParsedChar>({
       value: '亏',
       shengMu: 'k',
       yunMu: 'ui',

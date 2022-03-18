@@ -1,10 +1,10 @@
 import clsx from 'clsx';
-import { Char, CharMatch, MatchType } from '../domain';
+import { ParsedChar, CharMatch, MatchType } from '../domain';
 import { normalizeYunMu } from '../util';
 import { YinDiaoView } from './YinDiao';
 
 type Props = {
-  char: Char
+  char: ParsedChar
   match?: CharMatch
 }
 
