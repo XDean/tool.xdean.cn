@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from 'react';
 import { FaRegLightbulb } from 'react-icons/fa';
 import { VscDebugRestart, VscNotebook } from 'react-icons/vsc';
 import { Game } from '../game';
+import { filter4ChineseChar } from '../util';
 import { CheatSheet } from './CheatSheet';
 import { IdiomHint } from './IdiomHint';
 import { WordView } from './Word';
@@ -17,7 +18,7 @@ export const GameView = observer((props: Props) => {
   const {game, onRestart} = props;
   const [input, setInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const acceptedInput = useMemo(() => Array.from(input).filter(i => /\p{Script=Han}/u.test(i)).slice(0, 4).join(''), [input]);
+  const acceptedInput = useMemo(() => filter4ChineseChar(input), [input]);
   const [showHint, setShowHint] = useState(false);
   const [showCheat, setShowCheat] = useState(false);
 

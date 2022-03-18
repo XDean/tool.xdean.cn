@@ -54,8 +54,16 @@ export class Game {
     };
   }
 
-  static async newGame(): Promise<Game> {
-    const idiom = await fetch('/api/idiom?type=simple').then<Idiom>(e => e.json());
+  static async fetchGame(id?: string): Promise<Game> {
+    const idiom = await fetch(`/api/idiom?type=simple&id=${id ?? 'NaN'}`)
+      .then(e => {
+        if (e.ok) {
+          return e;
+        } else {
+          return fetch(`/api/idiom?type=simple`);
+        }
+      })
+      .then<Idiom>(e => e.json());
     return new Game(idiom.word, idiom);
   }
 }

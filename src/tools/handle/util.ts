@@ -93,3 +93,7 @@ export function getMatchColor(t?: MatchType, valueMatch?: MatchType) {
     return MatchColor[t];
   }
 }
+
+export function filter4ChineseChar(input: string) {
+  return Array.from(input).filter(i => /\p{Script=Han}/u.test(i)).slice(0, 4).join('');
+}

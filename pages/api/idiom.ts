@@ -1,6 +1,6 @@
 import idioms from 'public/data/idiom.json';
 import idiomsSimple from 'public/data/idiom_simple.json';
-import { apiHandler } from '../../common/api/handler';
+import { apiError, apiHandler } from '../../common/api/handler';
 
 export default apiHandler({
   handler: {
@@ -20,9 +20,13 @@ export default apiHandler({
           id = Math.floor(Math.random() * idioms.length);
         }
       }
+      const idiom = idioms[id];
+      if (!idiom) {
+        throw apiError(400, `no such idiom, id = ${id}`);
+      }
       return {
         id,
-        ...idioms[id],
+        ...idiom,
       };
     },
   },
