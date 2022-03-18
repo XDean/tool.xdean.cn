@@ -73,7 +73,7 @@ export function match<T>(value: T[], target: T[]): MatchType[] {
 
 export function normalizeYunMu(yunMu: string, yinDiaoPos: number) {
   if (yinDiaoPos >= 0 && yunMu.charAt(yinDiaoPos) === 'i') {
-    return yunMu.replace('i', 'ı');
+    yunMu = yunMu.replace('i', 'ı');
   }
   return yunMu;
 }

@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from 'react';
 import { FaRegLightbulb } from 'react-icons/fa';
 import { VscDebugRestart } from 'react-icons/vsc';
 import { Game } from '../game';
+import { IdiomHint } from './IdiomHint';
 import { WordView } from './Word';
 
 type Props = {
@@ -28,6 +29,14 @@ export const GameView = observer((props: Props) => {
   return (
     <div className={'flex flex-col items-center mx-auto'}>
       <div className={'flex flex-col items-center space-y-2  w-max'}>
+        <div className={'w-full text-gray-400 flex flex-row items-center justify-between'}>
+          <div>题号：{game.details?.id ?? '自定义'}</div>
+          <div onClick={onRestart}
+               className={'select-none flex flex-row items-center cursor-pointer hover:text-black'}>
+            <VscDebugRestart size={16}/>
+            <div>换一题</div>
+          </div>
+        </div>
         {game.tries.map((e, i) => (
           <WordView key={i} word={e} target={game.answer}/>
         ))}
@@ -62,43 +71,32 @@ export const GameView = observer((props: Props) => {
               确认
             </Button>
             <hr className={'w-full'}/>
-            <div className={'w-full flex flex-row items-center justify-between'}>
-              <div onClick={() => setShowHint(true)}
-                   className={'text-gray-400 select-none flex flex-row items-center cursor-pointer hover:text-black'}>
-                <FaRegLightbulb size={16}/>
-                <div>提示</div>
-              </div>
-              <div onClick={onRestart}
-                   className={'text-gray-400 select-none flex flex-row items-center cursor-pointer hover:text-black'}>
-                <VscDebugRestart size={16}/>
-                <div>换一题</div>
-              </div>
+            <div className={'mx-auto flex flex-row items-center space-x-4'}>
+              {game.details ? (
+                <div onClick={() => setShowHint(true)}
+                     className={'text-gray-400 select-none flex flex-row items-center cursor-pointer hover:text-black'}>
+                  <FaRegLightbulb size={16}/>
+                  <div>提示</div>
+                </div>
+              ) : <div/>}
             </div>
           </>
         )}
       </div>
-      <Modal opened={showHint}
-             onClose={() => setShowHint(false)}
-             hideCloseButton
-             title={(
-               <div className={'flex items-center space-x-2'}>
-                 <FaRegLightbulb size={20}/>
-                 <div>提示</div>
-               </div>
-             )}>
-        {game.details && (
-          <div className={'text-gray-600 mt-4'}>
-            <div className={'flex flex-start'}>
-              <div className={'font-bold whitespace-nowrap'}>出处：</div>
-              <div>{game.details.derivation.replace(game.answer, '～')}</div>
-            </div>
-            <div className={'flex flex-start'}>
-              <div className={'font-bold whitespace-nowrap'}>示例：</div>
-              <div>{game.details.example.replace(game.answer, '～')}</div>
-            </div>
-          </div>
-        )}
-      </Modal>
+      {game.details && (
+        <Modal opened={showHint}
+               onClose={() => setShowHint(false)}
+               hideCloseButton
+               title={(
+                 <div className={'flex items-center space-x-2'}>
+                   <FaRegLightbulb size={20}/>
+                   <div>提示</div>
+                 </div>
+               )}>
+          <IdiomHint idiom={game.details}/>
+        </Modal>
+      )}
+      {game.details && game.correct && <IdiomHint idiom={game.details}/>}
     </div>
   );
 });

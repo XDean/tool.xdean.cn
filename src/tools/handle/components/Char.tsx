@@ -13,7 +13,7 @@ export const CharView = (props: Props) => {
   return (
     <div className={clsx('flex flex-col items-center justify-center w-16 h-16 lg:h-20 lg:w-20 border-2 leading-0',
       match?.value === 'exact' ? 'bg-teal-500 !text-white' : 'bg-white text-black')}>
-      <div className={'flex flex-row items-center justify-center font-mono text-lg'}>
+      <div className={'flex flex-row items-center justify-center font-mono text-md lg:text-lg -mb-1'}>
         <div className={'flex flex-col'}>
           <div className={'-mb-2 invisible w-0'}>
             <YinDiaoView value={yinDiao}/>
@@ -34,7 +34,7 @@ export const CharView = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className={'text-3xl leading-1em font-serif'} style={{color: getColor(match?.value, match?.value)}}>
+      <div className={'text-2xl lg:text-3xl leading-1em font-serif'} style={{color: getColor(match?.value, match?.value)}}>
         {value}
       </div>
     </div>

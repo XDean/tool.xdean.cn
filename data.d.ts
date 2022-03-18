@@ -1,5 +1,6 @@
 declare module 'idiom' {
   export type Idiom = {
+    id: number,
     derivation: string,
     example: string,
     explanation: string,
