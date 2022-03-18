@@ -1,5 +1,5 @@
 import pinyin from 'pinyin';
-import { ParsedChar, MatchType, ParsedWord, WordMatch, YinDiao } from './domain';
+import { MatchType, ParsedChar, ParsedWord, WordMatch, YinDiao } from './domain';
 
 export function getWordPinYin(value: string): ParsedChar[] {
   return value.split('').map(getCharPinYin);
@@ -76,4 +76,20 @@ export function normalizeYunMu(yunMu: string, yinDiaoPos: number) {
     yunMu = yunMu.replace('i', 'ı');
   }
   return yunMu;
+}
+
+export const MatchColor: Record<MatchType, string> = {
+  exact: '#14b8a6',
+  fussy: '#de7525',
+  none: '#aaaaaa',
+};
+
+export function getMatchColor(t?: MatchType, valueMatch?: MatchType) {
+  if (t === undefined) {
+    return undefined;
+  } else if (valueMatch === 'exact') {
+    return '#ffffff';
+  } else {
+    return MatchColor[t];
+  }
 }

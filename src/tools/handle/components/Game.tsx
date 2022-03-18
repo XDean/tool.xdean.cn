@@ -2,8 +2,9 @@ import { Button, Modal, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useRef, useState } from 'react';
 import { FaRegLightbulb } from 'react-icons/fa';
-import { VscDebugRestart } from 'react-icons/vsc';
+import { VscDebugRestart, VscNotebook } from 'react-icons/vsc';
 import { Game } from '../game';
+import { CheatSheet } from './CheatSheet';
 import { IdiomHint } from './IdiomHint';
 import { WordView } from './Word';
 
@@ -18,6 +19,7 @@ export const GameView = observer((props: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const acceptedInput = useMemo(() => Array.from(input).filter(i => /\p{Script=Han}/u.test(i)).slice(0, 4).join(''), [input]);
   const [showHint, setShowHint] = useState(false);
+  const [showCheat, setShowCheat] = useState(false);
 
   const onConfirm = () => {
     if (!game.correct && acceptedInput.length === 4) {
@@ -79,6 +81,11 @@ export const GameView = observer((props: Props) => {
                   <div>提示</div>
                 </div>
               ) : <div/>}
+              <div onClick={() => setShowCheat(true)}
+                   className={'text-gray-400 select-none flex flex-row items-center cursor-pointer hover:text-black'}>
+                <VscNotebook size={16}/>
+                <div>速查表</div>
+              </div>
             </div>
           </>
         )}
@@ -87,6 +94,7 @@ export const GameView = observer((props: Props) => {
         <Modal opened={showHint}
                onClose={() => setShowHint(false)}
                hideCloseButton
+               onClick={() => setShowHint(false)}
                title={(
                  <div className={'flex items-center space-x-2'}>
                    <FaRegLightbulb size={20}/>
@@ -96,6 +104,19 @@ export const GameView = observer((props: Props) => {
           <IdiomHint idiom={game.details}/>
         </Modal>
       )}
+      <Modal opened={showCheat}
+             onClose={() => setShowCheat(false)}
+             hideCloseButton
+             transition={'pop-bottom-left'}
+             onClick={() => setShowCheat(false)}
+             title={(
+               <div className={'flex items-center space-x-2'}>
+                 <VscNotebook size={20}/>
+                 <div>速查表</div>
+               </div>
+             )}>
+        <CheatSheet game={game}/>
+      </Modal>
       {game.details && game.correct && <IdiomHint idiom={game.details}/>}
     </div>
   );

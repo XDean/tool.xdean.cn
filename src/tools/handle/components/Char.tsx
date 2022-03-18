@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { ParsedChar, CharMatch, MatchType } from '../domain';
-import { normalizeYunMu } from '../util';
+import { CharMatch, ParsedChar } from '../domain';
+import { getMatchColor, normalizeYunMu } from '../util';
 import { YinDiaoView } from './YinDiao';
 
 type Props = {
@@ -18,23 +18,24 @@ export const CharView = (props: Props) => {
           <div className={'-mb-2 invisible w-0'}>
             <YinDiaoView value={yinDiao}/>
           </div>
-          <div style={{color: getColor(match?.value, match?.shengMu)}}>
+          <div style={{color: match && getMatchColor(match.shengMu, match.value)}}>
             {shengMu}
           </div>
         </div>
         <div className={'flex flex-col'}>
           <div className={'-mb-2'} style={{
-            color: getColor(match?.value, match?.yinDiao),
+            color: match && getMatchColor(match.yinDiao, match.value),
             marginLeft: yinDiaoPos * 10,
           }}>
             <YinDiaoView value={yinDiao}/>
           </div>
-          <div style={{color: getColor(match?.value, match?.yunMu)}}>
+          <div style={{color: match && getMatchColor(match.yunMu, match.value)}}>
             {normalizeYunMu(yunMu, yinDiaoPos)}
           </div>
         </div>
       </div>
-      <div className={'text-2xl lg:text-3xl leading-1em font-serif'} style={{color: getColor(match?.value, match?.value)}}>
+      <div className={'text-2xl lg:text-3xl leading-1em font-serif'}
+           style={{color: match && getMatchColor(match.value, match.value)}}>
         {value}
       </div>
     </div>
@@ -42,20 +43,3 @@ export const CharView = (props: Props) => {
 };
 
 
-export const MatchColor: Record<MatchType, string> = {
-  exact: '#14b8a6',
-  fussy: '#de7525',
-  none: '#aaaaaa',
-};
-
-export function getColor(valueMatch?: MatchType, t?: MatchType) {
-  if (!!valueMatch && !!t) {
-    if (valueMatch === 'exact') {
-      return '#ffffff';
-    } else {
-      return MatchColor[t];
-    }
-  } else {
-    return undefined;
-  }
-}
