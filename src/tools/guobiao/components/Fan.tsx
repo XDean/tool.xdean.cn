@@ -1,94 +1,92 @@
-import {Fan, Hand, Hu} from 'src/tools/guobiao/core/type';
-import {Fragment, useEffect, useState} from 'react';
-import {Data} from 'common/util/base';
-import {Loading} from 'common/components/Loading';
-import {calcHu} from 'src/tools/guobiao/core/hu';
-import {Tile} from 'src/tools/guobiao/core/tile';
-import {calcTing} from 'src/tools/guobiao/core/ting';
-import {TileView} from './Tile';
+import { Loader } from '@mantine/core';
+import { Fragment } from 'react';
+import { calcHuBest } from 'src/tools/guobiao/core/hu';
+import { Tile } from 'src/tools/guobiao/core/tile';
+import { calcTing } from 'src/tools/guobiao/core/ting';
+import { Fan, Hand, Hu } from 'src/tools/guobiao/core/type';
+import { useSWROnce } from '../../../../common/util/swr';
+import { TileView } from './Tile';
 
 export const FanView = ({hand}: { hand: Hand }) => {
-  const [hu, setHu] = useState<Data<Hu | Tile[]>>({type: 'null'});
-  useEffect(() => {
-    if (hand.count < 13) {
-      setHu({type: 'null'});
-      return;
-    }
-    setHu({type: 'loading'});
-
-    if (hand.count === 13) {
-      new Promise<Tile[]>(resolve => {
-        resolve(calcTing(hand.tiles));
-      })
-        .then(tings => {
-          if (tings.length === 0) {
-            setHu({type: 'error', error: '没有听牌'});
-          } else {
-            setHu({type: 'ready', value: tings});
-          }
-        });
-    } else if (hand.count === 14) {
-      new Promise<Hu[]>(resolve => {
-        resolve(calcHu(hand));
-      })
-        .then(hus => {
-          if (hus.length === 0) {
-            setHu({type: 'error', error: '诈和'});
-          } else {
-            const best = hus.reduce((a, b) => a.totalScore > b.totalScore ? a : b);
-            setHu({type: 'ready', value: best});
-          }
-        });
-    } else {
-      setHu({type: 'error', error: '超过14张牌'});
-    }
-  }, [hand]);
-
-  switch (hu.type) {
-    case 'null':
-      return <div className={'text-center text-2xl mt-2'}>请再选择{14 - hand.count}张牌</div>;
-    case 'loading':
-      return <div className={'text-center text-2xl mt-2'}>正在计算<Loading className={'w-16 h-16'}/></div>;
-    case 'ready':
-      const value = hu.value;
-      if (value instanceof Array) {
-        return (
-          <div className={'text-center text-2xl mt-2 flex flex-col items-center'}>
-            <div className={'mb-1'}>
-              听 {value.length} 张牌
-            </div>
-            <div className={`grid auto-rows-auto gap-1 m-w-max`} style={{gridTemplateColumns: 'repeat(5, auto)'}}>
-              {value.map(t => <TileView tile={t} key={t.toNumber()}/>)}
-            </div>
-          </div>
-        );
-      } else {
-        const fanCounts = [] as [Fan, number][];
-        value.fans.sort((a, b) => b.score - a.score)
-          .forEach(f => {
-            const find = fanCounts.find(r => r[0].name === f.name);
-            if (!!find) {
-              find[1]++;
-            } else {
-              fanCounts.push([f, 1]);
-            }
-          });
-        return (
-          <div className={'grid grid-cols-2 auto-rows-auto gap-x-2 text-2xl'}>
-            {fanCounts.map((f, i) => (
-              <Fragment key={i}>
-                <div className={'text-right'}>{f[0].score}番</div>
-                <div>{f[0].name}{f[1] > 1 ? ` × ${f[1]}` : ''}</div>
-              </Fragment>
-            ))}
-            <div className={'text-right'}>共{value.totalScore}番</div>
-            {value.totalScore - hand.option.hua < 8 && <div className={'text-2xl text-red-800'}>
-              错和，未满8番
-            </div>}
-          </div>
-        );
+  const result = useSWROnce(['guobiao:hu', hand], {
+    shouldRetryOnError: false,
+    fetcher: async (_, hand) => {
+      if (hand.count < 13) {
+        return `请再选择${14 - hand.count}张牌`;
       }
-    case 'error':
-      return <div className={'text-center text-2xl mt-2'}>{hu.error}</div>;
+      if (hand.count === 13) {
+        const tings = calcTing(hand.tiles);
+        const hus = tings.map(t => {
+          const h = hand.copy();
+          h.tiles.tiles.push(t);
+          return [t, calcHuBest(h)!] as [Tile, Hu];
+        });
+        if (hus.length === 0) {
+          return '没有听牌';
+        } else {
+          return hus;
+        }
+      } else if (hand.count === 14) {
+        const hu = calcHuBest(hand);
+        if (hu === null) {
+          return '诈和';
+        } else {
+          return hu;
+        }
+      } else {
+        return '超过14张牌';
+      }
+    },
+  });
+  if (result.data === undefined) {
+    return <Loader className={'mx-auto'}/>;
+  }
+  if (typeof result.data === 'string') {
+    return (
+      <div className={'text-center text-2xl'}>
+        {result.data}
+      </div>
+    );
+  } else if (result.data instanceof Array) {
+    return (
+      <div className={'text-center mt-2 flex flex-col items-center'}>
+        <div className={'mb-1 text-2xl'}>
+          听 {result.data.length} 张牌
+        </div>
+        <div className={`flex flex-row flex-wrap text-sm lg:text-lg`}>
+          {result.data.map(([t, h]) => (
+            <div className={'m-1 flex flex-col items-center'} key={t.toNumber()}>
+              <div>{h.totalScore}番</div>
+              <TileView tile={t}/>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  } else {
+    const fanCounts = [] as [Fan, number][];
+    result.data.fans.sort((a, b) => b.score - a.score)
+      .forEach(f => {
+        const find = fanCounts.find(r => r[0].name === f.name);
+        if (!!find) {
+          find[1]++;
+        } else {
+          fanCounts.push([f, 1]);
+        }
+      });
+    return (
+      <div className={'grid grid-cols-2 auto-rows-auto gap-x-2 text-2xl'}>
+        {fanCounts.map((f, i) => (
+          <Fragment key={i}>
+            <div className={'text-right'}>{f[0].score}番</div>
+            <div>{f[0].name}{f[1] > 1 ? ` × ${f[1]}` : ''}</div>
+          </Fragment>
+        ))}
+        <div className={'text-right'}>共{result.data.totalScore}番</div>
+        {result.data.totalScore - hand.option.hua < 8 && <div className={'text-2xl text-red-800'}>
+          错和，未满8番
+        </div>}
+      </div>
+    );
   }
 };

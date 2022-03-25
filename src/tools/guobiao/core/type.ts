@@ -1,6 +1,6 @@
 import assert from 'assert';
-import {Tile, TilePoint, TilePoints, TileType, TileTypes} from './tile';
-import {contentEquals} from 'common/util/array';
+import { contentEquals } from 'common/util/array';
+import { Tile, TilePoint, TilePoints, TileType, TileTypes } from './tile';
 
 
 export type Options = {
@@ -29,7 +29,7 @@ export class Tiles {
     tiles: Tile[] | Tiles,
   ) {
     if (tiles instanceof Tiles) {
-      this.tiles = tiles.tiles;
+      this.tiles = [...tiles.tiles];
     } else {
       this.tiles = tiles;
     }
@@ -288,7 +288,7 @@ export class Hand {
     return new Tiles([...mingTiles, ...gangTiles, ...this.tiles.tiles]);
   }
 
-  copy = () => new Hand(new Tiles(this.tiles.tiles), [...this.mings], {...this.option});
+  copy = () => new Hand(new Tiles(this.tiles), [...this.mings], {...this.option});
 }
 
 export class Combination {

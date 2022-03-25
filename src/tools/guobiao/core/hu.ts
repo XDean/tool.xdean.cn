@@ -1,6 +1,14 @@
-import {BuKao, Combination, Dui, Hand, Hu, Ke, QiDui, Shun, Tiles, Yao13, ZuHeLong} from './type';
-import {calcFan} from './fan';
-import {Tile, TileNumberTypes, TilePoint} from './tile';
+import { calcFan } from './fan';
+import { Tile, TileNumberTypes, TilePoint } from './tile';
+import { BuKao, Combination, Dui, Hand, Hu, Ke, QiDui, Shun, Tiles, Yao13, ZuHeLong } from './type';
+
+export function calcHuBest(hand: Hand): Hu | null {
+  const hus = calcHu(hand);
+  if (hus.length === 0) {
+    return null;
+  }
+  return hus.reduce((a, b) => a.totalScore > b.totalScore ? a : b);
+}
 
 export function calcHu(hand: Hand): Hu[] {
   if (hand.count != 14) {
