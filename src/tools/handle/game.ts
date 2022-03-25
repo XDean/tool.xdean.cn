@@ -1,19 +1,24 @@
 import { Idiom } from 'idiom';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, when } from 'mobx';
 import { MatchType } from './domain';
-import { getWordPinYin, matchWord } from './util';
+import { formatDuration, getWordPinYin, matchWord } from './util';
 
 export class Game {
 
   tries: string[] = [];
   startTime: number = new Date().getTime();
   endTime: number = -1;
+  useHint: boolean = false;
 
   constructor(
     readonly answer: string,
     readonly details?: Idiom,
   ) {
     makeAutoObservable(this);
+    const dispose = when(() => this.correct, () => {
+      this.endTime = new Date().getTime();
+      dispose();
+    });
   }
 
   get correct() {
@@ -52,6 +57,10 @@ export class Game {
       sm,
       ym,
     };
+  }
+
+  get totalTimeStr() {
+    return formatDuration(this.endTime - this.startTime);
   }
 
   static async fetchGame(id?: string): Promise<Game> {

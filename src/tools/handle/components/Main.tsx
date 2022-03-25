@@ -17,7 +17,6 @@ export const HandleMain = () => {
   useEffect(() => {
     if (!game && router.isReady) {
       const answer = router.query.answer;
-      console.log(answer, typeof answer, Number.isInteger(answer));
       if (!!answer && typeof answer === 'string') {
         if (Number(answer)) {
           Game.fetchGame(answer).then(setGame);

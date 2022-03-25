@@ -24,7 +24,7 @@ export const ToolLayout = (props: Props) => {
           {meta.name}
         </div>
       </nav>
-      <main className={'mt-4 container mx-auto flex-grow'}>
+      <main className={'my-4 container mx-auto flex-grow'}>
         <div className={open ? 'hidden' : 'block'}>
           {children}
         </div>

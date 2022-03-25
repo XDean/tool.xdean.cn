@@ -1,6 +1,6 @@
 import { Button, Modal, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FaRegLightbulb } from 'react-icons/fa';
 import { VscDebugRestart, VscNotebook } from 'react-icons/vsc';
 import { Game } from '../game';
@@ -29,9 +29,13 @@ export const GameView = observer((props: Props) => {
     }
   };
 
+  useEffect(() => {
+    game.useHint = true;
+  }, [showHint]);
+
   return (
     <div className={'flex flex-col items-center mx-auto'}>
-      <div className={'flex flex-col items-center space-y-2  w-max'}>
+      <div className={'flex flex-col items-center space-y-2 w-min relative'}>
         <div className={'w-full text-gray-400 flex flex-row items-center justify-between'}>
           <div>题号：{game.details?.id ?? '自定义'}</div>
           <div onClick={onRestart}
@@ -44,10 +48,21 @@ export const GameView = observer((props: Props) => {
           <WordView key={i} word={e} target={game.answer}/>
         ))}
         {game.correct ? (
-          <div>
+          <div className={'flex flex-col items-center space-y-2'}>
+            <div className={'flex flex-rol items-center space-x-4 text-gray-500'}>
+              <div>
+                {game.useHint ? '有提示' : '无提示'}
+              </div>
+              <div>
+                {game.totalTimeStr}
+              </div>
+            </div>
             <Button onClick={onRestart}>
               再来一次
             </Button>
+            <div className={'m-2'}>
+              {game.details && <IdiomHint idiom={game.details}/>}
+            </div>
           </div>
         ) : (
           <>
@@ -118,7 +133,6 @@ export const GameView = observer((props: Props) => {
              )}>
         <CheatSheet game={game}/>
       </Modal>
-      {game.details && game.correct && <IdiomHint idiom={game.details}/>}
     </div>
   );
 });

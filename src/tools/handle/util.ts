@@ -97,3 +97,13 @@ export function getMatchColor(t?: MatchType, valueMatch?: MatchType) {
 export function filter4ChineseChar(input: string) {
   return Array.from(input).filter(i => /\p{Script=Han}/u.test(i)).slice(0, 4).join('');
 }
+
+export function formatDuration(millis: number) {
+  const ts = millis / 1000;
+  const m = Math.floor(ts / 60);
+  const s = Math.round(ts % 60);
+  if (m) {
+    return m + '分' + s + '秒';
+  }
+  return s + '秒';
+}
