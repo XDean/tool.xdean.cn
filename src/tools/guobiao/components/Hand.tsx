@@ -20,11 +20,13 @@ export const HandView = (props: Props) => {
         ))}
       </div>
       <div className={'flex flex-wrap'}>
-        {(hand.count === 14 ? hand.tiles.withoutLast.tiles : hand.tiles.tiles).map((t, i) => (
-          <TileButton tile={t}
-                      className={'my-1 mx-0.5'}
-                      onClick={() => onTileClick(i)}/>
-        ))}
+        {(hand.count === 14 ? hand.tiles.withoutLast.tiles : hand.tiles.tiles)
+          .sort((a, b) => a.toNumber() - b.toNumber())
+          .map((t, i) => (
+            <TileButton tile={t}
+                        className={'my-1 mx-0.5'}
+                        onClick={() => onTileClick(i)}/>
+          ))}
       </div>
       {hand.count === 14 && (
         <div className={clsx('inline-block mx-2 flex items-center mb-2')}>
