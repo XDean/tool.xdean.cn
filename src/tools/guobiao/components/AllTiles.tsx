@@ -11,20 +11,19 @@ export const AllTilesView = (props: Props) => {
   const {onTileClick, disabledTiles, disableAll} = props;
 
   return (
-    <div>
+    <div className={'space-y-2'}>
       {[Tile.T, Tile.B, Tile.W].map((ts, i) => (
-        <div key={i}>
+        <div key={i} className={'flex flex-row items-center space-x-[2px]'}>
           {ts.map(t => (
             <TileButton key={t.toNumber()}
                         tile={t}
-                        className={'inline-block'}
                         disable={disableAll || t.in(disabledTiles.tiles)}
                         onClick={onTileClick}
             />
           ))}
         </div>
       ))}
-      <div>
+      <div className={'flex flex-row items-center space-x-[2px]'}>
         {Tile.F.map(t => (
           <TileButton key={t.point}
                       tile={t}

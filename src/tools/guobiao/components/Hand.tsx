@@ -1,6 +1,6 @@
-import {Hand} from 'src/tools/guobiao/core/type';
 import clsx from 'clsx';
-import {TileButton} from './TileButton';
+import { Hand } from 'src/tools/guobiao/core/type';
+import { TileButton } from './TileButton';
 
 type Props = {
   hand: Hand,
@@ -12,14 +12,18 @@ export const HandView = (props: Props) => {
   const {hand, onTileClick, onMingClick} = props;
   return (
     <div className={''}>
-      <div className={'grid grid-cols-2 auto-rows-auto mx-1'}>
+      <div className={'flex flex-wrap justify-center'}>
         {hand.mings.map((m, i) => (
-          <TileButton tile={m.toMian().toTiles.tiles} onClick={() => onMingClick(i)}/>
+          <TileButton tile={m.toMian().toTiles.tiles}
+                      className={'mx-2 my-1'}
+                      onClick={() => onMingClick(i)}/>
         ))}
       </div>
-      <div className={'grid grid-cols-8 auto-rows-auto w-max m-2 gap-1'}>
+      <div className={'flex flex-wrap'}>
         {(hand.count === 14 ? hand.tiles.withoutLast.tiles : hand.tiles.tiles).map((t, i) => (
-          <TileButton tile={t} onClick={() => onTileClick(i)}/>
+          <TileButton tile={t}
+                      className={'my-1 mx-0.5'}
+                      onClick={() => onTileClick(i)}/>
         ))}
       </div>
       {hand.count === 14 && (

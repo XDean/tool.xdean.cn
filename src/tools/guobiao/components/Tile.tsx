@@ -1,20 +1,23 @@
-import {Tile} from 'src/tools/guobiao/core/tile';
+import Image from 'next/image';
+import tiles from 'public/tool/guobiao/tiles.webp';
+import { useMemo } from 'react';
+import { Tile } from 'src/tools/guobiao/core/tile';
 import useWindowDimensions from '../../../../common/util/hook';
-import {notSSR} from '../../../../common/util/react';
+import { notSSR } from '../../../../common/util/react';
 
 type Props = {
   tile: Tile | null
-  scale?: number
   onClick?: () => void
 }
 
 export const TileView = notSSR((props: Props) => {
+  const {tile, onClick} = props;
   const {clientWidth} = useWindowDimensions();
-  const {tile, scale = 1, onClick} = props;
-  const width = Math.max(32, Math.min(64, clientWidth / 10)) * scale;
+  const width = Math.max(32, Math.min(64, (clientWidth - 100) / 9));
   const height = width * 1.44;
 
-  const offset = function () {
+
+  const offset = useMemo(() => {
     if (tile === null) {
       return 0;
     }
@@ -28,17 +31,18 @@ export const TileView = notSSR((props: Props) => {
       case 'z':
         return 27 + tile.point;
     }
-  }();
+  }, [tile]);
+
   return (
-    <div className={'relative overflow-hidden'}
-         onClick={onClick}
-         style={{
-           width,
-           height,
-           backgroundImage: `url(/tool/guobiao/tiles.webp})`,
-           backgroundPositionX: -offset * width,
-           backgroundSize: width * 54,
-         }}
-    />
+    <div className={'relative overflow-hidden flex'}
+         style={{width: width}}
+         onClick={onClick}>
+      <Image src={tiles}
+             height={height}
+             layout={'fixed'}
+             objectFit={'cover'}
+             objectPosition={-offset * width}
+      />
+    </div>
   );
 });

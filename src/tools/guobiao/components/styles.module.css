@@ -1,12 +1,12 @@
 .btn.mode {
-    @apply w-12 md:w-20 text-lg md:text-2xl font-bold;
+    @apply w-12 lg:w-20 text-lg lg:text-2xl font-semibold;
 }
 
 .btn {
-    @apply text-base md:text-xl px-1 md:px-2 py-0.5 rounded md:rounded-lg border whitespace-nowrap;
-    @apply transform active:translate-y-0.5 active:shadow hover:bg-gray-50;
+    @apply text-base lg:text-xl px-1 lg:px-2 py-0.5 rounded lg:rounded-lg border whitespace-nowrap;
+    @apply transform active:translate-y-0.5 active:shadow hover:bg-gray-50 transition;
 }
 
 .btn.active {
-    @apply ring ring-blue-500 shadow md:shadow-lg;
+    @apply bg-blue-600 text-white shadow lg:shadow-lg;
 }

@@ -31,7 +31,7 @@ export const GuoBiaoMainView = () => {
   const onOptionsChange = useCallback(o => updateHand(h => h.option = o), [updateHand]);
 
   return (
-    <div className={'container px-4 space-y-2 md:space-y-4 mx-auto w-max'}>
+    <div className={'container px-4 space-y-2 lg:space-y-4 mx-auto w-min'}>
       <div className={'relative w-max'}>
         <AllTilesView
           disableAll={disableAll}
@@ -53,6 +53,7 @@ export const GuoBiaoMainView = () => {
       <HandView hand={hand}
                 onMingClick={onHandMingClick}
                 onTileClick={onHandTileClick}/>
+      <hr/>
       <FanView hand={hand}/>
     </div>
   );
