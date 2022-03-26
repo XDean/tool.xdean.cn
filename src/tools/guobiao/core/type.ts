@@ -245,7 +245,7 @@ export class Tiles {
   }
 
   get unicode() {
-    return [...this.tiles].sort((a, b) => a.compareTo(b)).map(t => t.unicode).join('');
+    return [...this.tiles].map(t => t.unicode).join('');
   }
 }
 
