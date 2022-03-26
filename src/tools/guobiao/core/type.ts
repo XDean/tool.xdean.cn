@@ -1,5 +1,6 @@
 import assert from 'assert';
 import {contentEquals} from 'common/util/array';
+import {Fan} from './fan';
 import {Tile, TilePoint, TilePoints, TileType, TileTypes} from './tile';
 
 
@@ -33,6 +34,27 @@ export class Tiles {
     } else {
       this.tiles = tiles;
     }
+  }
+
+  static from(str: string) {
+    const tiles: Tile[] = [];
+    let type: TileType = 'z';
+    for (const c of str) {
+      switch (c) {
+        case 'z':
+        case 'b':
+        case 't':
+        case 'w':
+          type = c;
+          break;
+        default:
+          const point = Number(c) as TilePoint;
+          if (!isNaN(point)) {
+            tiles.push(new Tile(type, point));
+          }
+      }
+    }
+    return new Tiles(tiles);
   }
 
   get sorted() {
@@ -383,11 +405,6 @@ export class Combination {
   toString() {
     return this.mians.sort((a, b) => a.toString() > b.toString() ? 1 : -1).map(e => e.toString()).join(' ');
   }
-}
-
-export interface Fan {
-  readonly score: number
-  readonly name: string
 }
 
 export class Hu {

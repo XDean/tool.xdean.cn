@@ -1,19 +1,20 @@
 import Image from 'next/image';
 import tiles from 'public/tool/guobiao/tiles.webp';
-import { useMemo } from 'react';
-import { Tile } from 'src/tools/guobiao/core/tile';
-import useWindowDimensions from '../../../../common/util/hook';
-import { notSSR } from '../../../../common/util/react';
+import {useMemo} from 'react';
+import {Tile} from 'src/tools/guobiao/core/tile';
+import useWindowDimensions from '../../../../../common/util/hook';
+import {notSSR} from '../../../../../common/util/react';
 
 type Props = {
   tile: Tile | null
   onClick?: () => void
+  scale?: number
 }
 
 export const TileView = notSSR((props: Props) => {
-  const {tile, onClick} = props;
+  const {tile, onClick, scale = 1} = props;
   const {clientWidth} = useWindowDimensions();
-  const width = Math.max(32, Math.min(64, (clientWidth - 100) / 9));
+  const width = Math.max(32, Math.min(48, (clientWidth - 100) / 9)) * scale;
   const height = width * 1.44;
 
 

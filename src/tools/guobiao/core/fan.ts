@@ -1,6 +1,6 @@
 import assert from 'assert';
 import {Tile, TileNumberTypes, TilePoint, TileType, TileTypes} from './tile';
-import {Combination, Dui, Fan, Hand, Ke, QiDui, Shun, Tiles} from './type';
+import {Combination, Dui, Hand, Ke, QiDui, Shun, Tiles} from './type';
 
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
   assert(comb.toTiles.length === 14, '和牌必须14张');
@@ -42,11 +42,11 @@ export function calcFan(hand: Hand, comb: Combination): Fan[] {
   return res;
 }
 
-export const ALL_FANS: FanCalc[] = [];
+export const ALL_FANS: Fan[] = [];
 
 type FanExclude = Fan | ((fans: Fan[], comb: Combination, hand: Hand) => Fan[])
 
-class FanCalc implements Fan {
+export class Fan {
   readonly name: string;
   readonly score: number;
   readonly match: (comb: Combination, hand: Hand) => boolean | number;
@@ -75,7 +75,7 @@ class FanCalc implements Fan {
 
 }
 
-export const YiBanGao = new FanCalc({
+export const YiBanGao = new Fan({
   score: 1,
   name: '一般高',
   match: c => {
@@ -92,7 +92,7 @@ export const YiBanGao = new FanCalc({
   sample: [{hand: Hand.create('b334455t666w345z33')}],
 });
 
-export const XiXiangFeng = new FanCalc({
+export const XiXiangFeng = new Fan({
   score: 1,
   name: '喜相逢',
   match: c => {
@@ -110,7 +110,7 @@ export const XiXiangFeng = new FanCalc({
   sample: [{hand: Hand.create('w678b678222w11199')}],
 });
 
-export const LianLiu = new FanCalc({
+export const LianLiu = new Fan({
   score: 1,
   name: '连六',
   match: c => {
@@ -128,7 +128,7 @@ export const LianLiu = new FanCalc({
   sample: [{hand: Hand.create('t345678b999w999t11')}],
 });
 
-export const LaoShaoFu = new FanCalc({
+export const LaoShaoFu = new Fan({
   score: 1,
   name: '老少副',
   match: c => {
@@ -146,35 +146,35 @@ export const LaoShaoFu = new FanCalc({
   sample: [{hand: Hand.create('t123w999b999t789z55')}],
 });
 
-export const YaoJiuKe = new FanCalc({
+export const YaoJiuKe = new Fan({
   score: 1,
   name: '幺九刻',
   match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.Yao)).length,
   desc: '一、九序数牌或非圈风门风的字牌组成的刻子（或杠）。',
 });
 
-export const MingGang = new FanCalc({
+export const MingGang = new Fan({
   score: 1,
   name: '明杠',
   match: c => c.mians.filter(m => m.type === 'ke' && m.gang && m.open).length === 1,
   desc: '自己有暗刻，碰别人打出的一张相同的牌开杠；或自己抓进一张与碰的明刻相同的牌开杠。',
 });
 
-export const QueYiMen = new FanCalc({
+export const QueYiMen = new Fan({
   score: 1,
   name: '缺一门',
   match: c => TileNumberTypes.filter(t => c.toTiles.filterType(t as TileType).length === 0).length === 1,
   desc: '和牌中缺少一种花色序数牌。',
 });
 
-export const WuZi = new FanCalc({
+export const WuZi = new Fan({
   score: 1,
   name: '无字',
   match: c => c.toTiles.filterType('z').length === 0,
   desc: '和牌中没有字牌。',
 });
 
-export const BianZhang = new FanCalc({
+export const BianZhang = new Fan({
   score: 1,
   name: '边张',
   match: (c, h) => c.getMianWith(h.tiles.last)
@@ -183,7 +183,7 @@ export const BianZhang = new FanCalc({
   desc: '单和123的3及789的7或1233和3、7789和7都为边张。手中有12345和3，56789和7不算和边张。',
 });
 
-export const KanZhang = new FanCalc({
+export const KanZhang = new Fan({
   score: 1,
   name: '坎张',
   match: (c, h) => c.getMianWith(h.tiles.last)
@@ -191,7 +191,7 @@ export const KanZhang = new FanCalc({
   desc: '和2张牌之间的牌，俗称夹张。4556和5也为坎张，手中有45567和6不算坎张。',
 });
 
-export const DanDiaoJiang = new FanCalc({
+export const DanDiaoJiang = new Fan({
   score: 1,
   name: '单钓将',
   match: (c, h) => {
@@ -204,21 +204,21 @@ export const DanDiaoJiang = new FanCalc({
   desc: '钓单张牌作将成和。就像钓鱼一样，一根鱼竿每次只能钓一条鱼，故衍生成为单钓将。而做将的另一张手牌又被称为饵。',
 });
 
-export const ZiMo = new FanCalc({
+export const ZiMo = new Fan({
   score: 1,
   name: '自摸',
   match: (_c, h) => h.option.zimo,
   desc: '自己抓进牌成和牌。',
 });
 
-export const Hua = new FanCalc({
+export const Hua = new Fan({
   score: 1,
   name: '花牌',
   match: (_c, h) => h.option.hua,
   desc: '即春夏秋冬，梅兰竹菊，每花计一分。不计在起和番内，和牌后才能计分。花牌补花成和计自摸分，不计杠上开花。',
 });
 
-export const JianKe = new FanCalc({
+export const JianKe = new Fan({
   score: 2,
   name: '箭刻',
   match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.Y)).length === 1,
@@ -226,7 +226,7 @@ export const JianKe = new FanCalc({
   desc: '由中、发、白3张相同的牌组成的刻子。',
 });
 
-export const QuanFengKe: FanCalc = new FanCalc({
+export const QuanFengKe: Fan = new Fan({
   score: 2,
   name: '圈风刻',
   match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.tile.type === 'z' && m.tile.point === h.option.quanfeng).length === 1,
@@ -236,7 +236,7 @@ export const QuanFengKe: FanCalc = new FanCalc({
   desc: '与圈风相同的风刻。不计幺九刻。',
 });
 
-export const MenFengKe = new FanCalc({
+export const MenFengKe = new Fan({
   score: 2,
   name: '门风刻',
   match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.tile.type === 'z' && m.tile.point === h.option.menfeng).length === 1,
@@ -246,14 +246,14 @@ export const MenFengKe = new FanCalc({
   desc: '与本门风相同的风刻。不计幺九刻。',
 });
 
-export const MenQianQing = new FanCalc({
+export const MenQianQing = new Fan({
   score: 2,
   name: '门前清',
   match: c => c.mians.every(m => !m.open),
   desc: '没有吃、碰、明杠。',
 });
 
-export const PingHu = new FanCalc({
+export const PingHu = new Fan({
   score: 2,
   name: '平和',
   match: c => c.mians.map<number>(m => m.type === 'shun' ? 1 : (m.type === 'zu-he-long' ? 3 : 0))
@@ -264,7 +264,7 @@ export const PingHu = new FanCalc({
   sample: [{hand: Hand.create('t234w678t456b123w11')}],
 });
 
-export const SiGuiYi = new FanCalc({
+export const SiGuiYi = new Fan({
   score: 2,
   name: '四归一',
   match: c => c.toTiles.distinct.tiles.map(t => c.toTiles.count(t)).filter(count => count === 4).length,
@@ -272,7 +272,7 @@ export const SiGuiYi = new FanCalc({
   sample: [{hand: Hand.create('w789t567w999z44433')}],
 });
 
-export const ShuangTongKe = new FanCalc({
+export const ShuangTongKe = new Fan({
   score: 2,
   name: '双同刻',
   match: c => {
@@ -289,7 +289,7 @@ export const ShuangTongKe = new FanCalc({
   sample: [{hand: Hand.create('w555b555t123z44433')}],
 });
 
-export const ShuangAnKe = new FanCalc({
+export const ShuangAnKe = new Fan({
   score: 2,
   name: '双暗刻',
   match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 2,
@@ -297,14 +297,14 @@ export const ShuangAnKe = new FanCalc({
   sample: [{hand: Hand.create('w555t555t123456z33')}],
 });
 
-export const AnGang = new FanCalc({
+export const AnGang = new Fan({
   score: 2,
   name: '暗杠',
   match: c => c.mians.filter(m => m.type === 'ke' && !m.open && m.gang).length === 1,
   desc: '自抓4张相同的牌开杠。',
 });
 
-export const DuanYao = new FanCalc({
+export const DuanYao = new Fan({
   score: 2,
   name: '断幺',
   match: c => Tile.Yao.every(t => c.toTiles.count(t) === 0),
@@ -313,7 +313,7 @@ export const DuanYao = new FanCalc({
 });
 
 
-export const QuanDaiYao = new FanCalc({
+export const QuanDaiYao = new Fan({
   score: 4,
   name: '全带幺',
   match: c => c.mians.every(m => m.simple && m.toTiles.tiles.some(t => t.in(Tile.Yao))),
@@ -321,7 +321,7 @@ export const QuanDaiYao = new FanCalc({
   sample: [{hand: Hand.create('t123w789b111z666t99')}],
 });
 
-export const BuQiuRen = new FanCalc({
+export const BuQiuRen = new Fan({
   score: 4,
   name: '不求人',
   match: (c, h) => h.option.zimo && c.mians.every(m => !m.open && m.type != '13yao'),
@@ -330,7 +330,7 @@ export const BuQiuRen = new FanCalc({
   sample: [{hand: Hand.create('ab2 lw123666789t55', {zimo: true})}],
 });
 
-export const ShuangMingGang = new FanCalc({
+export const ShuangMingGang = new Fan({
   score: 4,
   name: '双明杠',
   match: c => c.mians.filter(m => m.type === 'ke' && m.gang && m.open).length >= 2,
@@ -339,7 +339,7 @@ export const ShuangMingGang = new FanCalc({
   sample: [{hand: Hand.create('gb7w8 lt111z444b44')}],
 });
 
-export const HuJueZhang = new FanCalc({
+export const HuJueZhang = new Fan({
   score: 4,
   name: '和绝张',
   match: (c, h) =>
@@ -349,7 +349,7 @@ export const HuJueZhang = new FanCalc({
 });
 
 
-export const PengPengHu = new FanCalc({
+export const PengPengHu = new Fan({
   score: 6,
   name: '碰碰和',
   match: c => c.mians.filter(m => m.type === 'ke').length === 4,
@@ -357,7 +357,7 @@ export const PengPengHu = new FanCalc({
   sample: [{hand: Hand.create('pb7 w8 lt111z444b44')}],
 });
 
-export const HunYiSe = new FanCalc({
+export const HunYiSe = new Fan({
   score: 6,
   name: '混一色',
   match: c => c.toTiles.distinctTypes.length == 2 && c.toTiles.filterType('z').length > 0,
@@ -365,7 +365,7 @@ export const HunYiSe = new FanCalc({
   sample: [{hand: Hand.create('b123555777999z55')}],
 });
 
-export const SanSeSanBuGao = new FanCalc({
+export const SanSeSanBuGao = new Fan({
   score: 6,
   name: '三色三步高',
   match: c => {
@@ -382,7 +382,7 @@ export const SanSeSanBuGao = new FanCalc({
   sample: [{hand: Hand.create('w567b678t789z55566')}],
 });
 
-export const WuMenQi = new FanCalc({
+export const WuMenQi = new Fan({
   score: 6,
   name: '五门齐',
   match: c => TileTypes.every(t => c.toTiles.filterType(t).length > 0) &&
@@ -392,7 +392,7 @@ export const WuMenQi = new FanCalc({
   sample: [{hand: Hand.create('w123t678b444z44455')}],
 });
 
-export const QuanQiuRen = new FanCalc({
+export const QuanQiuRen = new Fan({
   score: 6,
   name: '全求人',
   match: (c, h) => !h.option.zimo && c.mians.filter(m => m.open).length === 4,
@@ -401,7 +401,7 @@ export const QuanQiuRen = new FanCalc({
   sample: [{hand: Hand.create('ct15 pb3w4 lz33')}],
 });
 
-export const ShuangJianKe = new FanCalc({
+export const ShuangJianKe = new Fan({
   score: 6,
   name: '双箭刻',
   match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.Y)).length === 2,
@@ -410,7 +410,7 @@ export const ShuangJianKe = new FanCalc({
   sample: [{hand: Hand.create('z555666b456w78999')}],
 });
 
-export const MingAnGang = new FanCalc({
+export const MingAnGang = new Fan({
   score: 6,
   name: '明暗杠',
   match: c => c.mians.filter(m => m.type === 'ke' && m.gang).length === 2 &&
@@ -420,7 +420,7 @@ export const MingAnGang = new FanCalc({
   sample: [{hand: Hand.create('ab7 gw8 lt111z33344')}],
 });
 
-export const HuaLong = new FanCalc({
+export const HuaLong = new Fan({
   score: 8,
   name: '花龙',
   match: c => {
@@ -437,7 +437,7 @@ export const HuaLong = new FanCalc({
   sample: [{hand: Hand.create('b123w456t789z44455')}],
 });
 
-export const TuiBuDao = new FanCalc({
+export const TuiBuDao = new Fan({
   score: 8,
   name: '推不到',
   match: c => c.toTiles.allIn(Tile.TuiBuDao),
@@ -446,7 +446,7 @@ export const TuiBuDao = new FanCalc({
   sample: [{hand: Hand.create('b234555t456z777b11')}],
 });
 
-export const SanSeSanTongShun = new FanCalc({
+export const SanSeSanTongShun = new Fan({
   score: 8,
   name: '三色三同顺',
   match: c => {
@@ -464,7 +464,7 @@ export const SanSeSanTongShun = new FanCalc({
   sample: [{hand: Hand.create('b789w789t789z55566')}],
 });
 
-export const SanSeSanJieGao = new FanCalc({
+export const SanSeSanJieGao = new Fan({
   score: 8,
   name: '三色三节高',
   match: c => {
@@ -481,7 +481,7 @@ export const SanSeSanJieGao = new FanCalc({
   sample: [{hand: Hand.create('w444b555t666z55566')}],
 });
 
-export const WuFanHu = new FanCalc({
+export const WuFanHu = new Fan({
   score: 8,
   name: '无番和',
   match: _ => false,
@@ -489,7 +489,7 @@ export const WuFanHu = new FanCalc({
   sample: [{hand: Hand.create('cb2 lt345w888z11t789')}],
 });
 
-export const MiaoShouHuiChun = new FanCalc({
+export const MiaoShouHuiChun = new Fan({
   score: 8,
   name: '妙手回春',
   match: (_c, h) => h.option.lastTile && h.option.zimo,
@@ -497,14 +497,14 @@ export const MiaoShouHuiChun = new FanCalc({
   desc: '自摸牌墙上最后一张牌和牌。不计自摸。',
 });
 
-export const HaiDiLaoYue = new FanCalc({
+export const HaiDiLaoYue = new Fan({
   score: 8,
   name: '海底捞月',
   match: (_c, h) => h.option.lastTile && !h.option.zimo,
   desc: '和本局打出的最后一张牌。',
 });
 
-export const GangShangKaiHua = new FanCalc({
+export const GangShangKaiHua = new Fan({
   score: 8,
   name: '杠上开花',
   match: (c, h) => h.option.gangShang && h.option.zimo &&
@@ -513,7 +513,7 @@ export const GangShangKaiHua = new FanCalc({
   desc: '开杠抓进的牌成和牌。',
 });
 
-export const QiangGangHu = new FanCalc({
+export const QiangGangHu = new Fan({
   score: 8,
   name: '抢杠和',
   match: (c, h) => h.option.gangShang && !h.option.zimo &&
@@ -522,7 +522,7 @@ export const QiangGangHu = new FanCalc({
   desc: '和别人加杠的牌。不计和绝张。',
 });
 
-export const ShuangAnGang = new FanCalc({
+export const ShuangAnGang = new Fan({
   score: 8,
   name: '双暗杠',
   match: c => c.mians.filter(m => m.type === 'ke' && !m.open && m.gang).length === 2,
@@ -531,7 +531,7 @@ export const ShuangAnGang = new FanCalc({
   sample: [{hand: Hand.create('ab7w8 lt111z444b44')}],
 });
 
-export const QuanBuKao = new FanCalc({
+export const QuanBuKao = new Fan({
   score: 12,
   name: '全不靠',
   match: c => c.mians.filter(m => m.type === 'bu-kao').length === 1,
@@ -540,7 +540,7 @@ export const QuanBuKao = new FanCalc({
   sample: [{hand: Hand.create('w147b258t36z123567')}],
 });
 
-export const ZuHeLongFan = new FanCalc({
+export const ZuHeLongFan = new Fan({
   score: 12,
   name: '组合龙',
   match: c => {
@@ -554,7 +554,7 @@ export const ZuHeLongFan = new FanCalc({
   sample: [{hand: Hand.create('w147b258t369w555z44')}],
 });
 
-export const DaYuWu = new FanCalc({
+export const DaYuWu = new Fan({
   score: 12,
   name: '大于五',
   match: c => c.toTiles.tiles.every(t => t.type !== 'z' && t.point > 5),
@@ -563,7 +563,7 @@ export const DaYuWu = new FanCalc({
   sample: [{hand: Hand.create('b777888t678w789b66')}],
 });
 
-export const XiaoYuWu = new FanCalc({
+export const XiaoYuWu = new Fan({
   score: 12,
   name: '小于五',
   match: c => c.toTiles.tiles.every(t => t.type !== 'z' && t.point < 5),
@@ -572,7 +572,7 @@ export const XiaoYuWu = new FanCalc({
   sample: [{hand: Hand.create('b222333t234w123b44')}],
 });
 
-export const SanFengKe = new FanCalc({
+export const SanFengKe = new Fan({
   score: 12,
   name: '三风刻',
   match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.F)).length === 3,
@@ -581,7 +581,7 @@ export const SanFengKe = new FanCalc({
   sample: [{hand: Hand.create('z111222333w567t99')}],
 });
 
-export const QingLong = new FanCalc({
+export const QingLong = new Fan({
   score: 16,
   name: '清龙',
   match: c => {
@@ -598,7 +598,7 @@ export const QingLong = new FanCalc({
   sample: [{hand: Hand.create('w123456789z22233')}],
 });
 
-export const SanSesHuangLongHui = new FanCalc({
+export const SanSesHuangLongHui = new Fan({
   score: 16,
   name: '三色双龙会',
   match: c => {
@@ -624,7 +624,7 @@ export const SanSesHuangLongHui = new FanCalc({
   sample: [{hand: Hand.create('w123789t123789b55')}],
 });
 
-export const YiSeSanBuGao = new FanCalc({
+export const YiSeSanBuGao = new Fan({
   score: 16,
   name: '一色三步高',
   match: c => {
@@ -641,7 +641,7 @@ export const YiSeSanBuGao = new FanCalc({
   sample: [{hand: Hand.create('t345456567z55566')}],
 });
 
-export const QuanDaiWu = new FanCalc({
+export const QuanDaiWu = new Fan({
   score: 16,
   name: '全带五',
   match: c => c.mians.every(m => m.simple && m.toTiles.tiles.some(t => t.type !== 'z' && t.point === 5)),
@@ -650,7 +650,7 @@ export const QuanDaiWu = new FanCalc({
   sample: [{hand: Hand.create('b555t345w567b456w55')}],
 });
 
-export const SanTongKe = new FanCalc({
+export const SanTongKe = new Fan({
   score: 16,
   name: '三同刻',
   match: c => {
@@ -667,7 +667,7 @@ export const SanTongKe = new FanCalc({
   sample: [{hand: Hand.create('b666t666w666z55566')}],
 });
 
-export const SanAnKe = new FanCalc({
+export const SanAnKe = new Fan({
   score: 16,
   name: '三暗刻',
   match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 3,
@@ -675,7 +675,7 @@ export const SanAnKe = new FanCalc({
   sample: [{hand: Hand.create('b11133355567899')}],
 });
 
-export const QiDuiFan = new FanCalc({
+export const QiDuiFan = new Fan({
   score: 24,
   name: '七对',
   match: c => c.mians.filter(m => m.type === 'qi-dui').length === 1,
@@ -684,7 +684,7 @@ export const QiDuiFan = new FanCalc({
   sample: [{hand: Hand.create('t114455w6677z5566')}],
 });
 
-export const QiXingBuKao = new FanCalc({
+export const QiXingBuKao = new Fan({
   score: 24,
   name: '七星不靠',
   match: c => c.mians.filter(m => m.type === 'bu-kao').length === 1 && c.toTiles.contains(Tile.Z),
@@ -693,7 +693,7 @@ export const QiXingBuKao = new FanCalc({
   sample: [{hand: Hand.create('w147b258t3z1234567')}],
 });
 
-export const QuanShuangKe = new FanCalc({
+export const QuanShuangKe = new Fan({
   score: 24,
   name: '全双刻',
   match: c => c.mians.filter(m => m.type === 'ke' && m.tile.point % 2 === 0).length === 4 &&
@@ -703,7 +703,7 @@ export const QuanShuangKe = new FanCalc({
   sample: [{hand: Hand.create('t222b444w222888t44')}],
 });
 
-export const QingYiSe = new FanCalc({
+export const QingYiSe = new Fan({
   score: 24,
   name: '清一色',
   match: c => c.toTiles.filterType().length === 14 && c.toTiles.filterType('z').length === 0,
@@ -712,7 +712,7 @@ export const QingYiSe = new FanCalc({
   sample: [{hand: Hand.create('w12323455578922')}],
 });
 
-export const YiSeSanTongShun = new FanCalc({
+export const YiSeSanTongShun = new Fan({
   score: 24,
   name: '一色三同顺',
   match: c => {
@@ -729,7 +729,7 @@ export const YiSeSanTongShun = new FanCalc({
   sample: [{hand: Hand.create('tc4 l456456w678z33')}],
 });
 
-export const YiSeSanJieGao = new FanCalc({
+export const YiSeSanJieGao = new Fan({
   score: 24,
   name: '一色三节高',
   match: c => {
@@ -745,7 +745,7 @@ export const YiSeSanJieGao = new FanCalc({
   sample: [{hand: Hand.create('tp4 l555666w678z33')}],
 });
 
-export const QuanDa = new FanCalc({
+export const QuanDa = new Fan({
   score: 24,
   name: '全大',
   match: c => c.toTiles.tiles.every(t => t.type !== 'z' && t.point >= 7),
@@ -754,7 +754,7 @@ export const QuanDa = new FanCalc({
   sample: [{hand: Hand.create('b777888t789w789b99')}],
 });
 
-export const QuanZhong = new FanCalc({
+export const QuanZhong = new Fan({
   score: 24,
   name: '全中',
   match: c => c.toTiles.tiles.every(t => t.type !== 'z' && t.point >= 4 && t.point <= 6),
@@ -763,7 +763,7 @@ export const QuanZhong = new FanCalc({
   sample: [{hand: Hand.create('b555666t456w456b44')}],
 });
 
-export const QuanXiao = new FanCalc({
+export const QuanXiao = new Fan({
   score: 24,
   name: '全小',
   match: c => c.toTiles.tiles.every(t => t.type !== 'z' && t.point <= 3),
@@ -773,7 +773,7 @@ export const QuanXiao = new FanCalc({
 });
 
 
-export const YiSeSiBuGao = new FanCalc({
+export const YiSeSiBuGao = new Fan({
   score: 32,
   name: '一色四步高',
   match: c => {
@@ -788,7 +788,7 @@ export const YiSeSiBuGao = new FanCalc({
   ],
 });
 
-export const SanGang = new FanCalc({
+export const SanGang = new Fan({
   score: 32,
   name: '三杠',
   match: c => c.mians.filter(m => m.type === 'ke' && m.gang).length >= 3,
@@ -800,7 +800,7 @@ export const SanGang = new FanCalc({
   }],
 });
 
-export const HunYaoJiu = new FanCalc({
+export const HunYaoJiu = new Fan({
   score: 32,
   name: '混幺九',
   match: c => {
@@ -814,7 +814,7 @@ export const HunYaoJiu = new FanCalc({
   sample: [{hand: Hand.create('t111999w111z55566')}],
 });
 
-export const YiSeSiTongShun = new FanCalc({
+export const YiSeSiTongShun = new Fan({
   score: 48,
   name: '一色四同顺',
   match: c => {
@@ -826,7 +826,7 @@ export const YiSeSiTongShun = new FanCalc({
   sample: [{hand: Hand.create('t678678678678z55')}],
 });
 
-export const YiSeSiJieGao = new FanCalc({
+export const YiSeSiJieGao = new Fan({
   score: 48,
   name: '一色四节高',
   match: c => {
@@ -838,7 +838,7 @@ export const YiSeSiJieGao = new FanCalc({
   sample: [{hand: Hand.create('w111222333444z55')}],
 });
 
-export const QingYaoJiu = new FanCalc({
+export const QingYaoJiu = new Fan({
   score: 64,
   name: '清幺九',
   match: c => c.toTiles.allIn(Tile.YaoJiu),
@@ -847,7 +847,7 @@ export const QingYaoJiu = new FanCalc({
   sample: [{hand: Hand.create('t111 b111999 w11199')}],
 });
 
-export const XiaoSiXi = new FanCalc({
+export const XiaoSiXi = new Fan({
   score: 64,
   name: '小四喜',
   match: c => c.toTiles.filterTiles(Tile.F).length === 11,
@@ -856,7 +856,7 @@ export const XiaoSiXi = new FanCalc({
   sample: [{hand: Hand.create('w555z11122233344')}],
 });
 
-export const XiaoSanYuan = new FanCalc({
+export const XiaoSanYuan = new Fan({
   score: 64,
   name: '小三元',
   match: c => c.toTiles.filterTiles(Tile.Y).length === 8 && c.mians.filter(m => m.type === 'qi-dui').length === 0,
@@ -865,7 +865,7 @@ export const XiaoSanYuan = new FanCalc({
   sample: [{hand: Hand.create('b555t678z55566677')}],
 });
 
-export const ZiYiSe = new FanCalc({
+export const ZiYiSe = new Fan({
   score: 64,
   name: '字一色',
   match: c => c.toTiles.filterType('z').length === 14,
@@ -874,7 +874,7 @@ export const ZiYiSe = new FanCalc({
   sample: [{hand: Hand.create('z11122255566644')}],
 });
 
-export const SiAnKe = new FanCalc({
+export const SiAnKe = new Fan({
   score: 64,
   name: '四暗刻',
   match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 4,
@@ -883,7 +883,7 @@ export const SiAnKe = new FanCalc({
   sample: [{hand: Hand.create('w11122244455566')}],
 });
 
-export const YiSeShuangLong = new FanCalc({
+export const YiSeShuangLong = new Fan({
   score: 64,
   name: '一色双龙会',
   match: c => {
@@ -895,7 +895,7 @@ export const YiSeShuangLong = new FanCalc({
   sample: [{hand: Hand.create('w11223377889955')}],
 });
 
-export const DaSiXi = new FanCalc({
+export const DaSiXi = new Fan({
   score: 88,
   name: '大四喜',
   match: c => c.hasKe(Tile.F),
@@ -904,7 +904,7 @@ export const DaSiXi = new FanCalc({
   sample: [{hand: Hand.create('z111222333444b88')}],
 });
 
-export const DaSanYuan = new FanCalc({
+export const DaSanYuan = new Fan({
   score: 88,
   name: '大三元',
   match: c => c.hasKe(Tile.Y),
@@ -913,7 +913,7 @@ export const DaSanYuan = new FanCalc({
   sample: [{hand: Hand.create('z555666777 t12344')}],
 });
 
-export const LvYiSe = new FanCalc({
+export const LvYiSe = new Fan({
   score: 88,
   name: '绿一色',
   match: c => c.toTiles.allIn(Tile.Lv),
@@ -925,7 +925,7 @@ export const LvYiSe = new FanCalc({
   }],
 });
 
-export const JiuLianBaoDeng = new FanCalc({
+export const JiuLianBaoDeng = new Fan({
   score: 88,
   name: '九莲宝灯',
   match: (c, h) => {
@@ -942,7 +942,7 @@ export const JiuLianBaoDeng = new FanCalc({
   }],
 });
 
-export const SiGang = new FanCalc({
+export const SiGang = new Fan({
   score: 88,
   name: '四杠',
   match: c => c.mians.filter(m => m.type === 'ke' && m.gang).length === 4,
@@ -960,7 +960,7 @@ export const SiGang = new FanCalc({
   ],
 });
 
-export const LianQiDui = new FanCalc({
+export const LianQiDui = new Fan({
   score: 88,
   name: '连七对',
   match: c => {
@@ -979,7 +979,7 @@ export const LianQiDui = new FanCalc({
   }],
 });
 
-export const ShiSanYao = new FanCalc({
+export const ShiSanYao = new Fan({
   score: 88,
   name: '十三幺',
   match: c => c.mians.filter(m => m.type === '13yao').length === 1,

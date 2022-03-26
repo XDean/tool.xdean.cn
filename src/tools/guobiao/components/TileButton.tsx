@@ -1,6 +1,6 @@
 import {Tile} from '../core/tile';
 import clsx from 'clsx';
-import {TileView} from './Tile';
+import {TileView} from './unit/Tile';
 import React from 'react';
 
 type Props = {

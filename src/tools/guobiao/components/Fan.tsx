@@ -1,11 +1,12 @@
-import { Loader } from '@mantine/core';
-import { Fragment } from 'react';
-import { calcHuBest } from 'src/tools/guobiao/core/hu';
-import { Tile } from 'src/tools/guobiao/core/tile';
-import { calcTing } from 'src/tools/guobiao/core/ting';
-import { Fan, Hand, Hu } from 'src/tools/guobiao/core/type';
-import { useSWROnce } from '../../../../common/util/swr';
-import { TileView } from './Tile';
+import {Loader} from '@mantine/core';
+import {Fragment} from 'react';
+import {calcHuBest} from 'src/tools/guobiao/core/hu';
+import {Tile} from 'src/tools/guobiao/core/tile';
+import {calcTing} from 'src/tools/guobiao/core/ting';
+import {Hand, Hu} from 'src/tools/guobiao/core/type';
+import {useSWROnce} from '../../../../common/util/swr';
+import {TileView} from './unit/Tile';
+import {Fan} from '../core/fan';
 
 export const FanView = ({hand}: { hand: Hand }) => {
   const result = useSWROnce(['guobiao:hu', hand], {
