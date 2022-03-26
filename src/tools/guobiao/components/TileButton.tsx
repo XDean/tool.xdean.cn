@@ -12,7 +12,7 @@ type Props<T extends Tile | Ming> = {
   disable?: boolean
 }
 
-export const TileButton = React.memo(<T extends Tile | Ming, >(props: Props<T>) => {
+export const TileButton = <T extends Tile | Ming, >(props: Props<T>) => {
   const {tile, disable = false, onClick, className} = props;
   return (
     <div
@@ -27,4 +27,4 @@ export const TileButton = React.memo(<T extends Tile | Ming, >(props: Props<T>) 
       </div>
     </div>
   );
-});
+};
