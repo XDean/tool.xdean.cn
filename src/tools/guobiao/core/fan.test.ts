@@ -1,5 +1,6 @@
 import {expect, test} from '@jest/globals';
 import {
+  ALL_FANS,
   AnGang,
   BianZhang,
   BuQiuRen,
@@ -102,6 +103,7 @@ import {
   Yao13,
   ZuHeLong,
 } from './type';
+import {calcHuBest} from './hu';
 
 
 function expectFan(
@@ -128,11 +130,25 @@ function expectFan(
 
     const hand = new Hand(new Tiles([...others, last]).split(last)[0], [...shuns, ...pengs, ...gangs], options);
     const comb = new Combination(mians);
-    log(name || fans[0].name, comb.toTiles.unicode);
+    log(name || fans[0].name, hand.toUnicode());
     const calcFans = calcFan(hand, comb);
     expect(calcFans.map(f => f.name).sort()).toEqual(fans.map(f => f.name).sort());
   });
 }
+
+describe('Fan should contains self', () => {
+  for (const f of ALL_FANS) {
+    if (f.sample) {
+      it(`${f.name}`, function () {
+        f.sample!.forEach(s => {
+          const hu = calcHuBest(s.hand);
+          console.log(s.hand.toUnicode(), hu?.fans.map(e => e.name).join(','));
+          expect(hu?.fans.map(e => e.name)).toContain(f.name);
+        });
+      });
+    }
+  }
+});
 
 expectFan({
   mians: [

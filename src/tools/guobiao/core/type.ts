@@ -1,6 +1,6 @@
 import assert from 'assert';
-import { contentEquals } from 'common/util/array';
-import { Tile, TilePoint, TilePoints, TileType, TileTypes } from './tile';
+import {contentEquals} from 'common/util/array';
+import {Tile, TilePoint, TilePoints, TileType, TileTypes} from './tile';
 
 
 export type Options = {
@@ -273,6 +273,55 @@ export class Hand {
     };
   }
 
+  static create(str: string, option?: Partial<Options>) {
+    const tiles: Tile[] = [];
+    const mings: Ming[] = [];
+    let mode: 'c' | 'p' | 'g' | 'a' | 'l' = 'l';
+    let type: TileType = 'z';
+    for (const c of str) {
+      switch (c) {
+        case 'c':
+        case 'p':
+        case 'g':
+        case 'a': // 暗杠
+        case 'l':
+          mode = c;
+          break;
+        case 'z':
+        case 'b':
+        case 't':
+        case 'w':
+          type = c;
+          break;
+        case ' ':
+          break;
+        default:
+          const point = Number(c) as TilePoint;
+          if (!isNaN(point)) {
+            const tile = new Tile(type, point);
+            switch (mode) {
+              case 'c':
+                mings.push(new Chi(tile));
+                break;
+              case 'p':
+                mings.push(new Peng(tile));
+                break;
+              case 'g':
+                mings.push(new Gang(tile, true));
+                break;
+              case 'a':
+                mings.push(new Gang(tile, false));
+                break;
+              case 'l':
+                tiles.push(tile);
+                break;
+            }
+          }
+      }
+    }
+    return new Hand(new Tiles(tiles), mings, option);
+  }
+
   get count() {
     return this.tiles.length + 3 * this.mings.length;
   }
@@ -286,6 +335,10 @@ export class Hand {
     const mingTiles = this.mings.flatMap(m => m.toMian().toTiles.tiles);
     const gangTiles = this.mings.filter(m => m.type === 'gang').map(m => (m as Gang).tile);
     return new Tiles([...mingTiles, ...gangTiles, ...this.tiles.tiles]);
+  }
+
+  toUnicode() {
+    return this.mings.map(e => e.toUnicode()).join(' ') + ' ' + this.tiles.withoutLast.unicode + ' ' + this.tiles.last.unicode;
   }
 
   copy = () => new Hand(new Tiles(this.tiles), [...this.mings], {...this.option});
@@ -307,7 +360,7 @@ export class Combination {
     for (let tile of tiles) {
       let found = false;
       for (let mian of this.mians) {
-        if (mian.type === 'ke' && mian.tile === tile) {
+        if (mian.type === 'ke' && mian.tile.equals(tile)) {
           found = true;
           break;
         }
@@ -357,6 +410,10 @@ export class Chi {
   ) {
   }
 
+  toUnicode() {
+    return this.toMian().toTiles.unicode;
+  }
+
   toMian = () => new Shun(this.tile, true);
 }
 
@@ -366,6 +423,10 @@ export class Peng {
   constructor(
     readonly tile: Tile,
   ) {
+  }
+
+  toUnicode() {
+    return this.tile.unicode.repeat(3);
   }
 
   toMian = () => new Ke(this.tile, true);
@@ -379,6 +440,15 @@ export class Gang {
     readonly tile: Tile,
     readonly open: boolean,
   ) {
+  }
+
+  toUnicode() {
+    if (this.open) {
+      return this.tile.unicode.repeat(4);
+    } else {
+      const u = this.tile.unicode;
+      return `${u}🀫🀫${u}`;
+    }
   }
 
   toMian = () => new Ke(this.tile, this.open, true);

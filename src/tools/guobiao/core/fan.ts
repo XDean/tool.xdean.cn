@@ -5,7 +5,7 @@ import {Combination, Dui, Fan, Hand, Ke, QiDui, Shun, Tiles} from './type';
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
   assert(comb.toTiles.length === 14, '和牌必须14张');
   const res: Fan[] = [];
-  for (let fan of allFans) {
+  for (let fan of ALL_FANS) {
     let match = fan.match(comb, hand);
     if (match) {
       if (match === true) {
@@ -42,7 +42,7 @@ export function calcFan(hand: Hand, comb: Combination): Fan[] {
   return res;
 }
 
-const allFans: FanCalc[] = [];
+export const ALL_FANS: FanCalc[] = [];
 
 type FanExclude = Fan | ((fans: Fan[], comb: Combination, hand: Hand) => Fan[])
 
@@ -51,6 +51,8 @@ class FanCalc implements Fan {
   readonly score: number;
   readonly match: (comb: Combination, hand: Hand) => boolean | number;
   readonly exclude?: FanExclude[];
+  readonly desc: string;
+  readonly sample?: { hand: Hand, desc?: string }[];
 
   constructor(
     props: {
@@ -58,13 +60,17 @@ class FanCalc implements Fan {
       score: number;
       match(comb: Combination, hand: Hand): boolean | number
       exclude?: FanExclude[]
+      desc?: string
+      sample?: { hand: Hand, desc?: string }[]
     },
   ) {
     this.name = props.name;
     this.score = props.score;
     this.match = props.match;
     this.exclude = props.exclude;
-    allFans.push(this);
+    this.desc = props.desc || '';
+    this.sample = props.sample;
+    ALL_FANS.push(this);
   }
 
 }
@@ -759,6 +765,8 @@ export const DaSiXi = new FanCalc({
   name: '大四喜',
   match: c => c.hasKe(Tile.F),
   exclude: [QuanFengKe, MenFengKe, SanFengKe, PengPengHu, QuanDaiYao],
+  desc: '由4副风刻（杠）组成的和牌。不计圈风刻、门风刻、三风刻、碰碰和。',
+  sample: [{hand: Hand.create('pz123 l444b88')}],
 });
 
 export const DaSanYuan = new FanCalc({
@@ -766,6 +774,8 @@ export const DaSanYuan = new FanCalc({
   name: '大三元',
   match: c => c.hasKe(Tile.Y),
   exclude: [JianKe, ShuangJianKe, YaoJiuKe, YaoJiuKe, YaoJiuKe],
+  desc: '和牌中，有中发白3副刻子。不计箭刻、双箭刻。',
+  sample: [{hand: Hand.create('pz567 lt12344')}],
 });
 
 export const LvYiSe = new FanCalc({
@@ -773,6 +783,11 @@ export const LvYiSe = new FanCalc({
   name: '绿一色',
   match: c => c.toTiles.allIn(Tile.Lv),
   exclude: [HunYiSe],
+  desc: '由23468条及发字中的任何牌组成的顺子、刻子、将的和牌。可计混一色、清一色。',
+  sample: [{
+    hand: Hand.create('t223344666888z66'),
+    desc: '另计混一色',
+  }],
 });
 
 export const JiuLianBaoDeng = new FanCalc({
@@ -785,6 +800,11 @@ export const JiuLianBaoDeng = new FanCalc({
       tiles.split(last)[0].equals([1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9].map(p => new Tile(last.type, p as TilePoint)));
   },
   exclude: [QingYiSe, MenQianQing, YaoJiuKe],
+  desc: '由一种花色序数牌按1112345678999组成的特定牌型，见同花色任何1张序数牌即成和牌。不计清一色、门前清、幺九刻。',
+  sample: [{
+    hand: Hand.create('w11123456789999'),
+    desc: '听9张牌。',
+  }],
 });
 
 export const SiGang = new FanCalc({
@@ -792,6 +812,17 @@ export const SiGang = new FanCalc({
   name: '四杠',
   match: c => c.mians.filter(m => m.type === 'ke' && m.gang).length === 4,
   exclude: [PengPengHu, DanDiaoJiang, SanGang],
+  desc: '4个杠。不计碰碰和、单钓将。',
+  sample: [
+    {
+      hand: Hand.create('a-w258-t4 l66'),
+      desc: '另计四暗刻',
+    },
+    {
+      hand: Hand.create('a-w258 gt4 l66'),
+      desc: '另计三暗刻',
+    },
+  ],
 });
 
 export const LianQiDui = new FanCalc({
@@ -807,6 +838,10 @@ export const LianQiDui = new FanCalc({
     return tiles.last.type !== 'z' && tiles.length === 7 && tiles.maxPointTile.point - tiles.minPointTile.point === 6;
   },
   exclude: [QiDuiFan, QingYiSe, MenQianQing, DanDiaoJiang],
+  desc: '由一种花色序数牌组成序数相连的7个对子的和牌。不计七对、清一色、门前清、单钓将。',
+  sample: [{
+    hand: Hand.create('w11223344556677'),
+  }],
 });
 
 export const ShiSanYao = new FanCalc({
@@ -814,4 +849,15 @@ export const ShiSanYao = new FanCalc({
   name: '十三幺',
   match: c => c.mians.filter(m => m.type === '13yao').length === 1,
   exclude: [WuMenQi, MenQianQing, HunYaoJiu],
+  desc: '由3种序数牌的一、九牌，7种字牌及其中一对作将组成的和牌。不计五门齐、门前清、单钓将。',
+  sample: [
+    {
+      hand: Hand.create('t19 b19 w19 z12345677'),
+      desc: '听1张牌，点和或自摸[w9]。',
+    },
+    {
+      hand: Hand.create('t19 b19 w19 z12345677'),
+      desc: '听13张牌，可和任意一九及字牌。',
+    },
+  ],
 });
