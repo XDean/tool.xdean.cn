@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { Hand } from 'src/tools/guobiao/core/type';
-import { TileButton } from './TileButton';
+import {Hand} from 'src/tools/guobiao/core/type';
+import {TileButton} from './TileButton';
 
 type Props = {
   hand: Hand,
@@ -8,13 +8,13 @@ type Props = {
   onTileClick: (index: number) => void,
 };
 
-export const HandView = (props: Props) => {
+export const HandMainView = (props: Props) => {
   const {hand, onTileClick, onMingClick} = props;
   return (
     <div className={''}>
       <div className={'flex flex-wrap justify-center'}>
         {hand.mings.map((m, i) => (
-          <TileButton tile={m.toMian().toTiles.tiles}
+          <TileButton tile={m}
                       className={'mx-2 my-1'}
                       onClick={() => onMingClick(i)}/>
         ))}

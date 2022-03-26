@@ -7,12 +7,11 @@ import {notSSR} from '../../../../../common/util/react';
 
 type Props = {
   tile: Tile | null
-  onClick?: () => void
   scale?: number
 }
 
 export const TileView = notSSR((props: Props) => {
-  const {tile, onClick, scale = 1} = props;
+  const {tile, scale = 1} = props;
   const {clientWidth} = useWindowDimensions();
   const width = Math.max(32, Math.min(48, (clientWidth - 100) / 9)) * scale;
   const height = width * 1.44;
@@ -36,8 +35,7 @@ export const TileView = notSSR((props: Props) => {
 
   return (
     <div className={'relative overflow-hidden flex'}
-         style={{width: width}}
-         onClick={onClick}>
+         style={{width: width}}>
       <Image src={tiles}
              height={height}
              layout={'fixed'}

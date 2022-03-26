@@ -1,5 +1,5 @@
 import {AllTilesView} from './AllTiles';
-import {HandView} from './Hand';
+import {HandMainView} from './Hand';
 import React, {useCallback, useMemo, useState} from 'react';
 import {Hand, Tiles} from 'src/tools/guobiao/core/type';
 import clsx from 'clsx';
@@ -50,9 +50,9 @@ export const GuoBiaoMainView = () => {
         ))}
       </div>
       <OptionView options={hand.option} onOptionsChange={onOptionsChange}/>
-      <HandView hand={hand}
-                onMingClick={onHandMingClick}
-                onTileClick={onHandTileClick}/>
+      <HandMainView hand={hand}
+                    onMingClick={onHandMingClick}
+                    onTileClick={onHandTileClick}/>
       <hr/>
       <FanView hand={hand}/>
     </div>
