@@ -1,14 +1,16 @@
-import { MantineProvider } from '@mantine/core';
-import { AppProps } from 'next/dist/pages/_app';
+import {MantineProvider} from '@mantine/core';
+import {AppProps} from 'next/dist/pages/_app';
 import Head from 'next/head';
 import '../src/styles/global.css';
 import 'common/css/md.css';
+import {BaiduAnalytics} from '../common/util/analytics/baidu';
 
 function MyApp({Component, pageProps}: AppProps) {
   return (
     <MantineProvider emotionOptions={{key: 'mantine', prepend: false}}>
       <Head>
         <title>XDean的工具箱</title>
+        <BaiduAnalytics id={'98fd9ed93fbb6b403f11e6f54d2210c4'}/>
       </Head>
       <Component {...pageProps}/>
     </MantineProvider>
