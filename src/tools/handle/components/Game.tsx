@@ -30,7 +30,9 @@ export const GameView = observer((props: Props) => {
   };
 
   useEffect(() => {
-    game.useHint = true;
+    if (showHint) {
+      game.useHint = true;
+    }
   }, [showHint]);
 
   return (
