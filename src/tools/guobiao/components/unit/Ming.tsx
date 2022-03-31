@@ -1,5 +1,5 @@
-import {Ming} from '../../core/type';
-import {TilesView} from './Tiles';
+import { Ming } from '../../core/type';
+import { TilesView } from './Tiles';
 
 type Props = {
   value: Ming
@@ -14,7 +14,7 @@ export const MingView = (props: Props) => {
       return <TilesView tiles={value.toMian().toTiles.tiles} scale={scale}/>;
     case 'gang':
       if (value.open) {
-        return <TilesView tiles={value.toMian().toTiles.tiles} scale={scale}/>;
+        return <TilesView tiles={[value.tile, value.tile, value.tile, value.tile]} scale={scale}/>;
       } else {
         return <TilesView
           tiles={[
