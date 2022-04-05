@@ -9,7 +9,7 @@ type Props = PropsWithChildren<{
   meta: Tool
 }>
 
-export const ToolLayout = (props: Props) => {
+export const ToolMetaLayout = (props: Props) => {
   const {children, meta} = props;
   const [open, setOpen] = useState(false);
   return (

@@ -5,6 +5,7 @@ import { formatDuration, getWordPinYin, matchWord } from './util';
 
 export class Game {
 
+  total: number = 10;
   tries: string[] = [];
   startTime: number = new Date().getTime();
   endTime: number = -1;
@@ -21,8 +22,16 @@ export class Game {
     });
   }
 
+  get chanceLeft() {
+    return this.total - this.tries.length;
+  }
+
   get correct() {
     return this.tries.some(e => e === this.answer);
+  }
+
+  get over() {
+    return this.correct || this.chanceLeft <= 0;
   }
 
   guess(word: string) {

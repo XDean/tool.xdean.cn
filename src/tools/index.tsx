@@ -7,6 +7,7 @@ import { Tax } from './tax';
 export type Tool = {
   id: string
   name: string
+  disableLayout?: boolean
   icon: ComponentType
   draft?: boolean
   details?: ComponentType

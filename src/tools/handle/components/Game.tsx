@@ -49,16 +49,27 @@ export const GameView = observer((props: Props) => {
         {game.tries.map((e, i) => (
           <WordView key={i} word={e} target={game.answer}/>
         ))}
-        {game.correct ? (
+        {game.over ? (
           <div className={'flex flex-col items-center space-y-2'}>
-            <div className={'flex flex-rol items-center space-x-4 text-gray-500'}>
-              <div>
-                {game.useHint ? '有提示' : '无提示'}
+            {game.correct ? (
+              <div className={'flex flex-col items-center space-y-2'}>
+                <div className={'flex flex-rol items-center space-x-4 text-gray-500'}>
+                  <div>
+                    {game.useHint ? '有提示' : '无提示'}
+                  </div>
+                  <div>
+                    {game.totalTimeStr}
+                  </div>
+                </div>
               </div>
-              <div>
-                {game.totalTimeStr}
+            ) : (
+              <div className={'space-y-1'}>
+                <div className={'text-center text-gray-500'}>
+                  正确答案
+                </div>
+                <WordView word={game.answer} target={game.answer}/>
               </div>
-            </div>
+            )}
             <Button onClick={onRestart}>
               再来一次
             </Button>
@@ -86,6 +97,9 @@ export const GameView = observer((props: Props) => {
                          }
                        }}
             />
+            <div className={'text-gray-500 text-sm'}>
+              剩余 {game.chanceLeft} 次
+            </div>
             <Button onClick={onConfirm}
                     disabled={acceptedInput.length !== 4}>
               确认
