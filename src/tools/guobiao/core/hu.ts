@@ -18,7 +18,8 @@ export function calcHu(hand: Hand): Hu[] {
   const result = [];
   for (let comb of findAllCombinations(hand.tiles)) {
     const completeComb = mingComb.with(...comb.mians);
-    result.push(new Hu(completeComb, calcFan(hand, completeComb)));
+    const fans = calcFan(hand, completeComb);
+    result.push(new Hu(completeComb, fans));
   }
   return result;
 }

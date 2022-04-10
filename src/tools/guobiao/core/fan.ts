@@ -1,12 +1,15 @@
 import assert from 'assert';
 import { Tile, TileNumberTypes, TilePoint, TileType, TileTypes } from './tile';
 import { Combination, Dui, Hand, Ke, QiDui, Shun, Tiles } from './type';
+import { calcTing } from './ting';
 
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
   assert(comb.toTiles.length === 14, '和牌必须14张');
+  const withoutLast = hand.tiles.withoutLast;
+  const tings = calcTing(withoutLast);
   const res: Fan[] = [];
   for (let fan of ALL_FANS) {
-    let match = fan.match(comb, hand);
+    let match = fan.match(comb, hand, tings);
     if (match) {
       if (match === true) {
         match = 1;
@@ -49,7 +52,7 @@ type FanExclude = Fan | ((fans: Fan[], comb: Combination, hand: Hand) => Fan[])
 export class Fan {
   readonly name: string;
   readonly score: number;
-  readonly match: (comb: Combination, hand: Hand) => boolean | number;
+  readonly match: (comb: Combination, hand: Hand, tings: Tile[]) => boolean | number;
   readonly exclude?: FanExclude[];
   readonly desc: string;
   readonly sample?: { hand: Hand, desc?: string }[];
@@ -58,7 +61,7 @@ export class Fan {
     props: {
       name: string;
       score: number;
-      match(comb: Combination, hand: Hand): boolean | number
+      match(comb: Combination, hand: Hand, tings: Tile[]): boolean | number
       exclude?: FanExclude[]
       desc?: string
       sample?: { hand: Hand, desc?: string }[]
@@ -177,35 +180,30 @@ export const WuZi = new Fan({
 export const BianZhang = new Fan({
   score: 1,
   name: '边张',
-  match: (c, h) => c.getMianWith(h.tiles.last)
-    .some(m => !m.open && m.type === 'shun' &&
-      ((m.tile.point === 1 && h.tiles.last.point === 3) || (m.tile.point === 7 && h.tiles.last.point === 7))),
+  match: (c, h, ts) =>
+    ts.length === 1 && (h.tiles.last.point === 3 || h.tiles.last.point === 7) && c.getMianWith(h.tiles.last)
+      .some(m => !m.open && m.type === 'shun' && (m.tile.point === 1 || m.tile.point === 9)),
   desc: '单和123的3及789的7或1233和3、7789和7都为边张。手中有12345和3，56789和7不算和边张。',
 });
 
 export const KanZhang = new Fan({
   score: 1,
   name: '坎张',
-  match: (c, h) => {
-    let ms = c.getMianWith(h.tiles.last)
-      .filter(m => !m.open && m.type !== 'dui');
-    return ms.length > 0 && ms
-      .every(m => m.type === 'shun' && (m.tile.point + 1 === h.tiles.last.point));
+  match: (c, h, ts) => {
+    return ts.length === 1 && c.getMianWith(h.tiles.last)
+      .some(m => !m.open && m.type === 'shun' && (m.tile.point + 1 === h.tiles.last.point));
   },
   desc: '和2张牌之间的牌，俗称夹张。4556和5也为坎张，手中有45567和6不算坎张。',
+  exclude: [BianZhang],
 });
 
 export const DanDiaoJiang = new Fan({
   score: 1,
   name: '单钓将',
-  match: (c, h) => {
-    const last = h.tiles.last;
-    return c.getMianWith(last).some(m => m.type === 'dui') &&
-      !c.mians.some(m => m.type === 'shun' && !m.open && m.tile.type === last.type &&
-        [-3, -2, -1, 0, 1].indexOf(m.tile.point - last.point) !== -1) &&
-      !c.mians.some(m => m.type === 'zu-he-long' && last.in(m.tiles));
-  },
+  match: (c, h, ts) =>
+    ts.length === 1 && c.getMianWith(h.tiles.last).some(e => e.type === 'dui'),
   desc: '钓单张牌做将牌成基本和牌型，且整手牌只听这一种牌。',
+  exclude: [BianZhang, KanZhang],
 });
 
 export const ZiMo = new Fan({
