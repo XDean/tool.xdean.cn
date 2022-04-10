@@ -1057,3 +1057,32 @@ expectFan({
   last: Tile.T[1],
   fans: [LvYiSe, YiSeSanTongShun, QingYiSe, DuanYao],
 });
+
+
+expectFan({
+  name: 'bug: 坎张',
+  mians: [
+    new Shun(Tile.T[0]),
+    new Shun(Tile.T[1]),
+    new Shun(Tile.B[1]),
+    new Ke(Tile.T[7], true),
+    new Dui(Tile.W[5]),
+  ],
+  last: Tile.T[1],
+  fans: [XiXiangFeng, WuZi],
+});
+
+
+
+expectFan({
+  name: 'bug: 坎张2',
+  mians: [
+    new Shun(Tile.T[0]),
+    new Ke(Tile.T[1]),
+    new Shun(Tile.B[1]),
+    new Ke(Tile.T[7], true),
+    new Dui(Tile.W[5]),
+  ],
+  last: Tile.T[1],
+  fans: [WuZi, SiGuiYi],
+});

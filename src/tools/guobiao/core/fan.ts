@@ -1,6 +1,6 @@
 import assert from 'assert';
-import {Tile, TileNumberTypes, TilePoint, TileType, TileTypes} from './tile';
-import {Combination, Dui, Hand, Ke, QiDui, Shun, Tiles} from './type';
+import { Tile, TileNumberTypes, TilePoint, TileType, TileTypes } from './tile';
+import { Combination, Dui, Hand, Ke, QiDui, Shun, Tiles } from './type';
 
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
   assert(comb.toTiles.length === 14, '和牌必须14张');
@@ -186,8 +186,12 @@ export const BianZhang = new Fan({
 export const KanZhang = new Fan({
   score: 1,
   name: '坎张',
-  match: (c, h) => c.getMianWith(h.tiles.last)
-    .some(m => !m.open && m.type === 'shun' && (m.tile.point + 1 === h.tiles.last.point)),
+  match: (c, h) => {
+    let ms = c.getMianWith(h.tiles.last)
+      .filter(m => !m.open && m.type !== 'dui');
+    return ms.length > 0 && ms
+      .every(m => m.type === 'shun' && (m.tile.point + 1 === h.tiles.last.point));
+  },
   desc: '和2张牌之间的牌，俗称夹张。4556和5也为坎张，手中有45567和6不算坎张。',
 });
 
@@ -201,7 +205,7 @@ export const DanDiaoJiang = new Fan({
         [-3, -2, -1, 0, 1].indexOf(m.tile.point - last.point) !== -1) &&
       !c.mians.some(m => m.type === 'zu-he-long' && last.in(m.tiles));
   },
-  desc: '钓单张牌作将成和。就像钓鱼一样，一根鱼竿每次只能钓一条鱼，故衍生成为单钓将。而做将的另一张手牌又被称为饵。',
+  desc: '钓单张牌做将牌成基本和牌型，且整手牌只听这一种牌。',
 });
 
 export const ZiMo = new Fan({
