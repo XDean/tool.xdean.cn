@@ -10,6 +10,7 @@ const Info = dynamic(() => import('./help.mdx'));
 export const Handle: Tool = {
   id: 'handle',
   name: '汉兜',
+  disableLayout: true,
   icon: () => <Image src={logo} layout={'responsive'}/>,
   content: HandleMain,
   details: Info,
