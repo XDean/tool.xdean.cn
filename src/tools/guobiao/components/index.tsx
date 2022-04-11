@@ -1,16 +1,22 @@
-import { useState, VFC } from 'react';
+import { VFC } from 'react';
 import { ToolLayout } from '../../../components/layout/ToolLayout';
 import { GuoBiaoMainView } from './Main';
 import { IconButton } from '../../../../common/components/icon/IconButton';
 import { BiArrowBack, BiBookAlt, BiHelpCircle } from 'react-icons/bi';
 import { Info } from './Info';
 import { FanTable } from './FanTable';
+import { useLocalStorage } from '@mantine/hooks';
 
 const modes = ['main', 'info', 'fan'] as const;
 type Mode = typeof modes[number]
 
 export const Index: VFC = () => {
-  const [mode, setMode] = useState<Mode>('main');
+  const [mode, setMode] = useLocalStorage<Mode>({
+    key: 'guobiao:mode',
+    defaultValue: 'info',
+    getInitialValueInEffect: true,
+  });
+
   return (
     <ToolLayout nav={{
       title: '国标麻将算番器',

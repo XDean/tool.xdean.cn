@@ -1,6 +1,6 @@
-import {HTMLAttributes, useMemo} from 'react';
-import {TilesView} from './Tiles';
-import {Tiles} from '../../core/type';
+import { HTMLAttributes, useMemo } from 'react';
+import { TilesView } from './Tiles';
+import { Tiles } from '../../core/type';
 import clsx from 'clsx';
 
 type Props = {
@@ -11,7 +11,6 @@ export const TextWithTile = (props: Props) => {
   const parts = useMemo(() => text
     .split(/[\[\]]/)
     .map((e, i) => {
-      console.log(e, i);
       const idx = text.indexOf(e);
       if (idx > 0 && text.charAt(idx - 1) === '[') {
         return <TilesView tiles={Tiles.from(e).tiles} key={i} scale={0.5}/>;
