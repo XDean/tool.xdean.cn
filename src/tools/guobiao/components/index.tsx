@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { useEffect, VFC } from 'react';
 import { ToolLayout } from '../../../components/layout/ToolLayout';
 import { GuoBiaoMainView } from './Main';
 import { IconButton } from '../../../../common/components/icon/IconButton';
@@ -16,6 +16,10 @@ export const Index: VFC = () => {
     defaultValue: 'info',
     getInitialValueInEffect: true,
   });
+
+  useEffect(() => {
+    window.scrollTo({top: 0});
+  }, [mode]);
 
   return (
     <ToolLayout nav={{

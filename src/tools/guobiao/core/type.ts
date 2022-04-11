@@ -282,7 +282,7 @@ export class Tiles {
   }
 }
 
-const defaultOptions: Options = {
+export const defaultOptions: Options = {
   hua: 0,
   lastTile: false,
   gangShang: false,
@@ -306,12 +306,13 @@ export class Hand {
     };
   }
 
-  static create(str: string, option?: Partial<Options>) {
+  static create(str: string, opt: Partial<Options> = {}) {
     const tiles: Tile[] = [];
     const mings: Ming[] = [];
     let mode: 'c' | 'p' | 'g' | 'a' | 'l' = 'l';
     let type: TileType = 'z';
-    for (const c of str) {
+    const parts = str.split('@', 2);
+    for (const c of parts[0]) {
       switch (c) {
         case 'c':
         case 'p':
@@ -352,7 +353,40 @@ export class Hand {
           }
       }
     }
-    return new Hand(new Tiles(tiles), mings, option);
+    let option = defaultOptions;
+    if (parts.length === 2) {
+      for (const o of parts[1].split(',')) {
+        switch (o.trim()) {
+          case 'zimo':
+            option.zimo = true;
+            break;
+          case 'gang':
+            option.gangShang = true;
+            break;
+          case 'last':
+            option.lastTile = true;
+            break;
+          case 'jue':
+            option.juezhang = true;
+            break;
+          default:
+            let p = Number(o.slice(1));
+            if (!isNaN(p)) {
+              if (o.startsWith('q')) {
+                option.quanfeng = (p % 4) + 1 as TilePoint;
+              } else if (o.startsWith('m')) {
+                option.menfeng = (p % 4) + 1 as TilePoint;
+              } else if (o.startsWith('h')) {
+                option.hua = p % 8;
+              }
+            }
+        }
+      }
+    }
+    return new Hand(new Tiles(tiles), mings, {
+      ...option,
+      ...opt,
+    });
   }
 
   get count() {

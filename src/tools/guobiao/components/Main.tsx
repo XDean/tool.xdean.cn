@@ -1,13 +1,14 @@
-import {AllTilesView} from './AllTiles';
-import {HandMainView} from './Hand';
-import React, {useCallback, useMemo, useState} from 'react';
-import {Hand, Tiles} from 'src/tools/guobiao/core/type';
+import { AllTilesView } from './AllTiles';
+import { HandMainView } from './Hand';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Hand, Tiles } from 'src/tools/guobiao/core/type';
 import clsx from 'clsx';
-import {FanView} from './Fan';
-import {Tile} from 'src/tools/guobiao/core/tile';
-import {OptionView} from './Option';
+import { FanView } from './Fan';
+import { Tile } from 'src/tools/guobiao/core/tile';
+import { OptionView } from './Option';
 import css from './styles.module.css';
-import {modes} from './mode';
+import { modes } from './mode';
+import { useRouter } from 'next/router';
 
 export const GuoBiaoMainView = () => {
   const [hand, setHand] = useState(() => new Hand(new Tiles([]), []));
@@ -29,6 +30,23 @@ export const GuoBiaoMainView = () => {
   const onHandMingClick = useCallback(i => updateHand(h => h.mings.splice(i, 1)), [updateHand]);
   const onHandTileClick = useCallback(i => updateHand(h => h.tiles.tiles.splice(i, 1)), [updateHand]);
   const onOptionsChange = useCallback(o => updateHand(h => h.option = o), [updateHand]);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    try {
+      const queryHand = router.query.hand;
+      if (!queryHand || typeof queryHand !== 'string') {
+        return;
+      }
+      setHand(Hand.create(queryHand));
+      router.replace(router, '/tool/guobiao', {
+        shallow: true,
+      });
+    } catch (e) {
+      console.log('fail to parse query hand', e);
+    }
+  }, [router.query.hand, router.query.option]);
 
   return (
     <div className={'container px-4 space-y-2 lg:space-y-4 mx-auto w-min'}>
