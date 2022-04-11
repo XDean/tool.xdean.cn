@@ -125,7 +125,6 @@ export const GameView = observer((props: Props) => {
       {game.details && (
         <Modal opened={showHint}
                onClose={() => setShowHint(false)}
-               hideCloseButton
                onClick={() => setShowHint(false)}
                title={(
                  <div className={'flex items-center space-x-2'}>
@@ -138,7 +137,6 @@ export const GameView = observer((props: Props) => {
       )}
       <Modal opened={showCheat}
              onClose={() => setShowCheat(false)}
-             hideCloseButton
              transition={'pop-bottom-left'}
              onClick={() => setShowCheat(false)}
              title={(
