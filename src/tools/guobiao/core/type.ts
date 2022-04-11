@@ -292,6 +292,8 @@ export const defaultOptions: Options = {
   zimo: false,
 };
 
+type ModeChar = 'c' | 'p' | 'g' | 'a' | 'l';
+
 export class Hand {
   option: Options;
 
@@ -309,7 +311,7 @@ export class Hand {
   static create(str: string, opt: Partial<Options> = {}) {
     const tiles: Tile[] = [];
     const mings: Ming[] = [];
-    let mode: 'c' | 'p' | 'g' | 'a' | 'l' = 'l';
+    let mode: ModeChar = 'l';
     let type: TileType = 'z';
     const parts = str.split('@', 2);
     for (const c of parts[0]) {
@@ -357,16 +359,16 @@ export class Hand {
     if (parts.length === 2) {
       for (const o of parts[1].split(',')) {
         switch (o.trim()) {
-          case 'zimo':
+          case 'z':
             option.zimo = true;
             break;
-          case 'gang':
+          case 'g':
             option.gangShang = true;
             break;
-          case 'last':
+          case 'l':
             option.lastTile = true;
             break;
-          case 'jue':
+          case 'j':
             option.juezhang = true;
             break;
           default:
@@ -387,6 +389,71 @@ export class Hand {
       ...option,
       ...opt,
     });
+  }
+
+  serializeToString() {
+    const res = [];
+    let mode: ModeChar = 'l';
+    let type: TileType | undefined = undefined;
+
+    function switchMode(c: ModeChar) {
+      if (mode !== c) {
+        mode = c;
+        res.push(mode);
+      }
+    }
+
+    function addTile(tile: Tile) {
+      if (type !== tile.type) {
+        type = tile.type;
+        res.push(type);
+      }
+      res.push(tile.point);
+    }
+
+    for (let ming of this.mings) {
+      switch (ming.type) {
+        case 'chi':
+          switchMode('c');
+          addTile(ming.tile);
+          break;
+        case 'peng':
+          switchMode('p');
+          addTile(ming.tile);
+          break;
+        case 'gang':
+          switchMode(ming.open ? 'g' : 'a');
+          addTile(ming.tile);
+          break;
+      }
+    }
+    switchMode('l');
+    for (let tile of this.tiles.tiles) {
+      addTile(tile);
+    }
+    res.push('@');
+    if (this.option.zimo) {
+      res.push('z');
+    }
+    if (this.option.juezhang) {
+      res.push('j');
+    }
+    if (this.option.gangShang) {
+      res.push('g');
+    }
+    if (this.option.lastTile) {
+      res.push('l');
+    }
+    if (this.option.hua > 0) {
+      res.push(`h${this.option.hua}`);
+    }
+    if (this.option.menfeng !== 1) {
+      res.push(`m${this.option.menfeng}`);
+    }
+    if (this.option.quanfeng !== 1) {
+      res.push(`q${this.option.quanfeng}`);
+    }
+    return res.join('');
   }
 
   get count() {

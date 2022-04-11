@@ -1,14 +1,16 @@
-import {Loader} from '@mantine/core';
-import {Fragment} from 'react';
-import {calcHuBest} from 'src/tools/guobiao/core/hu';
-import {Tile} from 'src/tools/guobiao/core/tile';
-import {calcTing} from 'src/tools/guobiao/core/ting';
-import {Hand, Hu} from 'src/tools/guobiao/core/type';
-import {useSWROnce} from '../../../../common/util/swr';
-import {TileView} from './unit/Tile';
-import {Fan} from '../core/fan';
+import { Button, Loader } from '@mantine/core';
+import { Fragment } from 'react';
+import { calcHuBest } from 'src/tools/guobiao/core/hu';
+import { Tile } from 'src/tools/guobiao/core/tile';
+import { calcTing } from 'src/tools/guobiao/core/ting';
+import { Hand, Hu } from 'src/tools/guobiao/core/type';
+import { useSWROnce } from '../../../../common/util/swr';
+import { TileView } from './unit/Tile';
+import { Fan } from '../core/fan';
+import { useClipboard } from '@mantine/hooks';
 
 export const FanView = ({hand}: { hand: Hand }) => {
+  const clipboard = useClipboard({timeout: 1000});
   const result = useSWROnce(['guobiao:hu', hand], {
     shouldRetryOnError: false,
     fetcher: async (_, hand) => {
@@ -76,17 +78,29 @@ export const FanView = ({hand}: { hand: Hand }) => {
         }
       });
     return (
-      <div className={'grid grid-cols-2 auto-rows-auto gap-x-2 text-2xl'}>
-        {fanCounts.map((f, i) => (
-          <Fragment key={i}>
-            <div className={'text-right'}>{f[0].score}番</div>
-            <div>{f[0].name}{f[1] > 1 ? ` × ${f[1]}` : ''}</div>
-          </Fragment>
-        ))}
-        <div className={'text-right'}>共{result.data.totalScore}番</div>
-        {result.data.totalScore - hand.option.hua < 8 && <div className={'text-2xl text-red-800'}>
-          错和，未满8番
-        </div>}
+      <div className={'flex flex-col items-center space-y-4'}>
+        <div className={'grid grid-cols-2 auto-rows-auto gap-x-2 text-2xl'}>
+          {fanCounts.map((f, i) => (
+            <Fragment key={i}>
+              <div className={'text-right'}>{f[0].score}番</div>
+              <div>{f[0].name}{f[1] > 1 ? ` × ${f[1]}` : ''}</div>
+            </Fragment>
+          ))}
+          <div className={'text-right'}>共{result.data.totalScore}番</div>
+          {result.data.totalScore - hand.option.hua < 8 && <div className={'text-2xl text-red-800'}>
+            错和，未满8番
+          </div>}
+        </div>
+        <hr className={'w-full'}/>
+        <div className={'flex flex-row items-center space-x-4'}>
+          <Button color={clipboard.copied ? 'teal' : 'blue'}
+                  onClick={() => clipboard.copy(`${window.location.href.split('?')[0]}?hand=${hand.serializeToString()}`)}>
+            {clipboard.copied ? '链接已复制' : '分享链接'}
+          </Button>
+          <Button>
+            下载截图
+          </Button>
+        </div>
       </div>
     );
   }
