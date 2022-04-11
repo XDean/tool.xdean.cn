@@ -1,7 +1,7 @@
 import assert from 'assert';
-import {contentEquals} from 'common/util/array';
-import {Fan} from './fan';
-import {Tile, TilePoint, TilePoints, TileType, TileTypes} from './tile';
+import { contentEquals } from 'common/util/array';
+import { Fan } from './fan';
+import { Tile, TilePoint, TilePoints, TileType, TileTypes } from './tile';
 
 
 export type Options = {
@@ -194,6 +194,17 @@ export class Tiles {
 
   get withoutLast(): Tiles {
     return new Tiles(this.tiles.slice(0, this.tiles.length - 1));
+  }
+
+  without(tile: Tile): Tiles {
+    const idx = this.indexOf(tile);
+    if (idx !== -1) {
+      const copy = [...this.tiles];
+      copy.splice(idx, 1);
+      return new Tiles(copy);
+    } else {
+      return this;
+    }
   }
 
   allIn(tiles: Tile[] | Tiles) {

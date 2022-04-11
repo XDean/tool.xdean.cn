@@ -1,24 +1,36 @@
 import { expect, test } from '@jest/globals';
 import {
   ALL_FANS,
+  BuQiuRen,
   DanDiaoJiang,
   DaYuWu,
   DuanYao,
-  Fan,
+  Fan, GangShangKaiHua, HaiDiLaoYue,
   Hua,
+  HuaLong, HuJueZhang,
   LaoShaoFu,
+  LianLiu,
   LvYiSe,
   MenFengKe,
-  MenQianQing,
+  MenQianQing, MiaoShouHuiChun, MingGang,
   PengPengHu,
-  PingHu,
+  PingHu, QiangGangHu,
+  QiDuiFan,
+  QingLong,
   QingYiSe,
+  QuanDaiWu,
+  QuanDaiYao,
   QuanFengKe,
+  QuanQiuRen,
+  QueYiMen,
+  SanSeSanBuGao,
+  SanSeSanJieGao,
   SanSeSanTongShun,
   ShiSanYao,
   ShuangAnKe,
   ShuangTongKe,
-  SiAnKe, SiGuiYi,
+  SiAnKe,
+  SiGuiYi,
   WuFanHu,
   WuMenQi,
   WuZi,
@@ -26,6 +38,8 @@ import {
   YaoJiuKe,
   YiBanGao,
   YiSeSanJieGao,
+  YiSeSanTongShun,
+  YiSeSiBuGao,
   ZiMo,
 } from './fan';
 import { Hand } from './type';
@@ -50,6 +64,111 @@ const expectHu = (hand: Hand, fans: Fan[]) => {
   console.log(hand.toUnicode(), hu?.fans.map(e => e.name).join(','));
   expect(hu?.fans.map(e => e.name).sort()).toEqual(fans.map(e => e.name).sort());
 };
+
+describe('rules', () => {
+  describe('不拆移原则', () => {
+    test('1', () => {
+      expectHu(Hand.create('ct1234 lw77'),
+        [YiSeSiBuGao, QuanQiuRen, PingHu, QueYiMen]);
+    });
+
+    test('2', () => {
+      expectHu(Hand.create('b123345567789w77'),
+        [YiSeSiBuGao, DanDiaoJiang, PingHu, QueYiMen, MenQianQing]);
+    });
+  });
+
+  describe('不得相同原则', () => {
+    test('1', () => {
+      expectHu(Hand.create('cw1471 lt11'),
+        [QingLong, QuanQiuRen, PingHu, YiBanGao, QueYiMen]);
+    });
+    test('2', () => {
+      expectHu(Hand.create('cw1474 lt11'),
+        [QingLong, QuanQiuRen, PingHu, YiBanGao, QueYiMen]);
+    });
+    test('3', () => {
+      expectHu(Hand.create('pb2t3w4b5 lz11'),
+        [SanSeSanJieGao, PengPengHu, QuanQiuRen]);
+    });
+    test('4', () => {
+      expectHu(Hand.create('cw5b4t36 lz11'),
+        [SanSeSanBuGao, QuanQiuRen, LianLiu]);
+    });
+    test('5', () => {
+      expectHu(Hand.create('ct33b3 lw77888'),
+        [DuanYao, YiBanGao, XiXiangFeng]);
+    });
+  });
+
+  describe('就高不就低原则', () => {
+    test('1', () => {
+      expectHu(Hand.create('b555666777t55567', {zimo: true}),
+        [YiSeSanTongShun, QuanDaiWu, BuQiuRen, PingHu, XiXiangFeng, QueYiMen]);
+    });
+  });
+
+  describe('套算一次原则', () => {
+    test('1', () => {
+      expectHu(Hand.create('cw14b7t1 lz11'),
+        [HuaLong, QuanQiuRen, XiXiangFeng]);
+    });
+    test('2', () => {
+      expectHu(Hand.create('cw17t17 lz11'),
+        [QuanQiuRen, QuanDaiYao, XiXiangFeng, XiXiangFeng, LaoShaoFu, QueYiMen]);
+    });
+  });
+
+  describe('不求人', () => {
+    test('1', () => {
+      expectHu(Hand.create('b11223344556688', {zimo: true}),
+        [QiDuiFan, QingYiSe, BuQiuRen]);
+    });
+  });
+});
+
+describe('special', () => {
+  test('和绝张', () => {
+    expectHu(Hand.create('pt2 lz11 b123456789', {juezhang: true}),
+      [QingLong, QueYiMen, HuJueZhang]);
+  });
+  test('和不存在的绝张', () => {
+    expectHu(Hand.create('pt2 lb123456789 z11', {juezhang: true}),
+      [QingLong, DanDiaoJiang, QueYiMen]);
+  });
+  test('和不存在的抢杠和', () => {
+    expectHu(Hand.create('pt2 lb123456789 z11', {gangShang: true}),
+      [QingLong, DanDiaoJiang, QueYiMen]);
+  });
+  test('和不存在的杠上开', () => {
+    expectHu(Hand.create('pt2 lb123456789 z11', {gangShang: true, zimo: true}),
+      [QingLong, DanDiaoJiang, QueYiMen, ZiMo]);
+  });
+  test('抢杠和', () => {
+    expectHu(Hand.create('pt2 lz11 b123456789', {gangShang: true}),
+      [QingLong, QueYiMen, QiangGangHu]);
+  });
+  test('杠上开花', () => {
+    expectHu(Hand.create('gt2 lz11 b123456789', {gangShang: true, zimo: true}),
+      [QingLong, QueYiMen, GangShangKaiHua, MingGang]);
+  });
+  test('妙手回春', () => {
+    expectHu(Hand.create('gt2 lz11 b123456789', {lastTile: true, zimo: true}),
+      [QingLong, QueYiMen, MingGang, MiaoShouHuiChun]);
+  });
+  test('海底捞月', () => {
+    expectHu(Hand.create('gt2 lz11 b123456789', {lastTile: true}),
+      [QingLong, QueYiMen, MingGang, HaiDiLaoYue]);
+  });
+  test('杠上开花-妙手回春', () => {
+    expectHu(Hand.create('gt2 lz11 b123456789', {gangShang: true, lastTile: true, zimo: true}),
+      [QingLong, QueYiMen, MingGang, MiaoShouHuiChun, GangShangKaiHua]);
+  });
+  test('抢杠和-海底捞月', () => {
+    expectHu(Hand.create('gt2 lz11 b123456789', {gangShang: true, lastTile: true}),
+      [QingLong, QueYiMen, MingGang, HaiDiLaoYue, QiangGangHu]);
+  });
+});
 
 describe('bugs', () => {
 
@@ -84,7 +203,7 @@ describe('bugs', () => {
 
   test('2老少副2喜相逢', () => {
     expectHu(Hand.create('t123789w123789b66'),
-      [DanDiaoJiang, XiXiangFeng, PingHu, LaoShaoFu, LaoShaoFu, MenQianQing]);
+      [DanDiaoJiang, XiXiangFeng, PingHu, XiXiangFeng, LaoShaoFu, MenQianQing]);
   });
 
   test('十三幺不求人', () => {

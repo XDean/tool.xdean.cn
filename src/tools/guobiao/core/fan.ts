@@ -37,10 +37,10 @@ export function calcFan(hand: Hand, comb: Combination): Fan[] {
     res.push(WuFanHu);
   }
   if (res.filter(e => e === XiXiangFeng).length === 2 && res.filter(e => e === YiBanGao).length === 1) {
-    res.splice(res.indexOf(XiXiangFeng), 1);
+    res.splice(res.indexOf(YiBanGao), 1);
   }
   if (res.filter(e => e === XiXiangFeng).length === 2 && res.filter(e => e === LaoShaoFu).length === 2) {
-    res.splice(res.indexOf(XiXiangFeng), 1);
+    res.splice(res.indexOf(LaoShaoFu), 1);
   }
   return res;
 }
@@ -100,11 +100,16 @@ export const XiXiangFeng = new Fan({
   name: '喜相逢',
   match: c => {
     const tiles = new Tiles(c.mians.filter(m => m.type === 'shun').map(m => (m as Shun).tile));
+    let left = new Tiles(tiles);
     let meet = 0;
     for (let pair of tiles.pairs()) {
+      if (!left.contains(pair)) {
+        continue;
+      }
       const t = new Tiles(pair);
       if (t.hasDiff(0) && t.mostType[1] === 1) {
         meet++;
+        left = left.without(pair[0]).without(pair[1]);
       }
     }
     return Math.min(2, meet);
@@ -435,6 +440,7 @@ export const HuaLong = new Fan({
     }
     return false;
   },
+  exclude: [LianLiu, LaoShaoFu],
   desc: '3种花色的3副顺子分别为123,456,789。',
   sample: [{hand: Hand.create('b123w456t789z44455')}],
 });
@@ -595,7 +601,7 @@ export const QingLong = new Fan({
     }
     return false;
   },
-  exclude: [LianLiu, LianLiu, LaoShaoFu],
+  exclude: [LianLiu, LianLiu, LaoShaoFu, LaoShaoFu],
   desc: '和牌时，有一种花色的123，456，789三组顺子，不计连六、老少副。',
   sample: [{hand: Hand.create('w123456789z22233')}],
 });
@@ -901,9 +907,11 @@ export const DaSiXi = new Fan({
   score: 88,
   name: '大四喜',
   match: c => c.hasKe(Tile.F),
-  exclude: [QuanFengKe, MenFengKe, SanFengKe, PengPengHu, QuanDaiYao],
+  exclude: [QuanFengKe, MenFengKe, SanFengKe, PengPengHu, QuanDaiYao, YaoJiuKe, YaoJiuKe, YaoJiuKe, YaoJiuKe],
   desc: '由4副风刻（杠）组成的和牌。不计圈风刻、门风刻、三风刻、碰碰和。',
-  sample: [{hand: Hand.create('z111222333444b88')}],
+  sample: [
+    {hand: Hand.create('z111222333444b88')},
+  ],
 });
 
 export const DaSanYuan = new Fan({
