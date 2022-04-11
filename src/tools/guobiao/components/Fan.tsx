@@ -97,9 +97,6 @@ export const FanView = ({hand}: { hand: Hand }) => {
                   onClick={() => clipboard.copy(`${window.location.href.split('?')[0]}?hand=${hand.serializeToString()}`)}>
             {clipboard.copied ? '链接已复制' : '分享链接'}
           </Button>
-          <Button>
-            下载截图
-          </Button>
         </div>
       </div>
     );

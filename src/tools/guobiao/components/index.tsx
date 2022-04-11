@@ -25,7 +25,7 @@ export const Index: VFC = () => {
     <ToolLayout nav={{
       title: '国标麻将算番器',
       left: mode === 'main' ? (
-        <div className={'flex space-x-1 items-center'}>
+        <div className={'flex lg:space-x-1 items-center'}>
           <IconButton onClick={() => setMode('info')}>
             <BiHelpCircle size={24}/>
           </IconButton>
@@ -34,7 +34,7 @@ export const Index: VFC = () => {
           </div>
         </div>
       ) : (
-        <div className={'flex space-x-1 items-center'}>
+        <div className={'flex lg:space-x-1 items-center'}>
           <IconButton onClick={() => setMode('main')}>
             <BiArrowBack size={24}/>
           </IconButton>
@@ -44,7 +44,7 @@ export const Index: VFC = () => {
         </div>
       ),
       right: mode !== 'fan' ? (
-        <div className={'flex space-x-1 items-center'}>
+        <div className={'flex lg:space-x-1 items-center'}>
           <div onClick={() => setMode('fan')}>
             番表
           </div>
