@@ -19,21 +19,25 @@ export const Index: VFC = () => {
           <IconButton onClick={() => setMode('info')}>
             <BiHelpCircle size={24}/>
           </IconButton>
-          关于
+          <div onClick={() => setMode('info')}>
+            关于
+          </div>
         </div>
       ) : (
         <div className={'flex space-x-1 items-center'}>
           <IconButton onClick={() => setMode('main')}>
             <BiArrowBack size={24}/>
           </IconButton>
-          <div>
+          <div onClick={() => setMode('main')}>
             返回
           </div>
         </div>
       ),
-      right: mode === 'main' ? (
+      right: mode !== 'fan' ? (
         <div className={'flex space-x-1 items-center'}>
-          番表
+          <div onClick={() => setMode('fan')}>
+            番表
+          </div>
           <IconButton onClick={() => setMode('fan')}>
             <BiBookAlt size={24}/>
           </IconButton>
@@ -43,8 +47,12 @@ export const Index: VFC = () => {
       <div className={mode === 'main' ? 'block' : 'hidden'}>
         <GuoBiaoMainView/>
       </div>
-      {mode === 'info' && <Info/>}
-      {mode === 'fan' && <FanTable/>}
+      <div className={mode === 'info' ? 'block' : 'hidden'}>
+        <Info/>
+      </div>
+      <div className={mode === 'fan' ? 'block' : 'hidden'}>
+        <FanTable/>
+      </div>
     </ToolLayout>
   );
 };

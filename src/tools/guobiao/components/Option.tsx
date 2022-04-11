@@ -1,6 +1,6 @@
-import {Options} from 'src/tools/guobiao/core/type';
+import { Options } from 'src/tools/guobiao/core/type';
 import clsx from 'clsx';
-import {TilePoint} from 'src/tools/guobiao/core/tile';
+import { TilePoint } from 'src/tools/guobiao/core/tile';
 import css from './styles.module.css';
 
 type Props = {
@@ -20,8 +20,8 @@ export const OptionView = (props: Props) => {
       <div className={'flex flex-row items-center justify-evenly'}>
         <BoolButton label={'自摸'} field={'zimo'}/>
         <BoolButton label={'和绝张'} field={'juezhang'}/>
-        <BoolButton label={'杠上开花'} field={'gangShang'}/>
-        <BoolButton label={'海底捞月'} field={'lastTile'}/>
+        <BoolButton label={options.zimo ? '杠上开' : '抢杠和'} field={'gangShang'}/>
+        <BoolButton label={options.zimo ? '妙手回春' : '海底捞月'} field={'lastTile'}/>
       </div>
 
       <div className={'flex flex-row items-center justify-evenly'}>
