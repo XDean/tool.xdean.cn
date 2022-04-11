@@ -4,13 +4,12 @@ import { FunctionComponent } from 'react';
 import logo from '../../../public/tool/guobiao/logo_512.webp';
 import { Tool } from '../index';
 
-const GuoBiaoMainView = dynamic(() => import('./components/Main').then<FunctionComponent>(e => e.GuoBiaoMainView));
-const Info = dynamic(() => import('./components/Info').then<FunctionComponent>(e => e.Info));
+const Index = dynamic(() => import('./components').then<FunctionComponent>(e => e.Index));
 
 export const GuoBiao: Tool = {
   id: 'guobiao',
   name: '国标麻将算番器',
   icon: () => <Image src={logo} layout={'responsive'} className={'rounded-full'}/>,
-  content: GuoBiaoMainView,
-  details: Info,
+  content: Index,
+  disableLayout: true,
 };
