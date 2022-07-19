@@ -29,10 +29,14 @@ type Game = {
   ballStartX: number
 }
 
+const width = 300;
+const height = 400;
 const cubeSize = 20;
 const cubePadding = 1;
 const cubeCountPerRow = 15;
 const cubeTextSize = cubeSize / 1.5;
+const ballRadius = 6;
+const bottomY = 380;
 
 export function newGame(container: HTMLElement) {
 
@@ -47,9 +51,37 @@ export function newGame(container: HTMLElement) {
   const root = d3.select(container)
     .append('svg')
     .attr('viewBox', '0 0 300 400')
-    .attr('class', 'max-w-screen max-h-screen font-mono');
+    .attr('class', 'max-w-screen max-h-screen font-mono bg-black');
   const cubes = root.append('g')
     .attr('id', 'cubes');
+  const balls = root.append('g')
+    .attr('id', 'balls');
+  const ballHelper = root.append('line')
+    .attr('id', 'ball-helper')
+    .attr('stroke', 'white');
+
+  function euclideanDistance(a: [number, number], b: [number, number]) {
+    return Math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2);
+  }
+
+  root.on('pointermove', (ev: PointerEvent) => {
+    if (game.state === 'waiting') {
+      const x1 = game.ballStartX;
+      const y1 = bottomY;
+      const [x, y] = d3.pointer(ev);
+      const distance = euclideanDistance([game.ballStartX, bottomY], [x, y]);
+      const ratio = 100 / distance;
+      const x2 = (x - x1) * ratio + x1;
+      const y2 = (y - y1) * ratio + y1;
+      ballHelper
+        .attr('stroke-dasharray', 10)
+        .attr('stroke-dashoffset', 10)
+        .attr('x1', x1)
+        .attr('y1', y1)
+        .attr('x2', x2)
+        .attr('y2', y2);
+    }
+  });
 
   function newLevel() {
     game.state = 'waiting';
@@ -63,11 +95,11 @@ export function newGame(container: HTMLElement) {
         y: 0,
       });
     });
-    game.ballStartX = randomFloat(50, 250);
+    game.ballStartX = randomFloat(0.2, 0.8) * width;
     game.balls = range(game.ballCount).map(() => ({
       die: false,
       x: game.ballStartX,
-      y: 0,
+      y: bottomY,
     }));
   }
 
@@ -76,6 +108,7 @@ export function newGame(container: HTMLElement) {
   }
 
   function render() {
+    // render cubes
     const gs = cubes
       .selectAll('g')
       .data(game.cubes)
@@ -98,6 +131,16 @@ export function newGame(container: HTMLElement) {
       .attr('font-size', cubeTextSize)
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'central');
+
+    // render balls
+    balls.selectAll('circle')
+      .data(game.balls)
+      .join('circle')
+      .attr('r', ballRadius)
+      .attr('cx', e => e.x)
+      .attr('cy', e => e.y)
+      .attr('fill', 'white');
+
   }
 
   newLevel();
