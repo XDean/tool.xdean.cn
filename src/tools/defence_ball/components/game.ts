@@ -58,7 +58,13 @@ export function newGame(container: HTMLElement) {
   const root = d3.select(container)
     .append('svg')
     .attr('viewBox', '0 0 300 400')
-    .attr('class', 'max-w-screen max-h-screen font-mono bg-black select-none');
+    .attr('class', 'w-full h-full max-w-screen max-h-screen font-mono select-none');
+  root.append('rect')
+    .attr('x', 0)
+    .attr('y', 0)
+    .attr('width', width)
+    .attr('height', height)
+    .attr('fill', 'black');
   const cubes = root.append('g')
     .attr('id', 'cubes')
     .attr('transform', `translate(0 ${topPadding})`);
@@ -282,7 +288,7 @@ export function newGame(container: HTMLElement) {
       .join('rect')
       .attr('x', cubePadding)
       .attr('y', cubePadding)
-      .attr('rx', e => e.type === 'ball' ? '100' : '')
+      .attr('rx', e => e.type === 'ball' ? '100%' : '')
       .attr('width', cubeSize - cubePadding * 2)
       .attr('height', cubeSize - cubePadding * 2)
       .attr('fill', e => e.type === 'cube' ? d3.interpolateRainbow(1 - Math.sqrt(e.count) / 10) : 'white');
