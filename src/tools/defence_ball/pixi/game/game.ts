@@ -1,6 +1,6 @@
 import { Cube } from './cube/cube';
 import { Ball } from './ball';
-import { makeAutoObservable, observable } from 'mobx';
+import { autorun, makeAutoObservable, observable } from 'mobx';
 import { Vector } from '../../util';
 import { randomFloat, randomInt, randomSub } from '../../../../../common/util/random';
 import { range } from '../../../../../common/util/array';
@@ -9,6 +9,7 @@ import { topPadding } from './constants';
 import { Brick } from './cube/brick';
 import { AddBall } from './cube/add-ball';
 import * as pixi from 'pixi.js';
+import { AuxLine } from './auxLine';
 
 export class Game {
   state: 'ready' | 'waiting' | 'running' | 'over' = 'ready';
@@ -17,22 +18,37 @@ export class Game {
   ballCount: number = 1;
   balls: Ball[] = [];
   cubes: Cube[] = [];
-  object = new pixi.Container();
   cubeContainer = new pixi.Container();
   ballContainer = new pixi.Container();
+  auxLine = new AuxLine();
 
   constructor() {
     makeAutoObservable(this, {
       balls: observable.shallow,
     });
 
-    this.object.addChild(this.cubeContainer, this.ballContainer);
-
+    autorun(() => {
+      this.auxLine.object.visible = this.state === 'waiting';
+    });
   }
+
+  init = (app: pixi.Application) => {
+    app.stage.addChild(this.cubeContainer, this.ballContainer, this.auxLine.object);
+    app.stage.interactive = true;
+    app.stage.on('pointermove', (e: pixi.InteractionEvent) => {
+      this.auxLine.end = Vector.of(e.data.global.x, e.data.global.y);
+    });
+    app.stage.on('pointerdown', (e: pixi.InteractionEvent) => {
+      console.log(e);
+    });
+
+    return () => {
+    };
+  };
 
   newGame = () => {
     this.state = 'waiting';
-    this.level = 0;
+    this.level = 1;
     this.ballCount = 1;
     this.totalBallCount = 1;
     this.cubes.length = 0;
@@ -71,6 +87,7 @@ export class Game {
       this.ballContainer.addChild(ball.object);
     }
     const startX = randomFloat(0.1, 0.9) * c.width;
+    this.auxLine.start = Vector.of(startX, c.bottomY);
     this.balls.forEach((e, i) => {
       e.die = false;
       e.wait = i * 100;

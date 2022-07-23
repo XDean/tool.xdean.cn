@@ -2,7 +2,6 @@ import { Cube } from './cube';
 import * as pixi from 'pixi.js';
 import * as c from '../constants';
 import { autorun, makeObservable } from 'mobx';
-import { brickSize } from '../constants';
 
 export class AddBall extends Cube {
 

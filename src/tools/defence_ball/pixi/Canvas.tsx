@@ -22,12 +22,15 @@ export const Canvas: FC<Props> = (
       view: canvas.current!,
     });
 
-    app.stage.addChild(game.object);
+    const destroy = game.init(app);
 
     return () => {
-      app.destroy();
+      destroy();
+      app.destroy(false, {
+        children: true,
+      });
     };
-  });
+  }, [game]);
   return (
     <canvas ref={canvas}
             className={'absolute inset-0 w-full h-full'}
