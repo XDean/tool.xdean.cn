@@ -40,7 +40,7 @@ const Anim = () => {
   const [count2, setCount2] = useState(0);
   const [y, setY] = useState(100); //50-150
   useAnimationFrame((delta) => {
-    const d = delta / 3;
+    const d = delta / 2;
     let ny = y + d * (count1 > count2 ? 1 : -1);
     while (true) {
       if (ny > 150) {

@@ -10,41 +10,39 @@ import { AddBall } from './cube/add-ball';
 import * as pixi from 'pixi.js';
 
 export class Game {
-  state: 'waiting' | 'running' | 'over' = 'waiting';
+  state: 'ready' | 'waiting' | 'running' | 'over' = 'ready';
   level: number = 0;
-  cubes: (Cube | null)[][] = [];
+  totalBallCount: number = 1;
+  ballCount: number = 1;
   balls: Ball[] = [];
-  object: pixi.Container = new pixi.Container();
+  cubes: Cube[] = [];
+  object = new pixi.Container();
+  cubeContainer = new pixi.Container();
+  ballContainer = new pixi.Container();
 
   constructor() {
     makeAutoObservable(this, {
       balls: observable.shallow,
     });
 
-    autorun(() => {
-      this.object.removeChildren();
-      console.log(this.balls);
-      if (this.balls.length > 0) {
-        this.object.addChild(...this.balls.map(e => e.object));
-      }
-    });
-  }
+    this.object.addChild(this.cubeContainer, this.ballContainer);
 
-  get ballCount() {
-    return this.balls.length;
   }
 
   newGame = () => {
     this.state = 'waiting';
     this.level = 0;
+    this.ballCount = 1;
+    this.totalBallCount = 1;
     this.cubes.length = 0;
     this.balls.length = 0;
-    this.balls.push(new Ball());
+    this.resetBall();
+    this.addCubeRow();
+    this.addCubeRow();
+    this.addCubeRow();
   };
 
-  newLevel = () => {
-    this.state = 'waiting';
-    this.level += 1;
+  addCubeRow = () => {
     const newCubes: Cube[] = [];
     randomSub(range(c.cubeCountPerRow), randomInt(c.cubeCountPerRow * 0.4, c.cubeCountPerRow * 0.9)).forEach(() => {
       let count = Math.ceil(this.level * randomFloat(0.5, 0.8));
@@ -57,8 +55,16 @@ export class Game {
       const idx = randomInt(newCubes.length);
       newCubes[idx] = new AddBall();
     }
-    this.cubes.unshift(newCubes);
+    this.cubes.push(...newCubes);
+    this.cubeContainer.addChild(...newCubes.map(e => e.object));
+  };
 
+  resetBall = () => {
+    while (this.balls.length < this.ballCount) {
+      const ball = new Ball();
+      this.balls.push(ball);
+      this.ballContainer.addChild(ball.object);
+    }
     const startX = randomFloat(0.1, 0.9) * c.width;
     this.balls.forEach((e, i) => {
       e.die = false;
