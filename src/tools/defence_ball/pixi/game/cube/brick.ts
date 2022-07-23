@@ -15,6 +15,7 @@ export class Brick extends Cube {
     super();
     makeObservable(this, {
       count: true,
+      pos: true,
     });
 
     this.object = new pixi.Container();
@@ -26,7 +27,12 @@ export class Brick extends Cube {
     this.object.addChild(rect, text);
 
     autorun(() => {
+      this.object.position.set(this.pos.x, this.pos.y);
+    });
+
+    autorun(() => {
       text.text = count;
+      text.style.fontSize = c.brickSize / Math.max(2, count.toString().length) * 2 / 1.5;
 
       rect.clear();
       rect.beginFill(0xffffff); //TODO color by count

@@ -1,10 +1,11 @@
 import { Cube } from './cube/cube';
 import { Ball } from './ball';
-import { autorun, makeAutoObservable, observable } from 'mobx';
+import { makeAutoObservable, observable } from 'mobx';
 import { Vector } from '../../util';
 import { randomFloat, randomInt, randomSub } from '../../../../../common/util/random';
 import { range } from '../../../../../common/util/array';
 import * as c from './constants';
+import { topPadding } from './constants';
 import { Brick } from './cube/brick';
 import { AddBall } from './cube/add-ball';
 import * as pixi from 'pixi.js';
@@ -43,18 +44,22 @@ export class Game {
   };
 
   addCubeRow = () => {
-    const newCubes: Cube[] = [];
-    randomSub(range(c.cubeCountPerRow), randomInt(c.cubeCountPerRow * 0.4, c.cubeCountPerRow * 0.9)).forEach(() => {
-      let count = Math.ceil(this.level * randomFloat(0.5, 0.8));
-      if (randomFloat() < 0.1) {
-        count += Math.ceil(this.level * 0.5 + this.ballCount);
+    const newCubes: Cube[] = randomSub(range(c.cubeCountPerRow), randomInt(c.cubeCountPerRow * 0.4, c.cubeCountPerRow * 0.9)).map((x) => {
+      let cube;
+      if (randomFloat(10) < 1 / Math.sqrt(this.totalBallCount)) {
+        cube = new AddBall();
+        this.totalBallCount += 1;
+      } else {
+        let count = Math.ceil(this.level * randomFloat(0.5, 0.8));
+        if (randomFloat() < 0.1) {
+          count += Math.ceil(this.level * 0.5 + this.ballCount);
+        }
+        cube = new Brick(count);
       }
-      newCubes.push(new Brick(count));
+      cube.pos = Vector.of((x + 0.5) * c.cubeSize, topPadding + c.cubeSize / 2);
+      return cube;
     });
-    if (randomFloat() < 0.1 + 1 / Math.sqrt(this.level)) {
-      const idx = randomInt(newCubes.length);
-      newCubes[idx] = new AddBall();
-    }
+    this.cubes.forEach(e => e.move(Vector.of(0, c.cubeSize)));
     this.cubes.push(...newCubes);
     this.cubeContainer.addChild(...newCubes.map(e => e.object));
   };
