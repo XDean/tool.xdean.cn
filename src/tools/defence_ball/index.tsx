@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 import logo from '../../../public/tool/defence_ball/logo.svg';
 import { Tool } from '../index';
 
-const Main = dynamic(() => import('./components/index').then<FunctionComponent>(e => e.DefenceBall));
+const Main = dynamic(() => import('./pixi/index').then<FunctionComponent>(e => e.GameView), {ssr: false});
 
 export const DefenceBall: Tool = {
   id: 'defence-ball',

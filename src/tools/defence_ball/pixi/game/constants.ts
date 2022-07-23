@@ -1,0 +1,12 @@
+export const width = 300;
+export const height = 400;
+export const cubeSize = 20;
+export const brickSize = 18;
+export const cubeCountPerRow = 15;
+export const cubeTextSize = cubeSize / 1.5;
+export const cubeTextSmallSize = cubeSize / 2;
+export const ballRadius = 5;
+export const topPadding = cubeSize * 3;
+export const bottomY = height - cubeSize;
+export const overY = height - cubeSize - ballRadius;
+export const cubeBallCollideSize = brickSize / 2 + ballRadius;

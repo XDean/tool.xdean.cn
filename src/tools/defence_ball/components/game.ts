@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 import { range } from '../../../../common/util/array';
 import { randomFloat, randomInt, randomSub } from '../../../../common/util/random';
 import { caseNever } from '../../../../common/util/base';
-import { flip, Vector } from './util';
+import { flip, Vector } from '../util';
 
 
 type Cube = ({
@@ -161,11 +161,11 @@ export function newGame(container: HTMLElement) {
       }
       newCubes.push({
         type: 'cube',
-        count: count,
+        count: count*2,
         pos: Vector.of(e, 0),
       });
     });
-    if (randomFloat() < 0.1 + 1 / Math.sqrt(game.level)) {
+    if (randomFloat() < 111 + 1 / Math.sqrt(game.level)) {
       const idx = randomInt(newCubes.length);
       newCubes[idx].type = 'ball';
     }
