@@ -11,7 +11,6 @@ import { AddBall } from './cube/add-ball';
 import * as pixi from 'pixi.js';
 import { AuxLine } from './auxLine';
 import { Cache } from 'three';
-import add = Cache.add;
 
 export class Game {
   state: 'ready' | 'waiting' | 'running' | 'over' = 'ready';
@@ -97,7 +96,7 @@ export class Game {
       let cube;
       if (addBall < 2 && (
         this.totalBallCount < this.level / 3 ||
-        randomFloat(this.mode === 'xuxu' ? 2 : 8) < 1 / Math.sqrt(this.totalBallCount)
+        randomFloat(this.mode === 'xuxu' ? 3 : 8) < 1 / Math.sqrt(this.totalBallCount)
       )) {
         cube = new AddBall();
         addBall += 1;
