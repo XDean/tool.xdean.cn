@@ -10,7 +10,6 @@ import { Brick } from './cube/brick';
 import { AddBall } from './cube/add-ball';
 import * as pixi from 'pixi.js';
 import { AuxLine } from './auxLine';
-import { Cache } from 'three';
 
 export class Game {
   state: 'ready' | 'waiting' | 'running' | 'over' = 'ready';
