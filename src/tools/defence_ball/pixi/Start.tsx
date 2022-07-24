@@ -4,14 +4,15 @@ import React, { FC, useState } from 'react';
 import { DefenceBall } from '../index';
 import { useAnimationFrame } from '../../../../common/util/hook';
 import { flip } from '../util';
+import { Game } from './game/game';
 
 type Props = {
-  onStart: () => void
+  game: Game
 }
 
 export const Start: FC<Props> = (
   {
-    onStart,
+    game,
   },
 ) => {
   return (
@@ -20,7 +21,7 @@ export const Start: FC<Props> = (
         防守球游戏
       </div>
       <button className={'text-3xl border border-white rounded p-2 hover:bg-white hover:text-black transition'}
-              onClick={onStart}
+              onClick={() => game.newGame()}
       >
         开始游戏
       </button>

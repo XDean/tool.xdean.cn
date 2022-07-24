@@ -5,6 +5,7 @@ import { action, autorun, makeObservable } from 'mobx';
 import { Ball } from '../ball';
 import { Vector } from '../../../util';
 import { collideSquareCircle } from '../collide';
+import { Game } from '../game';
 
 
 export class Brick extends Cube {
@@ -48,7 +49,7 @@ export class Brick extends Cube {
     });
   }
 
-  collideBall = (ball: Ball, originPos: Vector) => {
+  collideBall = (ball: Ball, originPos: Vector, game: Game) => {
     const collided = collideSquareCircle(
       this.pos,
       this.size,
@@ -57,6 +58,8 @@ export class Brick extends Cube {
     );
     if (collided) {
       this.count -= 1;
+      ball.beat += 1;
+      game.score += 1;
       const rel = this.pos.minus(originPos);
       if (rel.y > rel.x) {
         if (rel.y > -rel.x) {

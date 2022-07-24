@@ -21,6 +21,7 @@ export class Game {
   cubeContainer = new pixi.Container();
   ballContainer = new pixi.Container();
   auxLine = new AuxLine();
+  score = 0;
 
   constructor() {
     makeAutoObservable(this, {
@@ -54,9 +55,12 @@ export class Game {
 
   newGame = () => {
     this.state = 'waiting';
+    this.score = 0;
     this.level = 1;
     this.totalBallCount = 1;
+    this.cubeContainer.removeChildren().forEach(e => e.destroy());
     this.cubes.length = 0;
+    this.ballContainer.removeChildren().forEach(e => e.destroy());
     this.balls.length = 0;
     this.pendingBalls.push(new Ball());
     this.resetBall();

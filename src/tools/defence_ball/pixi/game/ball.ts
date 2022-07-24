@@ -10,6 +10,7 @@ export class Ball {
   speed: Vector = Vector.zero;
   wait: number = 0;
   object: pixi.Graphics = new pixi.Graphics();
+  beat = 0;
 
   constructor() {
     makeAutoObservable(this);
