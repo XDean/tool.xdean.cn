@@ -6,6 +6,8 @@ import { Ball } from '../ball';
 import { Vector } from '../../../util';
 import { collideSquareCircle } from '../collide';
 import { Game } from '../game';
+import * as d3 from 'd3';
+import Color from 'color';
 
 
 export class Brick extends Cube {
@@ -42,8 +44,9 @@ export class Brick extends Cube {
       text.text = this.count;
       text.style.fontSize = this.size / Math.max(2, this.count.toString().length) * 2 / 1.5;
 
+      const color = new Color(d3.interpolateRainbow(1 - Math.sqrt(this.count) / 10));
       rect.clear();
-      rect.beginFill(0xffffff); //TODO color by count
+      rect.beginFill(color.rgbNumber());
       rect.drawRect(-this.size / 2, -this.size / 2, this.size, this.size);
       rect.endFill();
     });
