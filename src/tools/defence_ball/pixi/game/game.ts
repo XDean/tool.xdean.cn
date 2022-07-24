@@ -14,7 +14,7 @@ import { AuxLine } from './auxLine';
 export class Game {
   state: 'ready' | 'waiting' | 'running' | 'over' = 'ready';
   level: number = 0;
-  totalBallCount: number = 1;
+  totalBallCount: number = 1; // include not collected
   pendingBalls: Ball[] = [];
   balls: Ball[] = [];
   cubes: (Cube | null)[][] = [];
@@ -185,5 +185,16 @@ export class Game {
 
   get ballCount() {
     return this.balls.length + this.pendingBalls.length;
+  }
+
+  stopLevel() {
+    if (this.state === 'running') {
+      this.balls.forEach(b => {
+        b.center = b.center.withY(c.bottomY);
+        b.speed = Vector.zero;
+        b.die = true;
+      });
+      this.newLevel();
+    }
   }
 }
