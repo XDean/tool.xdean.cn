@@ -4,6 +4,7 @@ import { autorun, makeAutoObservable } from 'mobx';
 
 export class Ball {
   radius = 5;
+  strength = 1;
   speedValue = 7;
   die: boolean = false;
   center: Vector = Vector.of(-100, -100);
@@ -14,8 +15,12 @@ export class Ball {
 
   constructor() {
     makeAutoObservable(this);
-    this.object.beginFill(0xffffff);
-    this.object.drawCircle(0, 0, this.radius);
+
+    autorun(() => {
+      this.object.clear();
+      this.object.beginFill(0xffffff);
+      this.object.drawCircle(0, 0, this.radius);
+    });
 
     autorun(() => {
       this.object.position.set(this.center.x, this.center.y);

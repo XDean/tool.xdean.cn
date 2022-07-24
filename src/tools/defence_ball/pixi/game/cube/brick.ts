@@ -60,9 +60,10 @@ export class Brick extends Cube {
       ball.radius,
     );
     if (collided) {
-      this.count -= 1;
-      ball.beat += 1;
-      game.score += 1;
+      const beat = Math.min(this.count, ball.strength);
+      ball.beat += beat;
+      game.score += beat;
+      this.count -= beat;
       const rel = this.pos.minus(originPos);
       if (rel.y > rel.x) {
         if (rel.y > -rel.x) {
@@ -86,6 +87,6 @@ export class Brick extends Cube {
         }
       }
     }
-    return this.count === 0;
+    return this.count <= 0;
   };
 }

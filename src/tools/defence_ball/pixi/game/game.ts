@@ -86,8 +86,11 @@ export class Game {
     const newCubes: (Cube | null)[] = new Array(c.cubeCountPerRow).fill(null);
     randomSub(range(c.cubeCountPerRow), randomInt(c.cubeCountPerRow * 0.4, c.cubeCountPerRow * 0.9)).forEach((x) => {
       let cube;
-      if (randomFloat(10) < 1 / Math.sqrt(this.totalBallCount)) {
+      if (this.totalBallCount < this.level / 3 || randomFloat(8) < 1 / Math.sqrt(this.totalBallCount)) {
         cube = new AddBall();
+        if (this.level > 15 && randomFloat() < 0.2) {
+          cube.big = true;
+        }
         this.totalBallCount += 1;
       } else {
         let count = Math.ceil(this.level * randomFloat(0.5, 0.8));

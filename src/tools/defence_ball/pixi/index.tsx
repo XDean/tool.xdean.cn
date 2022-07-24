@@ -7,7 +7,7 @@ import { Canvas } from './Canvas';
 import { Score } from './Score';
 
 export const GameView = () => {
-  const [game, setGame] = useState(() => new Game());
+  const [game] = useState(() => new Game());
   return (
     <SizeMe monitorHeight>
       {({size: {width, height}}) => {

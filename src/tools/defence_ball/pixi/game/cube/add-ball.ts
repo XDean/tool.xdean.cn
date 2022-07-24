@@ -8,6 +8,7 @@ import { Game } from '../game';
 
 export class AddBall extends Cube {
 
+  big: boolean = false;
   object: pixi.Container;
   radius = 8;
 
@@ -24,11 +25,19 @@ export class AddBall extends Cube {
     circle.drawCircle(0, 0, this.radius);
     circle.endFill();
 
-    const text = new pixi.Text('+1');
+    const text = new pixi.Text();
     text.anchor.set(0.5);
     text.style.fontSize = this.radius / 0.75;
 
     this.object.addChild(circle, text);
+
+    autorun(() => {
+      if (this.big) {
+        text.text = '+大';
+      } else {
+        text.text = '+1';
+      }
+    });
 
     autorun(() => {
       this.object.position.set(this.pos.x, this.pos.y);
@@ -38,7 +47,12 @@ export class AddBall extends Cube {
   collideBall = (ball: Ball, _: Vector, game: Game): boolean => {
     const collided = collideCircle(ball.center, ball.radius, this.pos, this.radius);
     if (collided) {
-      game.pendingBalls.push(new Ball());
+      const b = new Ball();
+      if (this.big) {
+        b.radius *= 1.7;
+        b.strength *= 2;
+      }
+      game.pendingBalls.push(b);
       return true;
     }
     return false;
