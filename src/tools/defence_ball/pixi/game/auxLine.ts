@@ -15,7 +15,7 @@ export class AuxLine {
     autorun(() => {
       this.object.clear();
       this.object.lineStyle({
-        width: 2,
+        width: 1,
         color: 0xffffff,
         shader: shader,
       });

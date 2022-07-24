@@ -20,6 +20,7 @@ export const Canvas: FC<Props> = (
       height: c.height,
       resolution: 5,
       view: canvas.current!,
+      powerPreference: 'high-performance',
     });
 
     const destroy = game.init(app);

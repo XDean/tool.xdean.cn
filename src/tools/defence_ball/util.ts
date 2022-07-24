@@ -46,6 +46,22 @@ export class Vector {
   get array(): [number, number] {
     return [this.x, this.y];
   }
+
+  withX(x: number) {
+    return Vector.of(x, this.y);
+  }
+
+  withY(y: number) {
+    return Vector.of(this.x, y);
+  }
+
+  flipX(x: number = 0) {
+    return Vector.of(flip(this.x, x), this.y);
+  }
+
+  flipY(y: number = 0) {
+    return Vector.of(this.x, flip(this.y, y));
+  }
 }
 
 export function flip(value: number, base: number) {

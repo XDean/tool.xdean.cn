@@ -10,3 +10,4 @@ export const topPadding = cubeSize * 3;
 export const bottomY = height - cubeSize;
 export const overY = height - cubeSize - ballRadius;
 export const cubeBallCollideSize = brickSize / 2 + ballRadius;
+export const maxCubeRows = Math.floor((bottomY - topPadding) / cubeSize) - 1;
