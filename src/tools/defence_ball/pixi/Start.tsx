@@ -17,8 +17,8 @@ export const Start: FC<Props> = observer((
   },
 ) => {
   return (
-    <div className={'flex flex-col items-center text-white mt-[20%]'}>
-      <div className={'text-6xl mb-16'}>
+    <div className={'flex flex-col items-center text-white mt-[10%] md:mt-[20%]'}>
+      <div className={'text-6xl mb-6 md:mb-16'}>
         防守球游戏
       </div>
       <button className={'text-3xl border border-white rounded p-2 hover:bg-white hover:text-black transition'}
@@ -38,7 +38,7 @@ export const Start: FC<Props> = observer((
         <ReadWithAPI id={`tool:${DefenceBall.id}`} name={'访问'}/>
         <LikeWithAPI id={`tool:${DefenceBall.id}`}/>
       </div>
-      <div className={'w-max m-auto mt-16'}>
+      <div className={'w-max m-auto mt-6 md:mt-16'}>
         <Anim/>
       </div>
     </div>

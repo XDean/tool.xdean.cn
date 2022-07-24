@@ -44,7 +44,7 @@ export class Game {
         this.auxLine.end = Vector.of(e.data.global.x, e.data.global.y);
       }
     });
-    app.stage.on('click', (e: pixi.InteractionEvent) => {
+    app.stage.on('pointerup', (e: pixi.InteractionEvent) => {
       if (this.state === 'waiting') {
         this.sendBall(Vector.of(e.data.global.x, e.data.global.y));
       }
