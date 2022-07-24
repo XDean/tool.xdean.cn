@@ -5,18 +5,19 @@ import { DefenceBall } from '../index';
 import { useAnimationFrame } from '../../../../common/util/hook';
 import { flip } from '../util';
 import { Game } from './game/game';
+import { observer } from 'mobx-react-lite';
 
 type Props = {
   game: Game
 }
 
-export const Start: FC<Props> = (
+export const Start: FC<Props> = observer((
   {
     game,
   },
 ) => {
   return (
-    <div className={'text-center text-white mt-[30%]'}>
+    <div className={'flex flex-col items-center text-white mt-[20%]'}>
       <div className={'text-6xl mb-16'}>
         防守球游戏
       </div>
@@ -25,6 +26,14 @@ export const Start: FC<Props> = (
       >
         开始游戏
       </button>
+      <select
+        className={'block bg-black border mt-2 rounded'}
+        value={game.mode}
+        onChange={e => game.mode = e.currentTarget.value as any}
+      >
+        <option value={'normal'}>普通模式</option>
+        <option value={'xuxu'}>栩栩模式</option>
+      </select>
       <div className={'space-x-2 mt-8'}>
         <ReadWithAPI id={`tool:${DefenceBall.id}`} name={'访问'}/>
         <LikeWithAPI id={`tool:${DefenceBall.id}`}/>
@@ -34,7 +43,7 @@ export const Start: FC<Props> = (
       </div>
     </div>
   );
-};
+});
 
 const Anim = () => {
   const [count1, setCount1] = useState(0);

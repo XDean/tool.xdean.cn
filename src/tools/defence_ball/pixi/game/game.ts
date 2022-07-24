@@ -10,10 +10,13 @@ import { Brick } from './cube/brick';
 import { AddBall } from './cube/add-ball';
 import * as pixi from 'pixi.js';
 import { AuxLine } from './auxLine';
+import { Cache } from 'three';
+import add = Cache.add;
 
 export class Game {
   state: 'ready' | 'waiting' | 'running' | 'over' = 'ready';
-  level: number = 0;
+  mode: 'normal' | 'xuxu' = 'normal';
+  level: number = 1;
   totalBallCount: number = 1; // include not collected
   pendingBalls: Ball[] = [];
   balls: Ball[] = [];
@@ -31,6 +34,7 @@ export class Game {
     autorun(() => {
       this.auxLine.object.visible = this.state === 'waiting';
     });
+    this.ready();
   }
 
   init = (app: pixi.Application) => {
@@ -53,8 +57,8 @@ export class Game {
     };
   };
 
-  newGame = () => {
-    this.state = 'waiting';
+  ready = () => {
+    this.state = 'ready';
     this.score = 0;
     this.level = 1;
     this.totalBallCount = 1;
@@ -62,6 +66,10 @@ export class Game {
     this.cubes.length = 0;
     this.ballContainer.removeChildren().forEach(e => e.destroy());
     this.balls.length = 0;
+  };
+
+  newGame = () => {
+    this.state = 'waiting';
     this.pendingBalls.push(new Ball());
     this.resetBall();
     this.addCubeRow();
@@ -84,10 +92,15 @@ export class Game {
 
   addCubeRow = () => {
     const newCubes: (Cube | null)[] = new Array(c.cubeCountPerRow).fill(null);
+    let addBall = 0;
     randomSub(range(c.cubeCountPerRow), randomInt(c.cubeCountPerRow * 0.4, c.cubeCountPerRow * 0.9)).forEach((x) => {
       let cube;
-      if (this.totalBallCount < this.level / 3 || randomFloat(8) < 1 / Math.sqrt(this.totalBallCount)) {
+      if (addBall < 2 && (
+        this.totalBallCount < this.level / 3 ||
+        randomFloat(this.mode === 'xuxu' ? 2 : 8) < 1 / Math.sqrt(this.totalBallCount)
+      )) {
         cube = new AddBall();
+        addBall += 1;
         if (this.level > 15 && randomFloat() < 0.2) {
           cube.big = true;
         }

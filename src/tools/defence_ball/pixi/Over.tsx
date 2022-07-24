@@ -16,7 +16,7 @@ export const Over: FC<Props> = (
         游戏结束
       </div>
       <button className={'text-3xl border border-white rounded p-2 hover:bg-white hover:text-black transition'}
-              onClick={() => game.newGame()}
+              onClick={() => game.ready()}
       >
         再来一局
       </button>
