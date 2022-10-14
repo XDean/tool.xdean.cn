@@ -1,5 +1,3 @@
-# My Next Template
+# My Tool Box
 
-```shell
-npx create-next-app -e https://github.com/XDean/next-template
-```
+https://tool.xdean.cn
