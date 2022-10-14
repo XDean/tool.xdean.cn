@@ -1,16 +1,16 @@
-const withPlugins = require('next-compose-plugins');
-const withMDX = require('@next/mdx');
+const withMDX = require('@next/mdx')({
+  extension: /\.(md|mdx)$/,
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+  },
+});
 
-module.exports = withPlugins([
-  [withMDX({
-      extension: /\.(md|mdx)$/,
-      options: {
-        remarkPlugins: [],
-        rehypePlugins: [],
-      },
-    }
-  )],
-  {
-    pageExtensions: ['ts', 'tsx', 'mdx']
-  }
-]);
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = withMDX({
+  pageExtensions: ['ts', 'tsx', 'mdx']
+});
+
+module.exports = nextConfig;

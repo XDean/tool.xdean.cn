@@ -4,6 +4,17 @@
 
 
 @layer base {
+    button:focus {
+        @apply outline-none
+    }
+
+    input:focus{
+        @apply outline-none
+    }
+
+    select:focus{
+        @apply outline-none
+    }
 }
 
 @layer components {
@@ -17,5 +28,22 @@
 
     .shine-black {
         text-shadow: 0 0 2px black, 0 0 4px black, 0 0 6px black;
+    }
+
+    .full {
+        @apply w-full h-full;
+    }
+}
+
+@layer utilities {
+    .sb-lite {
+        @apply scrollbar:w-1.5 scrollbar:h-1.5 scrollbar:bg-transparent;
+        @apply scrollbar-track:bg-slate-100 scrollbar-track:rounded;
+        @apply scrollbar-thumb:rounded scrollbar-thumb:bg-slate-300;
+        scrollbar-gutter: stable;
+    }
+
+    .full-center {
+        @apply w-full h-full flex flex-col items-center justify-center;
     }
 }
