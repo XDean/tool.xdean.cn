@@ -1,7 +1,7 @@
 import assert from 'assert';
-import { Tile, TileNumberTypes, TilePoint, TileType, TileTypes } from './tile';
-import { Combination, Dui, Hand, Ke, QiDui, Shun, Tiles } from './type';
-import { calcTing } from './ting';
+import {Tile, TileNumberTypes, TilePoint, TileType, TileTypes} from './tile';
+import {Combination, Dui, Hand, Ke, QiDui, Shun, Tiles} from './type';
+import {calcTing} from './ting';
 
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
   assert(comb.toTiles.length === 14, '和牌必须14张');
@@ -42,6 +42,9 @@ export function calcFan(hand: Hand, comb: Combination): Fan[] {
   if (res.filter(e => e === XiXiangFeng).length === 2 && res.filter(e => e === LaoShaoFu).length === 2) {
     res.splice(res.indexOf(LaoShaoFu), 1);
   }
+  if (res.filter(e => e === XiXiangFeng).length === 2 && res.filter(e => e === LianLiu).length === 2) {
+    res.splice(res.indexOf(LianLiu), 1);
+  }
   return res;
 }
 
@@ -55,7 +58,7 @@ export class Fan {
   readonly match: (comb: Combination, hand: Hand, tings: Tile[]) => boolean | number;
   readonly exclude?: FanExclude[];
   readonly desc: string;
-  readonly sample?: { hand: Hand, desc?: string }[];
+  readonly sample?: {hand: Hand, desc?: string}[];
 
   constructor(
     props: {
@@ -64,7 +67,7 @@ export class Fan {
       match(comb: Combination, hand: Hand, tings: Tile[]): boolean | number
       exclude?: FanExclude[]
       desc?: string
-      sample?: { hand: Hand, desc?: string }[]
+      sample?: {hand: Hand, desc?: string}[]
     },
   ) {
     this.name = props.name;
