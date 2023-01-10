@@ -1,7 +1,7 @@
-import {Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import React, {useMemo} from 'react';
+import {Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 
-export const DiceChart = React.memo(({values}: { values: number[][] }) => {
+export const DiceChart = React.memo(function DieChart({values}: {values: number[][]}) {
   const data = useMemo(() => {
     const sums = values.map(v => v.map(e => e + 1).reduce((a, b) => a + b));
     const counts: Record<number, number> = {};
@@ -25,7 +25,8 @@ export const DiceChart = React.memo(({values}: { values: number[][] }) => {
   }
   return (
     <div className={'w-full h-full'}>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%"
+                           height="100%">
         <BarChart
           layout={'vertical'}
           data={data}
@@ -36,12 +37,18 @@ export const DiceChart = React.memo(({values}: { values: number[][] }) => {
             bottom: 5,
           }}
         >
-          <XAxis type={'number'} hide/>
-          <YAxis type={'category'} width={30} dataKey={'value'}/>
+          <XAxis type={'number'}
+                 hide/>
+          <YAxis type={'category'}
+                 width={30}
+                 dataKey={'value'}/>
           <Tooltip labelClassName={'color-white font-bold'}/>
-          <Bar dataKey="count" fill="#82ca9d" label={{valueAccessor: (e: { count: number }) => e.count || ''} as any}/>
+          <Bar dataKey="count"
+               fill="#82ca9d"
+               label={{valueAccessor: (e: {count: number}) => e.count || ''} as any}/>
         </BarChart>
       </ResponsiveContainer>
     </div>
   );
 });
+

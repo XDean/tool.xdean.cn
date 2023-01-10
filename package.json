@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "lint": "next lint",
     "dev": "next dev -p 3002",
     "build": "next build",
     "postbuild": "next-sitemap",
