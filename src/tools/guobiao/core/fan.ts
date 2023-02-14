@@ -707,8 +707,9 @@ export const QiXingBuKao = new Fan({
 export const QuanShuangKe = new Fan({
   score: 24,
   name: '全双刻',
-  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.point % 2 === 0).length === 4 &&
-    c.mians.filter(m => m.type === 'dui' && m.tile.point % 2 === 0).length === 1,
+  match: c =>
+    c.mians.filter(m => m.type === 'ke' && m.tile.point % 2 === 0 && m.tile.type !== 'z').length === 4 &&
+    c.mians.filter(m => m.type === 'dui' && m.tile.point % 2 === 0 && m.tile.type !== 'z').length === 1,
   exclude: [PengPengHu, DuanYao],
   desc: '由2、4、6、8序数牌的刻子、将牌组成的和牌。不计碰碰和、断幺。',
   sample: [{hand: Hand.create('t222b444w222888t44')}],

@@ -1,4 +1,4 @@
-import { expect, test } from '@jest/globals';
+import {expect, test} from '@jest/globals';
 import {
   ALL_FANS,
   BuQiuRen,
@@ -12,7 +12,7 @@ import {
   LianLiu,
   LvYiSe,
   MenFengKe,
-  MenQianQing, MiaoShouHuiChun, MingGang,
+  MenQianQing, MiaoShouHuiChun, MingAnGang, MingGang,
   PengPengHu,
   PingHu, QiangGangHu,
   QiDuiFan,
@@ -42,8 +42,8 @@ import {
   YiSeSiBuGao,
   ZiMo,
 } from './fan';
-import { Hand } from './type';
-import { calcHuBest } from './hu';
+import {Hand} from './type';
+import {calcHuBest} from './hu';
 
 describe('samples', () => {
   for (const f of ALL_FANS) {
@@ -226,4 +226,15 @@ describe('bugs', () => {
       [SiGuiYi, WuZi]);
   });
 
+  //https://github.com/XDean/blog-comment/issues/5#issuecomment-1426996592
+  test('字牌不算全双刻', () => {
+    expectHu(Hand.create('gt2 at4 lt66688z66 t8'),
+      [LvYiSe, MingAnGang, PengPengHu, ShuangAnKe]);
+  });
+
+  // https://github.com/XDean/blog-comment/issues/5#issuecomment-1376120115
+  test('双连六喜相逢', () => {
+    expectHu(Hand.create('t234567 b23456 w33 b7'),
+      [MenQianQing, PingHu, DuanYao, XiXiangFeng, XiXiangFeng, LianLiu]);
+  });
 });
