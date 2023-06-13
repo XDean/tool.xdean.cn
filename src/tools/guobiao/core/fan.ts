@@ -854,7 +854,7 @@ export const QingYaoJiu = new Fan({
   score: 64,
   name: '清幺九',
   match: c => c.toTiles.allIn(Tile.YaoJiu),
-  exclude: [HunYaoJiu, PengPengHu, ShuangTongKe, QuanDaiYao, YaoJiuKe, YaoJiuKe, YaoJiuKe, YaoJiuKe, WuZi],
+  exclude: [HunYaoJiu, PengPengHu, ShuangTongKe, ShuangTongKe, QuanDaiYao, YaoJiuKe, YaoJiuKe, YaoJiuKe, YaoJiuKe, WuZi],
   desc: '由序数牌一、九刻子组成的和牌。不计混幺九、碰碰和、双同刻、全带幺、幺九刻、无字。',
   sample: [{hand: Hand.create('t111 b111999 w11199')}],
 });

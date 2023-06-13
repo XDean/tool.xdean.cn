@@ -5,18 +5,26 @@ import {
   DanDiaoJiang,
   DaYuWu,
   DuanYao,
-  Fan, GangShangKaiHua, HaiDiLaoYue,
+  Fan,
+  GangShangKaiHua,
+  HaiDiLaoYue,
   Hua,
-  HuaLong, HuJueZhang,
+  HuaLong,
+  HuJueZhang,
   LaoShaoFu,
   LianLiu,
   LvYiSe,
   MenFengKe,
-  MenQianQing, MiaoShouHuiChun, MingAnGang, MingGang,
+  MenQianQing,
+  MiaoShouHuiChun,
+  MingAnGang,
+  MingGang,
   PengPengHu,
-  PingHu, QiangGangHu,
+  PingHu,
+  QiangGangHu,
   QiDuiFan,
   QingLong,
+  QingYaoJiu,
   QingYiSe,
   QuanDaiWu,
   QuanDaiYao,
@@ -30,6 +38,7 @@ import {
   ShuangAnKe,
   ShuangTongKe,
   SiAnKe,
+  SiGang,
   SiGuiYi,
   WuFanHu,
   WuMenQi,
@@ -42,8 +51,8 @@ import {
   YiSeSiBuGao,
   ZiMo,
 } from './fan';
-import {Hand} from './type';
 import {calcHuBest} from './hu';
+import {Hand} from './type';
 
 describe('samples', () => {
   for (const f of ALL_FANS) {
@@ -236,5 +245,11 @@ describe('bugs', () => {
   test('双连六喜相逢', () => {
     expectHu(Hand.create('t234567 b23456 w33 b7'),
       [MenQianQing, PingHu, DuanYao, XiXiangFeng, XiXiangFeng, LianLiu]);
+  });
+
+  // https://github.com/XDean/blog-comment/issues/5#issuecomment-1588690291
+  test('清幺九不计双同刻', () => {
+    expectHu(Hand.create('aw19t19lb11@'),
+      [QingYaoJiu, SiAnKe, SiGang]);
   });
 });
