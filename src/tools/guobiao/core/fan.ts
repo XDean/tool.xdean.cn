@@ -190,7 +190,7 @@ export const BianZhang = new Fan({
   name: '边张',
   match: (c, h, ts) =>
     ts.length === 1 && (h.tiles.last.point === 3 || h.tiles.last.point === 7) && c.getMianWith(h.tiles.last)
-      .some(m => !m.open && m.type === 'shun' && (m.tile.point === 1 || m.tile.point === 9)),
+      .some(m => !m.open && m.type === 'shun' && (m.tile.point === 1 || m.tile.point === 7)),
   desc: '单和123的3及789的7或1233和3、7789和7都为边张。手中有12345和3，56789和7不算和边张。',
 });
 

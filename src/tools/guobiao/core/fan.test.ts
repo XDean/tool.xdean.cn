@@ -1,6 +1,6 @@
 import {expect, test} from '@jest/globals';
 import {
-  ALL_FANS,
+  ALL_FANS, BianZhang,
   BuQiuRen,
   DanDiaoJiang,
   DaYuWu,
@@ -251,5 +251,11 @@ describe('bugs', () => {
   test('清幺九不计双同刻', () => {
     expectHu(Hand.create('aw19t19lb11@'),
       [QingYaoJiu, SiAnKe, SiGang]);
+  });
+
+  // https://github.com/XDean/blog-comment/issues/5#issuecomment-1606510446
+  test('漏记边张', () => {
+    expectHu(Hand.create('t123567w34589z55w7@'),
+      [MenQianQing, QueYiMen, BianZhang]);
   });
 });
