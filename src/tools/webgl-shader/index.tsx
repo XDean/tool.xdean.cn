@@ -12,4 +12,5 @@ export const WebglShader: Tool = {
   nameSize: 18,
   icon: () => <Image src={logo} layout={'responsive'} className={'rounded-full'}/>,
   content: Index,
+  disableLayout: true,
 };
