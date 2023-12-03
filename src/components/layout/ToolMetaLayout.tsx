@@ -17,7 +17,7 @@ export const ToolMetaLayout = (props: Props) => {
   const openInfo = useObservable(context.openInfo);
   return (
     <AppLayoutReactContext.Provider value={context}>
-      <div className={'w-full max-w-screen-md min-h-screen mx-auto relative flex flex-col px-2'}>
+      <div className={'max-w-full w-[1024px] min-h-screen mx-auto relative flex flex-col px-2'}>
         {showHeader && <Header/>}
         <main className={'my-4 container mx-auto flex-grow'}>
           <div className={openInfo ? 'hidden' : 'block'}>

@@ -44,7 +44,7 @@ const Page = () => {
                   <meta.icon/>
                 </div>
                 <div className={'group-hover:underline leading-[40px] whitespace-nowrap text-ellipsis overflow-hidden'}
-                     style={{fontSize: `${Math.min(30, 130 / meta.name.length)}px`}}>
+                     style={{fontSize: `${meta.nameSize ?? Math.min(30, 130 / meta.name.length)}px`}}>
                   {meta.name}
                 </div>
               </a>
