@@ -23,6 +23,7 @@
     "@types/sat": "0.0.31",
     "@types/three": "^0.141.0",
     "@xstate/react": "^1.6.3",
+    "allotment": "^1.19.3",
     "clsx": "^1.1.1",
     "codemirror": "^6.0.1",
     "color": "^4.2.3",

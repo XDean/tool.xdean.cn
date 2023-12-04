@@ -8,6 +8,7 @@ export class ThreeRenderer {
   readonly resizeObserver: ResizeObserver;
   readonly controls: OrbitControls;
   readonly shaderMaterial: THREE.ShaderMaterial;
+  readonly clock = new THREE.Clock();
 
   constructor(
     readonly root: HTMLDivElement,
@@ -21,6 +22,10 @@ export class ThreeRenderer {
 
     this.shaderMaterial = new THREE.ShaderMaterial({
       side: THREE.DoubleSide,
+      transparent: true,
+      uniforms: {
+        time: {value: 0.0},
+      },
     });
     this.scene.add(new THREE.Mesh(
       new THREE.PlaneGeometry(),
@@ -36,6 +41,7 @@ export class ThreeRenderer {
     this.resizeObserver = new ResizeObserver(() => this.onResize());
     this.resizeObserver.observe(root);
 
+    this.clock.start();
     this.animate();
   }
 
@@ -46,6 +52,8 @@ export class ThreeRenderer {
   animate() {
     requestAnimationFrame(() => this.animate());
     this.controls.update();
+    this.shaderMaterial.uniforms.time.value = this.clock.getElapsedTime();
+    this.shaderMaterial.uniformsNeedUpdate = true;
     this.render();
   }
 
@@ -58,6 +66,11 @@ export class ThreeRenderer {
   dispose() {
     this.renderer.domElement.remove();
     this.renderer.dispose();
+  }
+
+  setVertexShader(s: string) {
+    this.shaderMaterial.vertexShader = s;
+    this.shaderMaterial.needsUpdate = true;
   }
 
   setFragmentShader(s: string) {

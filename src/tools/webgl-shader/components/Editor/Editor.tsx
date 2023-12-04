@@ -1,23 +1,23 @@
 import { basicSetup } from 'codemirror';
 import { EditorView, keymap } from '@codemirror/view';
 import { indentWithTab } from '@codemirror/commands';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { StreamLanguage } from '@codemirror/language';
 import { shader } from '@codemirror/legacy-modes/mode/clike';
 import { dracula } from 'thememirror';
 import { StateEffect } from '@codemirror/state';
 
 type Props = {
-  fragShader: string
-  onFragShaderChange: (v: string) => void
+  value: string
+  onChange: (v: string) => void
 }
 export const Editor: FC<Props> = (
   {
-    fragShader,
-    onFragShaderChange,
+    value,
+    onChange,
   },
 ) => {
-  const instance = useRef<EditorView>();
+  const [instance, setInstance] = useState<EditorView>();
   const [rootDom, setRootDom] = useState<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!rootDom) {
@@ -41,40 +41,38 @@ export const Editor: FC<Props> = (
       ],
       parent: rootDom,
     });
-    instance.current = editor;
+    setInstance(editor);
     return () => {
-      instance.current = undefined;
+      setInstance(undefined);
       editor.destroy();
     };
   }, [rootDom]);
 
   useEffect(() => {
-    const currentValue = instance.current?.state.doc.toString() ?? '';
-    if (currentValue === fragShader) {
+    const currentValue = instance?.state.doc.toString() ?? '';
+    if (currentValue === value) {
       return;
     }
-    instance.current?.dispatch({
-      changes: {from: 0, to: currentValue.length, insert: fragShader},
+    instance?.dispatch({
+      changes: {from: 0, to: currentValue.length, insert: value},
     });
-  }, [fragShader]);
+  }, [instance, value]);
 
   useEffect(() => {
-    instance.current?.dispatch({
-      effects: StateEffect.reconfigure.of([
+    instance?.dispatch({
+      effects: StateEffect.appendConfig.of([
         EditorView.updateListener.of((vu) => {
           if (vu.docChanged) {
             const doc = vu.state.doc;
             const value = doc.toString();
-            onFragShaderChange(value);
+            onChange(value);
           }
         }),
       ]),
     });
-  }, [onFragShaderChange]);
+  }, [onChange, instance]);
 
   return (
-    <div ref={setRootDom} className={'full border'}>
-
-    </div>
+    <div ref={setRootDom} className={'full border'}/>
   );
 };
