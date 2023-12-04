@@ -1,18 +1,30 @@
-import {useEffect, useState} from 'react';
-import {ThreeRenderer} from './render';
+import { FC, useEffect, useRef, useState } from 'react';
+import { ThreeRenderer } from './render';
 
-export const Previewer = () => {
+type Props = {
+  fragShader: string
+}
+export const Previewer: FC<Props> = (
+  {
+    fragShader,
+  },
+) => {
+  const renderer = useRef<ThreeRenderer>();
   const [rootDom, setRootDom] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!rootDom) {
       return;
     }
-    const renderer = new ThreeRenderer(rootDom);
+    renderer.current = new ThreeRenderer(rootDom);
     return () => {
-      renderer.dispose();
+      renderer.current?.dispose();
     };
   }, [rootDom]);
+
+  useEffect(() => {
+    renderer.current?.setFragmentShader(fragShader);
+  }, [fragShader]);
 
   return (
     <div ref={setRootDom}

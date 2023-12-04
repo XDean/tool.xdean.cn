@@ -1,15 +1,26 @@
 import { basicSetup } from 'codemirror';
 import { EditorView, keymap } from '@codemirror/view';
 import { indentWithTab } from '@codemirror/commands';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { StreamLanguage } from '@codemirror/language';
 import { shader } from '@codemirror/legacy-modes/mode/clike';
 import { dracula } from 'thememirror';
+import { StateEffect } from '@codemirror/state';
 
-export const Editor: FC = () => {
-  const [ref, setRef] = useState<HTMLDivElement | null>(null);
+type Props = {
+  fragShader: string
+  onFragShaderChange: (v: string) => void
+}
+export const Editor: FC<Props> = (
+  {
+    fragShader,
+    onFragShaderChange,
+  },
+) => {
+  const instance = useRef<EditorView>();
+  const [rootDom, setRootDom] = useState<HTMLDivElement | null>(null);
   useEffect(() => {
-    if (!ref) {
+    if (!rootDom) {
       return;
     }
 
@@ -28,14 +39,41 @@ export const Editor: FC = () => {
         }),
         dracula,
       ],
-      parent: ref,
+      parent: rootDom,
     });
+    instance.current = editor;
     return () => {
+      instance.current = undefined;
       editor.destroy();
     };
-  }, [ref]);
+  }, [rootDom]);
+
+  useEffect(() => {
+    const currentValue = instance.current?.state.doc.toString() ?? '';
+    if (currentValue === fragShader) {
+      return;
+    }
+    instance.current?.dispatch({
+      changes: {from: 0, to: currentValue.length, insert: fragShader},
+    });
+  }, [fragShader]);
+
+  useEffect(() => {
+    instance.current?.dispatch({
+      effects: StateEffect.reconfigure.of([
+        EditorView.updateListener.of((vu) => {
+          if (vu.docChanged) {
+            const doc = vu.state.doc;
+            const value = doc.toString();
+            onFragShaderChange(value);
+          }
+        }),
+      ]),
+    });
+  }, [onFragShaderChange]);
+
   return (
-    <div ref={setRef} className={'full border'}>
+    <div ref={setRootDom} className={'full border'}>
 
     </div>
   );
