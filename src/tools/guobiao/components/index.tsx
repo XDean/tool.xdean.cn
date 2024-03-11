@@ -6,6 +6,7 @@ import { BiArrowBack, BiBookAlt, BiHelpCircle } from 'react-icons/bi';
 import { Info } from './Info';
 import { FanTable } from './FanTable';
 import { useLocalStorage } from '@mantine/hooks';
+import Head from 'next/head';
 
 const modes = ['main', 'info', 'fan'] as const;
 type Mode = typeof modes[number]
@@ -54,6 +55,13 @@ export const Index: VFC = () => {
         </div>
       ) : null,
     }}>
+      <Head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7804430263218291"
+          crossOrigin="anonymous"
+        />
+      </Head>
       <div className={mode === 'main' ? 'block' : 'hidden'}>
         <GuoBiaoMainView/>
       </div>
