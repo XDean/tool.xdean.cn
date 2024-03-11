@@ -1,6 +1,7 @@
 import { Footer } from 'common/components/Footer';
 import React, { FC, ReactNode } from 'react';
 import clsx from 'clsx';
+import { Ads } from '../Ads';
 
 type Props = {
   nav: {
@@ -28,6 +29,7 @@ export const ToolLayout: FC<Props> = (props) => {
       <main className={'my-4 container mx-auto flex-grow px-2'}>
         {props.children}
       </main>
+      <Ads/>
       <Footer/>
     </div>
   );

@@ -5,6 +5,7 @@ import {Tool} from '../../tools';
 import {Header} from './components/Header';
 import {AppLayoutContext, AppLayoutReactContext} from './context';
 import {ToolDetails} from './ToolDetails';
+import { Ads } from '../Ads';
 
 type Props = PropsWithChildren<{
   meta: Tool
@@ -27,6 +28,7 @@ export const ToolMetaLayout = (props: Props) => {
             <ToolDetails meta={meta}/>
           </div>
         </main>
+        <Ads/>
         <Footer/>
       </div>
     </AppLayoutReactContext.Provider>
