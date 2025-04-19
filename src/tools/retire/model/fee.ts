@@ -2,15 +2,15 @@ import { NumberRange } from './util';
 
 export type Fee = {
   name: string;
-  startValue: number;
+  startValue: number; // month value
   comment: string;
-  yearIncrease: number;
+  yearIncrease: number; // month value
   yearIncreaseRatio: number;
   yearRange: NumberRange;
   ageRange: NumberRange;
   valueRange: NumberRange;
   income: boolean
-  work?: boolean; // undefined means not related to work
+  work: boolean
 }
 
 export const Fee = {
@@ -24,9 +24,9 @@ export const Fee = {
       yearRange = [null, null],
       ageRange = [null, null],
       valueRange = [null, null],
-      income,
-      work,
-    }: Partial<Fee> & Pick<Fee, 'name' | 'startValue' | 'income'>,
+      income = false,
+      work = false,
+    }: Partial<Fee> & Pick<Fee, 'name' | 'startValue'>,
   ): Fee => {
     return {
       name,
