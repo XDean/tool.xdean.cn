@@ -1,6 +1,7 @@
 import { NumberRange } from './util';
 
 export type Fee = {
+  id: number
   name: string;
   startValue: number; // month value
   comment: string;
@@ -12,6 +13,8 @@ export type Fee = {
   income: boolean
   work: boolean
 }
+
+let idCounter = 0;
 
 export const Fee = {
   create: (
@@ -28,7 +31,9 @@ export const Fee = {
       work = false,
     }: Partial<Fee> & Pick<Fee, 'name' | 'startValue'>,
   ): Fee => {
+    idCounter += 1;
     return {
+      id: idCounter,
       name,
       startValue,
       comment,
