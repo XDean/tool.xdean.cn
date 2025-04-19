@@ -9,6 +9,7 @@ type Props = {
     left?: ReactNode
     right?: ReactNode
   }
+  ads?: boolean
 }
 
 export const ToolLayout: FC<Props> = (props) => {
@@ -29,7 +30,7 @@ export const ToolLayout: FC<Props> = (props) => {
       <main className={'my-4 container mx-auto flex-grow px-2'}>
         {props.children}
       </main>
-      <Ads/>
+      {(props.ads ?? true) && <Ads/>}
       <Footer/>
     </div>
   );

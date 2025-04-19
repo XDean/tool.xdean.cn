@@ -1,9 +1,10 @@
-import {ComponentType} from 'react';
-import {FairDice} from './fair_dice';
-import {GuoBiao} from './guobiao';
-import {Handle} from './handle';
-import {Tax} from './tax';
-import {DefenceBall} from './defence_ball';
+import { ComponentType } from 'react';
+import { FairDice } from './fair_dice';
+import { GuoBiao } from './guobiao';
+import { Handle } from './handle';
+import { Tax } from './tax';
+import { DefenceBall } from './defence_ball';
+import { Retire } from './retire';
 
 export type Tool = {
   id: string
@@ -20,4 +21,5 @@ export const tools: Tool[] = [
   FairDice,
   Handle,
   DefenceBall,
+  Retire,
 ];
