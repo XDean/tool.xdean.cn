@@ -166,7 +166,7 @@ export const Retire = {
         interest: years.reduce((a, b) => a + b.interest, 0),
       },
       endValue: lastYear.endBalance,
-      minRetireAge: years.find(e => e.nowNeed <= e.startBalance)?.age ?? -1,
+      minRetireAge: years.find(e => e.age <= input.retireAge && e.nowNeed <= e.startBalance)?.age ?? -1,
     };
   },
 };
