@@ -1,4 +1,4 @@
-import { RetireInput } from '../model/retire';
+import { Retire, RetireInput } from '../model/retire';
 import { FC } from 'react';
 import { Fee } from '../model/fee';
 import { FeeCard } from './FeeCard';
@@ -120,7 +120,7 @@ export const RetireInputForm: FC<Props> = ({value, onChange}) => {
           compact
           onClick={() => setValue(v => {
             v.fees.push(Fee.create({
-              name: '',
+              name: Retire.nextName(value, 'work'),
               startValue: 5000,
               yearIncreaseRatio: 0.03,
               type: 'work',
@@ -136,9 +136,8 @@ export const RetireInputForm: FC<Props> = ({value, onChange}) => {
           compact
           onClick={() => setValue(v => {
             v.fees.push(Fee.create({
-              name: '',
-              startValue: 5000,
-              yearIncreaseRatio: 0.03,
+              name: Retire.nextName(value, 'income'),
+              startValue: 1000,
               type: 'income',
             }));
           })}
@@ -152,9 +151,8 @@ export const RetireInputForm: FC<Props> = ({value, onChange}) => {
           compact
           onClick={() => setValue(v => {
             v.fees.push(Fee.create({
-              name: '',
-              startValue: 5000,
-              yearIncreaseRatio: 0.03,
+              name: Retire.nextName(value, 'expense'),
+              startValue: 1000,
               type: 'expense',
             }));
           })}

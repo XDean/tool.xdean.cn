@@ -171,6 +171,10 @@ export const FeeCard: FC<Props> = ({value, onChange, onDelete}) => {
             onChange={e => setValue((v) => {
               v.comment = e.target.value;
             })}
+            classNames={{
+              input: '!w-full',
+            }}
+            className={'!w-60 max-w-[60vw]'}
           />
         </div>
       </div>

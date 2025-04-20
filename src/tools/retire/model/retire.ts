@@ -1,5 +1,6 @@
-import { Fee } from './fee';
+import { Fee, FeeType } from './fee';
 import { NumberRange } from './util';
+import { FeeTypeOptions } from '../util/constants';
 
 export type YearRes = {
   year: number
@@ -140,5 +141,8 @@ export const Retire = {
       endValue: lastYear.endBalance,
       minRetireAge: years.find(e => e.age <= input.retireAge && e.nowNeed <= e.startBalance)?.age ?? -1,
     };
+  },
+  nextName: (input: RetireInput, type: FeeType): string => {
+    return FeeTypeOptions[type].names.find(e => input.fees.every(f => f.name !== e)) ?? '';
   },
 };
