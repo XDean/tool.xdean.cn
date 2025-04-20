@@ -6,27 +6,28 @@ import { RetireResView } from './RetireResView';
 import { Button } from '@mantine/core';
 import { Achievement, BPZJ, calcAchievement } from '../model/achievement';
 import { AchievementView } from './AchievementView';
+import { RetireHelpDialog } from './RetireHelpDialog'; // 新增：引入帮助对话框组件
 
 export const RetireView = () => {
   const [input, setInput] = useState(Retire.defaultInput());
   const [res, setRes] = useState<RetireRes>();
   const [achievements, setAchievements] = useState<Achievement[]>([]);
+
   return (
     <ToolLayout
       nav={{
         title: '退休计算器',
+        right: <RetireHelpDialog/>, // 修改：使用帮助对话框组件
       }}
       ads={false}
     >
-      <div
-        className={'text-sm space-y-2'}
-      >
+      <div className={'text-sm space-y-2'}>
         <RetireInputForm
           value={input}
           onChange={(v) => {
             setInput(v);
             setRes(undefined);
-            setAchievements([])
+            setAchievements([]);
           }}
         />
         <div className={'text-center'}>
@@ -47,7 +48,7 @@ export const RetireView = () => {
           </Button>
         </div>
 
-        {achievements.length > 0 && <AchievementView achievements={achievements} />}
+        {achievements.length > 0 && <AchievementView achievements={achievements}/>}
 
         {res && (
           <div ref={(e) => {
