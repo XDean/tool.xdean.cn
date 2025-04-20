@@ -3,19 +3,11 @@ import { Fee } from '../model/fee';
 import { BiTrash } from 'react-icons/bi';
 import clsx from 'clsx';
 import { ActionIcon, NumberInput, TextInput } from '@mantine/core';
-import {
-  Banknote,
-  BanknoteArrowDown,
-  BanknoteArrowUp,
-  BriefcaseBusiness,
-  CalendarRange,
-  MessageSquare,
-  Ruler,
-  TrendingUp,
-} from 'lucide-react';
+import { Banknote, CalendarRange, MessageSquare, Ruler, TrendingUp } from 'lucide-react';
 import produce from 'immer';
 import { DraftFunction } from 'use-immer/dist';
 import { thousandFormatter, thousandParser } from '../../../util/mantine/input';
+import { FeeTypeOptions } from '../util/constants';
 
 type Props = {
   value: Fee;
@@ -27,19 +19,16 @@ export const FeeCard: FC<Props> = ({value, onChange, onDelete}) => {
   const setValue = (fn: DraftFunction<Fee>) => {
     onChange(produce(value, fn));
   };
+  const feeType = FeeTypeOptions[value.type];
   return (
     <div className={clsx(
-      `relative p-2 rounded space-y-2 border`,
-      value.work ? 'border-blue-500' : (value.income ? 'border-green-500' : 'border-violet-500'),
-    )}>
+      `relative p-2 rounded space-y-2 border`, feeType.border)}>
       <div className={'flex items-center gap-1'}>
         <div className={clsx(
           'flex items-center gap-1 text-white rounded text-xs p-1',
-          value.work ? 'bg-blue-500' : (value.income ? 'bg-green-500' : 'bg-violet-500'),
+          feeType.bg,
         )}>
-          {value.work ? <BriefcaseBusiness size={16}/> : (value.income
-            ? <BanknoteArrowUp size={16}/>
-            : <BanknoteArrowDown size={16}/>)}
+          <feeType.icon size={16}/>
         </div>
         <TextInput
           value={value.name}

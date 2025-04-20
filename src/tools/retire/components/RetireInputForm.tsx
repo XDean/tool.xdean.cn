@@ -123,8 +123,7 @@ export const RetireInputForm: FC<Props> = ({value, onChange}) => {
               name: '',
               startValue: 5000,
               yearIncreaseRatio: 0.03,
-              work: true,
-              income: true,
+              type: 'work',
             }));
           })}
         >
@@ -140,7 +139,7 @@ export const RetireInputForm: FC<Props> = ({value, onChange}) => {
               name: '',
               startValue: 5000,
               yearIncreaseRatio: 0.03,
-              income: true,
+              type: 'income',
             }));
           })}
         >
@@ -156,6 +155,7 @@ export const RetireInputForm: FC<Props> = ({value, onChange}) => {
               name: '',
               startValue: 5000,
               yearIncreaseRatio: 0.03,
+              type: 'expense',
             }));
           })}
         >
@@ -165,9 +165,9 @@ export const RetireInputForm: FC<Props> = ({value, onChange}) => {
 
       <div className="space-y-2">
         {[
-          ...value.fees.filter(e => e.work),
-          ...value.fees.filter(e => !e.work && e.income),
-          ...value.fees.filter(e => !e.work && !e.income),
+          ...value.fees.filter(e => e.type === 'work'),
+          ...value.fees.filter(e => e.type === 'income'),
+          ...value.fees.filter(e => e.type === 'expense'),
         ]
           .map((fee) => (
             <FeeCard

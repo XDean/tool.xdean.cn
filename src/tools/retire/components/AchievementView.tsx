@@ -23,11 +23,11 @@ export const AchievementView = ({achievements}: AchievementViewProps) => {
             <img
               src={achievement.icon.src}
               alt={achievement.name}
-              width={48}
-              height={48}
+              width={44}
+              height={44}
               className={'row-span-2'}
             />
-            <div className={'text-lg'}>
+            <div className={'text-base'}>
               {achievement.name}
             </div>
             <div className={'text-xs text-gray-500'}>

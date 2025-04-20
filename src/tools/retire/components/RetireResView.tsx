@@ -63,7 +63,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
         <div className={'grid grid-cols-4 text-right gap-x-2 gap-y-1 mt-2'}>
           <div className={'text-center border p-1 rounded'}>
             <div className={'text-base'}>
-              {format(res.total.workIncome)}
+              {format(res.total.work)}
             </div>
             <div className={'text-xs text-gray-500'}>
               总工作收入
@@ -71,7 +71,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
           </div>
           <div className={'text-center border p-1 rounded'}>
             <div className={'text-base'}>
-              {format(res.total.otherIncome)}
+              {format(res.total.income)}
             </div>
             <div className={'text-xs text-gray-500'}>
               总其他收入
@@ -110,7 +110,13 @@ export const RetireResView: FC<Props> = ({input, res}) => {
               收入
             </td>
           </tr>
-          {input.fees.map((fee, index) => fee.income ? (
+          {input.fees.map((fee, index) => fee.type === 'work' ? (
+            <tr>
+              <td className={'pl-4'}>{fee.name}</td>
+              <td className={'text-right'}>{format(res.total.fees[index])}</td>
+            </tr>
+          ) : null)}
+          {input.fees.map((fee, index) => fee.type === 'income' ? (
             <tr>
               <td className={'pl-4'}>{fee.name}</td>
               <td className={'text-right'}>{format(res.total.fees[index])}</td>
@@ -122,7 +128,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
           </tr>
           <tr>
             <td className={'pl-4 font-semibold'}>合计</td>
-            <td className={'text-right'}>{format(res.total.income + res.total.interest)}</td>
+            <td className={'text-right'}>{format(res.total.income + res.total.work + res.total.interest)}</td>
           </tr>
           <tr>
             <td
@@ -132,7 +138,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
               支出
             </td>
           </tr>
-          {input.fees.map((fee, index) => !fee.income ? (
+          {input.fees.map((fee, index) => fee.type === 'expense' ? (
             <tr>
               <td className={'pl-4'}>{fee.name}</td>
               <td className={'text-right'}>{format(res.total.fees[index])}</td>
@@ -166,7 +172,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
               <th className={'sticky top-0 bg-white shadow'}>支出</th>
               <th className={'sticky top-0 bg-white shadow'}>利息</th>
               <th className={'sticky top-0 bg-white shadow'}>期末</th>
-              <th className={'sticky top-0 bg-white shadow'}>需要</th>
+              <th className={'sticky top-0 bg-white shadow pr-2'}>需要</th>
             </tr>
             </thead>
             <tbody>
@@ -181,11 +187,11 @@ export const RetireResView: FC<Props> = ({input, res}) => {
             {res.years.map((year) => (
               <tr key={year.age}>
                 <td>{year.age}</td>
-                <td>{format(year.income)}</td>
+                <td>{format(year.work + year.income)}</td>
                 <td>{format(year.expense)}</td>
                 <td>{format(year.interest)}</td>
                 <td>{format(year.endBalance)}</td>
-                <td>{format(year.nowNeed)}</td>
+                <td className={'pr-2'}>{format(year.nowNeed)}</td>
               </tr>
             ))}
             </tbody>

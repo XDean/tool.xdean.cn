@@ -40,7 +40,7 @@ export const Achievements: Achievement[] = [
     name: '不是哥们',
     desc: '众所周知，退休的前提是有工作',
     icon: bsgm,
-    match: (input, _res) => !input.fees.some(fee => fee.work && fee.income),
+    match: (input, _res) => input.fees.every(fee => fee.type !== 'work'),
   },
   {
     id: 'rhqm',
@@ -73,9 +73,9 @@ export const Achievements: Achievement[] = [
   {
     id: 'pxzs',
     name: '貔貅在世',
-    desc: '挣得多花得少，活该让你退休早',
+    desc: '挣得多花得少，活该你能退休早',
     icon: pxzs,
-    match: (_input, res) => res.total.workIncome > res.total.expense * 3,
+    match: (_input, res) => res.total.work > res.total.expense * 3,
   },
   {
     id: 'jdhk',

@@ -10,16 +10,9 @@ export type YearRes = {
   startBalance: number
   endBalance: number
 
-  workIncome: number
-  otherIncome: number
+  work: number
   income: number
-
-  workExpense: number
-  otherExpense: number
   expense: number
-
-  workTotal: number
-  otherTotal: number
   interest: number
   total: number
 
@@ -31,9 +24,8 @@ export type RetireRes = {
   total: {
     fees: number[]
     expense: number
-    workIncome: number
-    otherIncome: number
-    income: number // not include interest
+    work: number
+    income: number
     interest: number
   }
   endValue: number
@@ -43,7 +35,6 @@ export type RetireRes = {
 export type RetireInput = {
   fees: Fee[]
   balance: number
-  nowYear: number
   nowAge: number
   retireAge: number
   endAge: number
@@ -54,45 +45,41 @@ export const Retire = {
   defaultInput: (): RetireInput => {
     return {
       fees: [
-        Fee.create({name: '房租水电', startValue: 1000}),
+        Fee.create({name: '房租水电', startValue: 1500}),
         Fee.create({name: '吃吃喝喝', startValue: 1500}),
-        Fee.create({name: '服装日用', startValue: 300}),
-        Fee.create({name: '社保', startValue: 1000, ageRange: [null, 65]}),
+        Fee.create({name: '服装日用', startValue: 500}),
+        Fee.create({name: '社保', startValue: 1000, ageRange: [null, 60]}),
         Fee.create({
           name: '工作',
           startValue: 5000,
           yearIncreaseRatio: 0.03,
-          ageRange: [null, 65],
-          valueRange: [null, 30000],
-          work: true,
-          income: true,
+          ageRange: [null, 60],
+          valueRange: [null, 10000],
+          type: 'work',
         }),
         Fee.create({
           name: '养老金',
-          startValue: 3000,
+          startValue: 2000,
           yearIncrease: 100,
-          ageRange: [65, null],
-          income: true,
+          ageRange: [61, null],
+          type: 'income',
         }),
       ],
       balance: 50000,
-      nowYear: new Date().getFullYear(),
-      nowAge: 20,
+      nowAge: 25,
       endAge: 80,
       retireAge: 60,
       interestRate: 0.02,
     };
   },
   calc: (input: RetireInput): RetireRes => {
-    const nowYear = new Date().getFullYear();
     const years: YearRes[] = [];
     for (let i = 0; i < input.endAge - input.nowAge; i++) {
       const age = input.nowAge + i;
-      const year = nowYear + i;
       const lastYear = years.at(-1);
       const stillWork = age <= input.retireAge;
       const fees = input.fees.map((e, i) => {
-        if ((e.work && !stillWork) || !Fee.matchAge(e, age) || !Fee.matchYear(e, year)) {
+        if ((e.type === 'work' && !stillWork) || !Fee.matchAge(e, age)) {
           return null;
         }
         const lastValue = lastYear?.fees[i] ?? null;
@@ -105,52 +92,38 @@ export const Retire = {
           );
         }
       });
-      const workIncome = fees
-        .filter((e, i): e is number => e === null ? false : (input.fees[i].income && input.fees[i].work))
+      const work = fees
+        .filter((e, i): e is number => e === null ? false : input.fees[i].type === 'work')
         .reduce((a, b) => a + b ?? 0, 0);
-      const otherIncome = fees
-        .filter((e, i): e is number => e === null ? false : (input.fees[i].income && !input.fees[i].work))
+      const income = fees
+        .filter((e, i): e is number => e === null ? false : input.fees[i].type === 'income')
         .reduce((a, b) => a + b ?? 0, 0);
-      const income = workIncome + otherIncome;
-
-      const workExpense = fees
-        .filter((e, i): e is number => e === null ? false : (!input.fees[i].income && input.fees[i].work))
+      const expense = fees
+        .filter((e, i): e is number => e === null ? false : input.fees[i].type === 'expense')
         .reduce((a, b) => a + b ?? 0, 0);
-      const otherExpense = fees
-        .filter((e, i): e is number => e === null ? false : (!input.fees[i].income && !input.fees[i].work))
-        .reduce((a, b) => a + b ?? 0, 0);
-      const expense = workExpense + otherExpense;
-
-      const workTotal = workIncome - workExpense;
-      const otherTotal = otherIncome - otherExpense;
 
       const startBalance = lastYear?.endBalance ?? input.balance;
       const interest = startBalance * input.interestRate;
-      const total = income + interest - expense;
+      const total = work + income + interest - expense;
       const endBalance = startBalance + total;
       years.push({
         fees,
-        year,
+        year: i,
         age,
         startBalance,
         endBalance,
         interest,
-        workExpense,
-        otherExpense,
-        workIncome,
-        otherIncome,
-        workTotal,
-        otherTotal,
-        total,
+        work,
         income,
+        total,
         expense,
         nowNeed: 0,
       });
     }
     const lastYear = years.at(-1)!;
-    lastYear.nowNeed = Math.max(0, lastYear.expense - lastYear.otherIncome);
+    lastYear.nowNeed = Math.max(0, lastYear.expense - lastYear.income);
     for (let i = years.length - 2; i >= 0; i--) {
-      years[i].nowNeed = Math.max(0, years[i].expense - years[i].otherIncome) + years[i + 1].nowNeed / (1 + input.interestRate);
+      years[i].nowNeed = Math.max(0, years[i].expense - years[i].income) + years[i + 1].nowNeed / (1 + input.interestRate);
     }
     return {
       years,
@@ -160,8 +133,7 @@ export const Retire = {
           return f === null ? 0 : f;
         }).reduce((a, b) => a + b, 0)),
         expense: years.reduce((a, b) => a + b.expense, 0),
-        workIncome: years.reduce((a, b) => a + b.workIncome, 0),
-        otherIncome: years.reduce((a, b) => a + b.otherIncome, 0),
+        work: years.reduce((a, b) => a + b.work, 0),
         income: years.reduce((a, b) => a + b.income, 0),
         interest: years.reduce((a, b) => a + b.interest, 0),
       },

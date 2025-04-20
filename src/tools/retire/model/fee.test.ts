@@ -4,54 +4,53 @@ describe('Fee', () => {
   describe('create', () => {
     it('should create a Fee object with all required and optional properties', () => {
       const fee = Fee.create({
+        id:'id',
         name: 'Test Fee',
         startValue: 100,
         comment: 'Test comment',
         yearIncrease: 5,
         yearIncreaseRatio: 0.1,
-        yearRange: [2020, 2025],
         ageRange: [18, 65],
         valueRange: [1000, 5000],
-        income: true,
-        work: false,
+        type: 'income',
       });
 
       expect(fee).toEqual({
+        id:'id',
         name: 'Test Fee',
         startValue: 100,
         comment: 'Test comment',
         yearIncrease: 5,
         yearIncreaseRatio: 0.1,
-        yearRange: [2020, 2025],
         ageRange: [18, 65],
         valueRange: [1000, 5000],
-        income: true,
-        work: false,
+        type: 'income',
       });
     });
 
     it('should create a Fee object with only required properties', () => {
       const fee = Fee.create({
+        id: 'id',
         name: 'Test Fee',
         startValue: 100,
       });
 
       expect(fee).toEqual({
+        id: 'id',
         name: 'Test Fee',
         startValue: 100,
         comment: '',
         yearIncrease: 0,
         yearIncreaseRatio: 0,
-        yearRange: [null, null],
         ageRange: [null, null],
         valueRange: [null, null],
-        income: false,
-        work: false,
+        type: 'expense',
       });
     });
 
     it('should create a Fee object with some optional properties', () => {
       const fee = Fee.create({
+        id:'id',
         name: 'Test Fee',
         startValue: 100,
         yearIncrease: 5,
@@ -59,16 +58,15 @@ describe('Fee', () => {
       });
 
       expect(fee).toEqual({
+        id:'id',
         name: 'Test Fee',
         startValue: 100,
         comment: '',
         yearIncrease: 5,
         yearIncreaseRatio: 0,
-        yearRange: [null, null],
         ageRange: [18, 65],
         valueRange: [null, null],
-        income: false,
-        work: false,
+        type: 'expense',
       });
     });
   });
@@ -103,39 +101,6 @@ describe('Fee', () => {
       });
 
       expect(Fee.matchAge(fee, 30)).toBe(true);
-    });
-  });
-
-  describe('matchYear', () => {
-    it('should return true if year is within the range', () => {
-      const fee = Fee.create({
-        name: 'Test Fee',
-        startValue: 100,
-        yearRange: [2020, 2025],
-      });
-
-      expect(Fee.matchYear(fee, 2023)).toBe(true);
-    });
-
-    it('should return false if year is not within the range', () => {
-      const fee = Fee.create({
-        name: 'Test Fee',
-        startValue: 100,
-        yearRange: [2020, 2025],
-      });
-
-      expect(Fee.matchYear(fee, 2019)).toBe(false);
-      expect(Fee.matchYear(fee, 2026)).toBe(false);
-    });
-
-    it('should return true if year range is [null, null]', () => {
-      const fee = Fee.create({
-        name: 'Test Fee',
-        startValue: 100,
-        yearRange: [null, null],
-      });
-
-      expect(Fee.matchYear(fee, 2023)).toBe(true);
     });
   });
 });
