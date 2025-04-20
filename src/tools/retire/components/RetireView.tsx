@@ -6,22 +6,38 @@ import { RetireResView } from './RetireResView';
 import { Button } from '@mantine/core';
 import { Achievement, BPZJ, calcAchievement } from '../model/achievement';
 import { AchievementView } from './AchievementView';
-import { RetireHelpDialog } from './RetireHelpDialog';
+import { RetireHelpButton } from './RetireHelpButton';
 import { ReadWithAPI } from '../../../../common/components/badge/Read';
 import { LikeWithAPI } from '../../../../common/components/badge/Like';
-import { GithubComment } from '../../../components/util/GithubComment'; // 新增：引入帮助对话框组件
+import { GithubComment } from '../../../components/util/GithubComment';
+import { usePrevious } from 'react-use';
+import { Undo2 } from 'lucide-react';
+import clsx from 'clsx';
 
 export const RetireView = () => {
   const [input, setInput] = useState(Retire.defaultInput());
   const [res, setRes] = useState<RetireRes>();
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const commentRef = useRef<HTMLDivElement>(null);
+  const prevInput = usePrevious(input);
 
   return (
     <ToolLayout
       nav={{
         title: '退休计算器',
-        right: <RetireHelpDialog/>, // 修改：使用帮助对话框组件
+        left: (
+          <button
+            onClick={() => prevInput && setInput(prevInput)}
+            className={clsx(
+              'flex items-center gap-1 border border-gray-500 rounded-lg text-sm p-1',
+              !prevInput && 'hidden',
+            )}
+          >
+            <Undo2 size={16}/>
+            撤销
+          </button>
+        ),
+        right: <RetireHelpButton/>,
       }}
       ads={false}
     >

@@ -1,16 +1,20 @@
-import { useState } from 'react';
-import { ActionIcon, Modal } from '@mantine/core';
+import React, { useState } from 'react';
+import { Modal } from '@mantine/core';
 import { HelpCircle } from 'lucide-react';
 import Content from './RetireHelp.mdx';
 
-export const RetireHelpDialog = () => {
+export const RetireHelpButton = () => {
   const [opened, setOpened] = useState(false);
 
   return (
     <>
-      <ActionIcon onClick={() => setOpened(true)}>
-        <HelpCircle/>
-      </ActionIcon>
+      <button
+        onClick={() => setOpened(true)}
+        className={'flex items-center gap-1 border border-gray-500 rounded-lg text-sm p-1'}
+      >
+        <HelpCircle size={16}/>
+        帮助
+      </button>
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
@@ -19,7 +23,7 @@ export const RetireHelpDialog = () => {
         <div
           className={'markdown-body'}
           style={{
-            zoom: 0.75
+            zoom: 0.75,
           }}
         >
           <Content/>
