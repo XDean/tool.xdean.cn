@@ -111,13 +111,13 @@ export const RetireResView: FC<Props> = ({input, res}) => {
             </td>
           </tr>
           {input.fees.map((fee, index) => fee.type === 'work' ? (
-            <tr>
+            <tr key={fee.id}>
               <td className={'pl-4'}>{fee.name}</td>
               <td className={'text-right'}>{format(res.total.fees[index])}</td>
             </tr>
           ) : null)}
           {input.fees.map((fee, index) => fee.type === 'income' ? (
-            <tr>
+            <tr key={fee.id}>
               <td className={'pl-4'}>{fee.name}</td>
               <td className={'text-right'}>{format(res.total.fees[index])}</td>
             </tr>
@@ -139,7 +139,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
             </td>
           </tr>
           {input.fees.map((fee, index) => fee.type === 'expense' ? (
-            <tr>
+            <tr key={fee.id}>
               <td className={'pl-4'}>{fee.name}</td>
               <td className={'text-right'}>{format(res.total.fees[index])}</td>
             </tr>

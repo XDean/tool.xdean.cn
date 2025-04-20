@@ -14,7 +14,7 @@ export const AchievementView = ({achievements}: AchievementViewProps) => {
       <div className={'text-lg text-center'}>
         成就
       </div>
-      <div className={'flex flex-col'}>
+      <div className={'flex flex-col gap-1'}>
         {achievements.map((achievement) => (
           <div
             key={achievement.id}

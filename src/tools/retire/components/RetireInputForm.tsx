@@ -1,6 +1,5 @@
 import { Retire, RetireInput } from '../model/retire';
 import { FC } from 'react';
-import { Fee } from '../model/fee';
 import { FeeCard } from './FeeCard';
 import { DraftFunction } from 'use-immer';
 import { Button, NumberInput } from '@mantine/core';
@@ -119,12 +118,7 @@ export const RetireInputForm: FC<Props> = ({value, onChange}) => {
           size={'sm'}
           compact
           onClick={() => setValue(v => {
-            v.fees.push(Fee.create({
-              name: Retire.nextName(value, 'work'),
-              startValue: 5000,
-              yearIncreaseRatio: 0.03,
-              type: 'work',
-            }));
+            v.fees.push(Retire.nextFee(value, 'work'));
           })}
         >
           添加工作
@@ -135,11 +129,7 @@ export const RetireInputForm: FC<Props> = ({value, onChange}) => {
           size={'sm'}
           compact
           onClick={() => setValue(v => {
-            v.fees.push(Fee.create({
-              name: Retire.nextName(value, 'income'),
-              startValue: 1000,
-              type: 'income',
-            }));
+            v.fees.push(Retire.nextFee(value, 'income'));
           })}
         >
           添加收入
@@ -150,11 +140,7 @@ export const RetireInputForm: FC<Props> = ({value, onChange}) => {
           size={'sm'}
           compact
           onClick={() => setValue(v => {
-            v.fees.push(Fee.create({
-              name: Retire.nextName(value, 'expense'),
-              startValue: 1000,
-              type: 'expense',
-            }));
+            v.fees.push(Retire.nextFee(value, 'expense'));
           })}
         >
           添加支出

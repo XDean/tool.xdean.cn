@@ -75,7 +75,7 @@ export const Retire = {
   },
   calc: (input: RetireInput): RetireRes => {
     const years: YearRes[] = [];
-    for (let i = 0; i < input.endAge - input.nowAge; i++) {
+    for (let i = 0; i < input.endAge - input.nowAge + 1; i++) {
       const age = input.nowAge + i;
       const lastYear = years.at(-1);
       const stillWork = age <= input.retireAge;
@@ -142,7 +142,9 @@ export const Retire = {
       minRetireAge: years.find(e => e.age <= input.retireAge && e.nowNeed <= e.startBalance)?.age ?? -1,
     };
   },
-  nextName: (input: RetireInput, type: FeeType): string => {
-    return FeeTypeOptions[type].names.find(e => input.fees.every(f => f.name !== e)) ?? '';
+  nextFee: (input: RetireInput, type: FeeType): Fee => {
+    const next = FeeTypeOptions[type].presets.find(e => input.fees.every(f => f.name !== e.name))
+      ?? FeeTypeOptions[type].default;
+    return Fee.create(next);
   },
 };

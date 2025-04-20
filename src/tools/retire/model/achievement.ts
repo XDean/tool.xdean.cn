@@ -9,6 +9,7 @@ import gsft from '../images/achievement/股神附体.webp';
 import pxzs from '../images/achievement/貔貅在世.webp';
 import jdhk from '../images/achievement/静待花开.webp';
 import fzcn from '../images/achievement/风烛残年.webp';
+import ddxx from '../images/achievement/得道修仙.webp';
 import { RetireInput, RetireRes } from './retire';
 
 export type Achievement = {
@@ -75,7 +76,7 @@ export const Achievements: Achievement[] = [
     name: '貔貅在世',
     desc: '挣得多花得少，活该你能退休早',
     icon: pxzs,
-    match: (_input, res) => res.total.work > res.total.expense * 3,
+    match: (_input, res) => res.total.work > res.total.expense * 2.5,
   },
   {
     id: 'jdhk',
@@ -90,6 +91,13 @@ export const Achievements: Achievement[] = [
     desc: '还能说什么呢，趁年轻，多攒点吧',
     icon: fzcn,
     match: (input, res) => (res.years.find(e => e.endBalance < 0)?.age ?? 0) > input.retireAge,
+  },
+  {
+    id: 'ddxx',
+    name: '得道修仙',
+    desc: '只要不花钱就自由了，缺点是可能会饿死',
+    icon: ddxx,
+    match: (_input, res) => res.total.expense === 0,
   },
 ];
 
