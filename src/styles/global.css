@@ -15,6 +15,10 @@
     select:focus{
         @apply outline-none
     }
+
+    body {
+        padding: 0 !important;
+    }
 }
 
 @layer components {

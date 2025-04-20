@@ -181,7 +181,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
               <td/>
               <td/>
               <td/>
-              <td>{input.balance}</td>
+              <td>{format(input.balance)}</td>
               <td/>
             </tr>
             {res.years.map((year) => (
