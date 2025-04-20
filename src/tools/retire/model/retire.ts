@@ -32,7 +32,8 @@ export type RetireRes = {
     fees: number[]
     expense: number
     workIncome: number
-    income: number
+    otherIncome: number
+    income: number // not include interest
     interest: number
   }
   endValue: number
@@ -149,7 +150,7 @@ export const Retire = {
     const lastYear = years.at(-1)!;
     lastYear.nowNeed = Math.max(0, lastYear.expense - lastYear.otherIncome);
     for (let i = years.length - 2; i >= 0; i--) {
-      years[i].nowNeed = Math.max(0, years[i].expense - years[i + 1].otherIncome) + years[i + 1].nowNeed / (1 + input.interestRate);
+      years[i].nowNeed = Math.max(0, years[i].expense - years[i].otherIncome) + years[i + 1].nowNeed / (1 + input.interestRate);
     }
     return {
       years,
@@ -160,6 +161,7 @@ export const Retire = {
         }).reduce((a, b) => a + b, 0)),
         expense: years.reduce((a, b) => a + b.expense, 0),
         workIncome: years.reduce((a, b) => a + b.workIncome, 0),
+        otherIncome: years.reduce((a, b) => a + b.otherIncome, 0),
         income: years.reduce((a, b) => a + b.income, 0),
         interest: years.reduce((a, b) => a + b.interest, 0),
       },

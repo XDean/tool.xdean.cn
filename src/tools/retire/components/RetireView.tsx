@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { ToolLayout } from '../../../components/layout/ToolLayout';
-import { Retire } from '../model/retire';
+import { Retire, RetireRes } from '../model/retire';
 import { RetireInputForm } from './RetireInputForm';
+import { RetireResView } from './RetireResView';
 import { Button } from '@mantine/core';
 
 export const RetireView = () => {
   const [input, setInput] = useState(Retire.defaultInput());
+  const [res, setRes] = useState<RetireRes>();
   return (
     <ToolLayout
       nav={{
@@ -18,13 +20,41 @@ export const RetireView = () => {
       >
         <RetireInputForm
           value={input}
-          onChange={setInput}
+          onChange={(v) => {
+            setInput(v);
+            setRes(undefined);
+          }}
         />
         <div className={'text-center'}>
-          <Button>
+          <Button
+            onClick={() => {
+              try {
+                setRes(Retire.calc(input));
+              } catch (e) {
+                //TODO
+                setRes(undefined);
+              }
+            }}
+          >
             计算退休！！！
           </Button>
         </div>
+
+        {res && (
+          <div ref={(e) => {
+            if (e) {
+              e.scrollIntoView({
+                behavior: 'smooth',
+              });
+            }
+          }}>
+            <RetireResView
+              input={input}
+              res={res}
+            />
+          </div>
+        )}
+
       </div>
     </ToolLayout>
   );

@@ -84,9 +84,9 @@ export const FeeCard: FC<Props> = ({value, onChange, onDelete}) => {
           <div>涨幅</div>
           <NumberInput
             size={'xs'}
-            value={value.yearIncreaseRatio}
+            value={value.yearIncreaseRatio * 100}
             onChange={e => e !== undefined && setValue((v) => {
-              v.yearIncreaseRatio = e;
+              v.yearIncreaseRatio = e / 100;
             })}
             rightSection={'%'}
             className={'!w-16'}

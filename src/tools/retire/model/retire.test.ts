@@ -44,5 +44,6 @@ describe('Retire.calc', () => {
     expect(result.total.workIncome).toBe(3505588.2129208054);
     expect(result.total.income).toBe(4166788.2129208054);
     expect(result.total.interest).toBe(1451706.8884531718);
+    expect(result.years[0].nowNeed).toBe(1448740.455661695);
   });
 });
