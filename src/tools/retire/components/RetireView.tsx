@@ -8,7 +8,6 @@ import { Achievement, BPZJ, calcAchievement } from '../model/achievement';
 import { AchievementView } from './AchievementView';
 import { RetireHelpDialog } from './RetireHelpDialog';
 import { ReadWithAPI } from '../../../../common/components/badge/Read';
-import { GuoBiao } from '../../guobiao';
 import { LikeWithAPI } from '../../../../common/components/badge/Like';
 import { GithubComment } from '../../../components/util/GithubComment'; // 新增：引入帮助对话框组件
 
@@ -28,8 +27,8 @@ export const RetireView = () => {
     >
       <div className={'text-sm space-y-2'}>
         <div className={'space-x-2 flex items-center justify-center w-full'}>
-          <ReadWithAPI id={`tool:${GuoBiao.id}`} name={'访问'}/>
-          <LikeWithAPI id={`tool:${GuoBiao.id}`}/>
+          <ReadWithAPI id={`tool:retire`} name={'访问'}/>
+          <LikeWithAPI id={`tool:retire`}/>
         </div>
         <hr/>
         <RetireInputForm
