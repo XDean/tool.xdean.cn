@@ -10,6 +10,8 @@ import pxzs from '../images/achievement/貔貅在世.webp';
 import jdhk from '../images/achievement/静待花开.webp';
 import fzcn from '../images/achievement/风烛残年.webp';
 import ddxx from '../images/achievement/得道修仙.webp';
+import fsns from '../images/achievement/负水难收.webp';
+
 import { RetireInput, RetireRes } from './retire';
 
 export type Achievement = {
@@ -34,7 +36,7 @@ export const Achievements: Achievement[] = [
     name: '弹射起步',
     desc: '你已经自由了，走吧，不要再来了',
     icon: tsqb,
-    match: (input, res) => res.minRetireAge <= input.nowAge,
+    match: (input, res) => res.minRetireAge !== -1 && res.minRetireAge <= input.nowAge,
   },
   {
     id: 'bsgm',
@@ -81,7 +83,7 @@ export const Achievements: Achievement[] = [
   {
     id: 'jdhk',
     name: '静待花开',
-    desc: '平平安安过一生，提前退休就别想了',
+    desc: '牛牛马马过一生，提前退休就别想了',
     icon: jdhk,
     match: (_input, res) => res.minRetireAge === -1,
   },
@@ -98,6 +100,13 @@ export const Achievements: Achievement[] = [
     desc: '只要不花钱就自由了，缺点是可能会饿死',
     icon: ddxx,
     match: (_input, res) => res.total.expense === 0,
+  },
+  {
+    id: 'fsns',
+    name: '负水难收',
+    desc: '欠的太多，等于没欠',
+    icon: fsns,
+    match: (_input, res) => res.endValue < -1000000,
   },
 ];
 
