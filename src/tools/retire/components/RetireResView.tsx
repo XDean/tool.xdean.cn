@@ -62,7 +62,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
         </div>
         <div className={'grid grid-cols-4 text-right gap-x-2 gap-y-1 mt-2'}>
           <div className={'text-center border p-1 rounded'}>
-            <div className={'text-base'}>
+            <div className={'text-sm whitespace-nowrap'}>
               {format(res.total.work)}
             </div>
             <div className={'text-xs text-gray-500'}>
@@ -70,7 +70,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
             </div>
           </div>
           <div className={'text-center border p-1 rounded'}>
-            <div className={'text-base'}>
+            <div className={'text-sm whitespace-nowrap'}>
               {format(res.total.income)}
             </div>
             <div className={'text-xs text-gray-500'}>
@@ -78,7 +78,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
             </div>
           </div>
           <div className={'text-center border p-1 rounded'}>
-            <div className={'text-base'}>
+            <div className={'text-sm whitespace-nowrap'}>
               {format(res.total.interest)}
             </div>
             <div className={'text-xs text-gray-500'}>
@@ -86,7 +86,7 @@ export const RetireResView: FC<Props> = ({input, res}) => {
             </div>
           </div>
           <div className={'text-center border p-1 rounded'}>
-            <div className={'text-base'}>
+            <div className={'text-sm whitespace-nowrap'}>
               {format(res.total.expense)}
             </div>
             <div className={'text-xs text-gray-500'}>
