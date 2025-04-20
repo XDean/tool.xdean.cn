@@ -34,9 +34,10 @@ export const OptionView = (props: Props) => {
           {fengStr(options.menfeng)}风位
         </button>
         <select className={css.btn}
+                value={options.hua.toString()}
                 onChange={e => onOptionsChange({...options, hua: Number(e.target.value)})}>
           {[...Array(9).keys()].map(k => (
-            <option key={k} value={k}>花牌: {k}</option>
+            <option key={k} value={k.toString()}>花牌: {k}</option>
           ))}
         </select>
       </div>
