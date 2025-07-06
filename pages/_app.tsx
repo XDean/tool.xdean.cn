@@ -20,11 +20,11 @@ function MyApp({Component, pageProps}: AppProps) {
       <MantineProvider emotionOptions={{key: 'mantine', prepend: false}}>
         <Head>
           <title>XDean的工具箱</title>
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7804430263218291"
-            crossOrigin="anonymous"
-          />
+          {/*<script*/}
+          {/*  async*/}
+          {/*  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7804430263218291"*/}
+          {/*  crossOrigin="anonymous"*/}
+          {/*/>*/}
           <BaiduAnalytics id={'98fd9ed93fbb6b403f11e6f54d2210c4'}/>
         </Head>
         <Component {...pageProps}/>
